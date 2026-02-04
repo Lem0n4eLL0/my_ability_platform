@@ -6,12 +6,22 @@ module.exports = {
     node: true,
   },
   
-  // Используем конфигурацию из react-scripts
   extends: [
-    'react-app',  // ← Основная конфигурация CRA
-    'react-app/jest',  // ← Дополнительные правила для тестов
+    'eslint:recommended',
+
+    // TypeScript
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+
+    // React
     'plugin:react/recommended',
-    'prettier',  // ← Отключает конфликты с Prettier
+    'plugin:react-hooks/recommended',
+
+    // JSX accessibility (как в CRA)
+    'plugin:jsx-a11y/recommended',
+
+    // Prettier всегда ПОСЛЕДНИМ
+    'prettier',
   ],
   
   settings: {
@@ -32,10 +42,12 @@ module.exports = {
   
   plugins: [
     'react',
-    'unused-imports',  // ← Добавили плагин для неиспользуемых импортов
+    'react-hooks',
+    '@typescript-eslint',
+    'unused-imports',
   ],
   
-  ignorePatterns: ['dist', 'build', 'node_modules', 'public'],
+  ignorePatterns: ['dist', 'build', 'node_modules', 'public', 'vite.config.ts',],
   
   rules: {
     // React правила
