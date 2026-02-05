@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Outlet } from 'react-router';
-import style from './MainLayout.module.css';
+import style from './MainLayout.module.scss';
 
 interface IMainLayout {
   header?: ReactNode;
