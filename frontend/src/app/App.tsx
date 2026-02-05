@@ -1,17 +1,18 @@
-interface User {
-  name: string;
-  age?: number;
-}
+import { Route, Routes } from 'react-router';
+import { MainLayout } from '../components/layouts/MainLayout';
 
 const App = () => {
-  const user: User = {
-    name: 'Vlad',
-    age: 18,
-  };
-  if (user.age) {
-    console.log(user);
-  }
-  return <div>Hello, world!</div>;
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={<MainLayout header={<div>Header</div>} footer={<div>Footer</div>} />}
+      >
+        <Route index element={<div>Hello, world!</div>}></Route>
+      </Route>
+      <Route path="*" element={<div>Error 404</div>}></Route>
+    </Routes>
+  );
 };
 
 export default App;

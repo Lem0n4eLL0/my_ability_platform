@@ -2,6 +2,9 @@
 module.exports = {
   rootDir: '.',
   testEnvironment: 'jsdom',
+  moduleNameMapper: {
+    '\\.(css|scss|sass)$': 'identity-obj-proxy',
+  },
 
   testMatch: [
     '<rootDir>/__tests__/**/*.(ts|tsx)',
