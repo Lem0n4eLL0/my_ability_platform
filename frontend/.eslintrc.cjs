@@ -1,11 +1,11 @@
 module.exports = {
   root: true,
-  env: { 
-    browser: true, 
+  env: {
+    browser: true,
     es2020: true,
     node: true,
   },
-  
+
   extends: [
     'eslint:recommended',
 
@@ -23,13 +23,13 @@ module.exports = {
     // Prettier всегда ПОСЛЕДНИМ
     'prettier',
   ],
-  
+
   settings: {
     react: {
       version: 'detect',
     },
   },
-  
+
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
@@ -37,41 +37,41 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    project: './tsconfig.json',
+    project: './tsconfig.eslint.json',
   },
-  
+
   plugins: [
     'react',
     'react-hooks',
     '@typescript-eslint',
     'unused-imports',
   ],
-  
+
   ignorePatterns: ['dist', 'build', 'node_modules', 'public', 'vite.config.ts',],
-  
+
   rules: {
     // React правила
     'react/react-in-jsx-scope': 'off',  // ← Не нужно в React 17+
     'react/prop-types': 'off',  // ← TypeScript вместо PropTypes
     'react/display-name': 'off',
-    
+
     // TypeScript правила
     '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/no-unused-vars': 'off',  // ← Отключаем, используем ниже
-    
+
     // Авто-удаление неиспользуемых импортов
     'no-unused-vars': 'off',
     'unused-imports/no-unused-imports': 'error',
     'unused-imports/no-unused-vars': [
       'warn',
-      { 
-        vars: 'all', 
-        varsIgnorePattern: '^_', 
-        args: 'after-used', 
-        argsIgnorePattern: '^_' 
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_'
       },
     ],
-    
+
     // Дополнительные правила
     'prefer-const': 'warn',
     'no-console': 'warn',
