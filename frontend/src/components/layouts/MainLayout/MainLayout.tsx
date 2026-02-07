@@ -10,9 +10,9 @@ interface IMainLayout {
 export const MainLayout = (props: IMainLayout) => {
   const { header, footer } = props;
   return (
-    <div className={style['pageWrapper']}>
+    <div className={style['page_wrapper']}>
       {header}
-      <main className={style['contentWrapper']}>
+      <main className={style['content_wrapper']}>
         <Outlet />
       </main>
       {footer}
