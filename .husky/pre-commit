@@ -1,7 +1,7 @@
 echo "Running frontend linter and prettier..."
 
 npm run format
-cd frontend && npm run lint:fix
+cd frontend && npm run lint:fix && npm run lint:css:fix
 
 cd ..
 git add -A
