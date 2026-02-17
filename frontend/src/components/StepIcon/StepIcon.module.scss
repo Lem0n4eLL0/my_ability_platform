@@ -1,0 +1,16 @@
+@use '../../styles/variables' as *;
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 183px;
+  aspect-ratio: 1 / 1;
+  border-radius: 100%;
+  background-color: $color-accent-primary;
+}
+
+.icon {
+  max-width: min-content;
+  aspect-ratio: 1 / 1;
+}
