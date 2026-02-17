@@ -1,0 +1,63 @@
+// === Fonts ===
+$main-font: 'Alegreya Sans', sans-serif;
+$additional-font: 'Alegreya SC', serif;
+$base-font-size: 16px;
+
+// Заголовки
+$font-h1: (
+  size: 5rem,
+  // 80px
+  line-height: 1.1,
+  weight: 700,
+);
+$font-h2: (
+  size: 4rem,
+  // 64px
+  line-height: 1.2,
+  weight: 700,
+);
+$font-h3: (
+  size: 3rem,
+  // 48px
+  line-height: 1.2,
+  weight: 600,
+);
+
+// Текст
+$font-body-large: (
+  size: 2rem,
+  // 32px
+  line-height: 1.5,
+  weight: 400,
+);
+$font-body-regular: (
+  size: 1.625rem,
+  // 26px
+  line-height: 1.5,
+  weight: 400,
+);
+
+// === Palette ===
+$neutral-100: #f2f2f2;
+$neutral-200: #e6e8ff;
+$neutral-900: #212121;
+$green-500: #0c523a;
+$yellow-500: #f2b424;
+$yellow-200: #f2d285;
+
+// === Colors ===
+// --- Текст ---
+$color-text-primary: $neutral-900;
+$color-text-secondary: $green-500;
+
+// --- Фон ---
+$color-bg-secondary: $neutral-100;
+$color-bg-accent: $neutral-200;
+
+// --- Акценты ---
+$color-accent-primary: $green-500;
+$color-accent-secondary: $yellow-500;
+$color-accent-secondary-light: $yellow-200;
+
+// --- Границы ---
+$color-border-dark: $neutral-900;
