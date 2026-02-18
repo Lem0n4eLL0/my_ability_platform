@@ -26,6 +26,31 @@
 @font-face {
   font-family: 'Alegreya Sans';
   src:
+    local('Alegreya Sans Medium'),
+    local('AlegreyaSans-Medium'),
+    url('./fonts/AlegreyaSans/AlegreyaSans-Medium.woff2') format('woff2'),
+    url('./fonts/AlegreyaSans/AlegreyaSans-Medium.woff') format('woff'),
+    url('./fonts/AlegreyaSans/AlegreyaSans-Medium.ttf') format('truetype'),
+    url('./fonts/AlegreyaSans/AlegreyaSans-Medium.svg') format('svg');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Alegreya Sans';
+  src:
+    local('Alegreya Sans RegularItalic'),
+    local('AlegreyaSans-RegularItalic'),
+    url('./fonts/AlegreyaSans/AlegreyaSans-MediumItalic.woff2') format('woff2'),
+    url('./fonts/AlegreyaSans/AlegreyaSans-MediumItalic.woff') format('woff'),
+    url('./fonts/AlegreyaSans/AlegreyaSans-MediumItalic.ttf') format('truetype'),
+    url('./fonts/AlegreyaSans/AlegreyaSans-MediumItalic.svg') format('svg');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Alegreya Sans';
+  src:
     local('Alegreya Sans Bold'),
     local('AlegreyaSans-Bold'),
     url('./fonts/AlegreyaSans/AlegreyaSans-Bold.woff2') format('woff2'),
@@ -70,6 +95,31 @@
     url('./fonts/AlegreysSC/AlegreyaSC-RegularItalic.ttf') format('truetype'),
     url('./fonts/AlegreysSC/AlegreyaSC-RegularItalic.svg') format('svg');
   font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Alegreya SC';
+  src:
+    local('Alegreya SC Medium'),
+    local('AlegreyaSC-Medium'),
+    url('./fonts/AlegreysSC//AlegreyaSC-Medium.woff2') format('woff2'),
+    url('./fonts/AlegreysSC/AlegreyaSC-Medium.woff') format('woff'),
+    url('./fonts/AlegreysSC/AlegreyaSC-Medium.ttf') format('truetype'),
+    url('./fonts/AlegreysSC/AlegreyaSC-Medium.svg') format('svg');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Alegreya SC';
+  src:
+    local('Alegreya SC MediumItalic'),
+    local('AlegreyaSC-MediumItalic'),
+    url('./fonts/AlegreysSC/AlegreyaSC-MediumItalic.woff2') format('woff2'),
+    url('./fonts/AlegreysSC/AlegreyaSC-MediumItalic.woff') format('woff'),
+    url('./fonts/AlegreysSC/AlegreyaSC-MediumItalic.ttf') format('truetype'),
+    url('./fonts/AlegreysSC/AlegreyaSC-MediumItalic.svg') format('svg');
+  font-weight: 500;
   font-style: italic;
 }
 
