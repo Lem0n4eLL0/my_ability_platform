@@ -6,23 +6,7 @@ module.exports = {
     node: true,
   },
 
-  extends: [
-    'eslint:recommended',
-
-    // TypeScript
-    'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
-
-    // React
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-
-    // JSX accessibility (как в CRA)
-    'plugin:jsx-a11y/recommended',
-
-    // Prettier всегда ПОСЛЕДНИМ
-    'prettier',
-  ],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:@typescript-eslint/recommended-requiring-type-checking', 'plugin:react/recommended', 'plugin:react-hooks/recommended', 'plugin:jsx-a11y/recommended', 'prettier', 'plugin:storybook/recommended'],
 
   settings: {
     react: {
@@ -47,7 +31,7 @@ module.exports = {
     'unused-imports',
   ],
 
-  ignorePatterns: ['dist', 'build', 'node_modules', 'public', 'vite.config.ts',],
+  ignorePatterns: ['dist', 'build', 'node_modules', 'public', 'vite.config.ts', 'vitest.shims.d.ts'],
 
   rules: {
     // React правила

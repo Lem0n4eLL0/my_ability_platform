@@ -52,3 +52,6 @@ yarn-error.log*
 
 # editor config
 .editorconfig
+
+*storybook.log
+storybook-static
