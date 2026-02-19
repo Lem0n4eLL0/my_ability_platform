@@ -10,7 +10,7 @@ export const TryTestButton = (props: ITryTestButton) => {
   return (
     <button type="button" className={style['button']} onClick={onClick}>
       <span className={style['title']}>Пройти тест</span>
-      <IMGIcon src="public/try_test_arrow.svg" alt="arrow" wrapperClassName={style['arrow']} />
+      <IMGIcon src="src/assets/try_test_arrow.svg" alt="arrow" wrapperClassName={style['arrow']} />
     </button>
   );
 };
