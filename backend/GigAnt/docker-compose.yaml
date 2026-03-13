@@ -1,0 +1,72 @@
+services:
+  # === Key Generator (одноразовый) ===
+  keygen:
+    build:
+      context: ./keygen
+    volumes:
+      - keys:/keys
+    init: true
+
+  # === PostgreSQL ===
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - internal
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: always
+    ports:
+      - "8099:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./pgadmin/servers.json:/pgadmin4/servers.json
+    depends_on:
+      - postgres
+    networks:
+      - internal
+  application-service:
+    image: gigant:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DOCKER_BUILDKIT: 1
+    restart: always
+    environment:
+      ACTIVE_PROFILE: ${ACTIVE_PROFILE}
+      API_DOMAIN: ${API_DOMAIN}
+      COMPANY_NAME: ${COMPANY_NAME}
+      POSTGRES_HOST: postgres:5432
+      POSTGRES_USERNAME: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    depends_on:
+      postgres:
+        condition: service_started
+    volumes:
+      - keys:/app/keys:ro
+    networks:
+      - internal
+
+
+
+  # === Networks ===
+  networks:
+    internal:
+
+  # === Volumes ===
+  volumes:
+    pgdata:
+    keys:
