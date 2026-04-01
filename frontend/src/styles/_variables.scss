@@ -62,6 +62,12 @@ $color-accent-primary: $green-500;
 $color-accent-secondary: $yellow-500;
 $color-accent-secondary-light: $yellow-200;
 
+$test-entrance-bg: #3fbe4e;
+$test-medium-bg: #bfbb40;
+$test-hard-bg: #bf4040;
+$test-expert-bg: #9740bf;
+$test-none-bg: $neutral-100;
+
 // --- Границы ---
 $color-border-dark: $neutral-900;
 
@@ -72,6 +78,11 @@ $icon-step-color: $neutral-200;
 // === Shadow ===
 $shadow-primary-1: 0 0 10px rgba(0 0 0 / 0.4);
 $shadow-primary-accent-1: 0 0 10px rgba(0 0 0 / 0.5);
+$test-entrance-shadow: -1px 2px 10px rgba(63 190 78 / 0.4);
+$test-medium-shadow: -1px 2px 10px rgba(191 187 64 / 0.4);
+$test-hard-shadow: -1px 2px 10px rgba(191 64 64 / 0.4);
+$test-expert-shadow: -1px 2px 10px rgba(151 64 191 / 0.4);
+$test-none-shadow: -1px 2px 10px rgba(0 0 0 / 0.4);
 
 // overlay
 $overlay-color: rgba(33 33 33 / 0.7);

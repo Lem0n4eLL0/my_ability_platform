@@ -1,6 +1,13 @@
 export type UUID = string;
 
-export type TestLevel = 'ENTRANCE' | 'MEDIUM' | 'HARD' | 'EXPERT';
+export const TEST_LEVELS = {
+  ENTRANCE: 'Entrance',
+  MEDIUM: 'Medium',
+  HARD: 'Hard',
+  EXPERT: 'Expert',
+};
+
+export type TestLevel = keyof typeof TEST_LEVELS;
 
 export type TaskBase = {
   id: UUID;

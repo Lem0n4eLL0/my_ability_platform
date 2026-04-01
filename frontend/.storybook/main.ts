@@ -10,6 +10,7 @@ const config: StorybookConfig = {
     '@storybook/addon-a11y',
     '@storybook/addon-docs',
     '@storybook/addon-onboarding',
+    '@storybook/addon-backgrounds',
   ],
   framework: '@storybook/react-vite',
   viteFinal: async config => {

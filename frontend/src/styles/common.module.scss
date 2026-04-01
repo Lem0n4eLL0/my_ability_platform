@@ -1,0 +1,48 @@
+@use './variables' as *;
+
+.test {
+  &__entrance {
+    &_bg {
+      background-color: $test-entrance-bg;
+    }
+    &_box-shadow {
+      box-shadow: $test-entrance-shadow;
+    }
+  }
+
+  &__medium {
+    &_bg {
+      background-color: $test-medium-bg;
+    }
+    &_box-shadow {
+      box-shadow: $test-medium-shadow;
+    }
+  }
+
+  &__hard {
+    &_bg {
+      background-color: $test-hard-bg;
+    }
+    &_box-shadow {
+      box-shadow: $test-hard-shadow;
+    }
+  }
+
+  &__expert {
+    &_bg {
+      background-color: $test-expert-bg;
+    }
+    &_box-shadow {
+      box-shadow: $test-expert-shadow;
+    }
+  }
+
+  &__none {
+    &_bg {
+      background-color: $test-none-bg;
+    }
+    &_box-shadow {
+      box-shadow: $test-none-shadow;
+    }
+  }
+}
