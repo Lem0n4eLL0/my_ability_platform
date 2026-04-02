@@ -5,20 +5,18 @@ FROM maven:3.9-eclipse-temurin-21 AS builder
 WORKDIR /app
 COPY pom.xml .
 # Копируем все модули
-COPY Authentication-module ./Authentication-module
 COPY Core-module ./Core-module
+RUN ls -R /app/Core-module/src/main/java/com/example/core/exception/
+COPY Authentication-module ./Authentication-module
 COPY Notification-module ./Notification-module
 COPY Test-module ./Test-module
 COPY Verification-module ./Verification-module
+COPY Objects-module ./Objects-module
 
-COPY GigAnt ./GigAnt
 
-# Собираем проект.
-# Флаг -DskipTests ускоряет сборку образа (тесты лучше гонять в CI отдельно)
 RUN mvn clean package -DskipTests
 
-# ЭТАП 2: Запуск (Runtime)
-# Берем легковесный образ только с Java (JRE), без Maven и компиляторов
+
 FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
