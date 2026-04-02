@@ -1,0 +1,160 @@
+@use '@styles/variables' as *;
+
+$transition: 0.3s ease;
+
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: $neutral-200;
+  z-index: 1000;
+
+  // &--scrolled {
+  //   background: rgba($neutral-200, 0.95);
+  //   backdrop-filter: blur(12px);
+  //   box-shadow: $shadow;
+  // }
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0 32px;
+  }
+}
+
+.header__logo {
+  flex-shrink: 0;
+
+  &_link {
+    text-decoration: none;
+    font-size: 40px;
+    font-weight: 600;
+    color: $color-text-primary;
+  }
+}
+
+.header__nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.header__link {
+  position: relative;
+  font-size: 16px;
+  font-weight: 500;
+  color: $neutral-900;
+  text-decoration: none;
+  padding: 4px 2px;
+  transition: $transition;
+  transition-property: color;
+
+  &:hover {
+    color: $green-500;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: $green-500;
+    transition: $transition;
+    transition-property: width;
+    border-radius: 2px;
+  }
+
+  &:hover::after,
+  &--active::after {
+    width: 100%;
+  }
+
+  &--active {
+    color: $green-500;
+    font-weight: 600;
+  }
+}
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: $transition;
+  transition-property: border-color color;
+  cursor: pointer;
+  border: 2px solid transparent;
+
+  &--outline {
+    background: transparent;
+    color: $neutral-900;
+    border-color: rgba($neutral-900, 0.3);
+
+    &:hover {
+      border-color: $green-500;
+      color: $green-500;
+      background: rgba($green-500, 0.08);
+    }
+  }
+
+  &--primary {
+    background: $green-500;
+    color: $color-text-accent-2;
+
+    &:hover {
+      box-shadow: 0 2px 10px rgba($green-500, 0.3);
+      background: $green-500;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .header__nav {
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    height: 70px;
+  }
+
+  .header__nav {
+    display: none;
+  }
+
+  .header__actions {
+    gap: 8px;
+  }
+
+  .header__btn {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .header__link,
+  .header__btn,
+  .header__logo a {
+    transition: none;
+    animation: none;
+  }
+}
