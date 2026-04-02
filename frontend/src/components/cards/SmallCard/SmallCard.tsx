@@ -21,7 +21,9 @@ export const SmallCard = <T extends TaskBase>(props: ISmallCard<T>) => {
           <Rate rating={task.rate} gap={2} textColor="#f2f2f2" />
         </div>
       </div>
-      <div className={style['content__title']}>{task.title}</div>
+      <div className={style['content__title_wrapper']}>
+        <h2 className={style['content__title']}>{task.title}</h2>
+      </div>
     </div>
   );
 };
