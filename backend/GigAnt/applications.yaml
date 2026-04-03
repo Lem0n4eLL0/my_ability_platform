@@ -1,0 +1,6 @@
+spring:
+  session:
+    store-type: redis  # ← Используем Redis вместо JDBC
+  redis:
+    host: redis
+    port: 6379
