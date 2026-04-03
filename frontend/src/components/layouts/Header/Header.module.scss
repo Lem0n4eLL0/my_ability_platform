@@ -7,15 +7,9 @@ $transition: 0.3s ease;
   top: 0;
   left: 0;
   right: 0;
-  height: 80px;
+  min-height: 80px;
   background: $neutral-200;
   z-index: 1000;
-
-  // &--scrolled {
-  //   background: rgba($neutral-200, 0.95);
-  //   backdrop-filter: blur(12px);
-  //   box-shadow: $shadow;
-  // }
 
   &__container {
     display: flex;

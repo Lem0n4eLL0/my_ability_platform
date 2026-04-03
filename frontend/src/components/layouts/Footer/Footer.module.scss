@@ -1,0 +1,127 @@
+@use '@styles/variables' as *;
+
+$footer-bg: #111111;
+
+.footer {
+  background-color: $footer-bg;
+  color: $color-text-accent;
+  padding: 20px 16px 16px;
+
+  &__information {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 20px;
+  }
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__links {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+  }
+
+  &__link {
+    color: $color-text-accent;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.1s ease;
+
+    &:hover {
+      color: $color-text-accent-2;
+    }
+  }
+
+  &__contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.8;
+  }
+
+  &__right {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    align-self: flex-end;
+  }
+
+  &__copyright {
+    text-align: center;
+    font-size: 13px;
+    opacity: 0.5;
+    border-top: 1px solid rgba($color-text-accent, 0.12);
+    padding-top: 16px;
+  }
+}
+
+.socialBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: rgba($color-text-accent, 0.08);
+  text-decoration: none;
+  transition: background-color 0.1s ease;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba($color-text-accent, 0.2);
+  }
+}
+
+.social__img {
+  width: 32px;
+  height: 32px;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 24px 0;
+  }
+
+  .footer__row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .footer__left {
+    align-items: center;
+    width: 100%;
+  }
+
+  .nav {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+  }
+
+  .contacts {
+    align-items: center;
+  }
+
+  .footer__right {
+    margin-top: 4px;
+  }
+
+  .copyright {
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+}
