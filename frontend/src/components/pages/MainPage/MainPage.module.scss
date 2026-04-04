@@ -1,7 +1,10 @@
 @use '@styles/variables' as *;
 
+$block-max-width: 800px;
+
 .page__wrapper {
   height: 100%;
+  color: $color-text-primary;
 }
 
 .main {
@@ -12,7 +15,7 @@
   background-color: $color-bg-accent;
 
   &__content {
-    max-width: 800px;
+    max-width: $block-max-width;
   }
 
   &__title {
@@ -35,5 +38,71 @@
     font-size: 30px;
     line-height: 41px;
     color: $color-text-primary;
+  }
+}
+
+.way {
+  display: flex;
+  flex-direction: column;
+  gap: 90px;
+  padding: $page-padding;
+  padding-top: 150px;
+  padding-bottom: 150px;
+  background-color: $color-bg-yellow;
+
+  &__title {
+    font-weight: 500;
+    font-size: 48px;
+    text-align: center;
+  }
+
+  &__step {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    max-width: $block-max-width;
+    gap: 0 50px;
+  }
+
+  &__step_reverse {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+    gap: 0 50px;
+  }
+}
+
+.step {
+  &__description {
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 38px;
+  }
+
+  &__description_reverse {
+    text-align: end;
+  }
+
+  &__icon {
+    padding: clamp(18px, calc(0.33333333rem + 1.85185185vw), 32px);
+  }
+}
+
+.arrow {
+  position: absolute;
+  z-index: 10;
+
+  &__step_one-two {
+    top: 20px;
+    right: -30%;
+  }
+
+  &__step_two-three {
+    bottom: -84px;
+    left: -25%;
+  }
+
+  &__step_three-four {
+    top: 70px;
+    right: -25%;
   }
 }
