@@ -23,8 +23,7 @@ COPY Objects-module ./Objects-module
 COPY Application-module ./Application-module
 
 
-RUN mvn clean package -DskipTests
-
+RUN mvn clean install -DskipTests
 
 FROM eclipse-temurin:21-jre-alpine
 

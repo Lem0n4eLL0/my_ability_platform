@@ -1,4 +1,4 @@
-package com.example.authentication.config;
+package com.example.authentication;
 
 
 import io.jsonwebtoken.security.Keys;

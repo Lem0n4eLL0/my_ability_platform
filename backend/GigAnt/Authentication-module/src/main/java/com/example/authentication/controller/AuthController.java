@@ -1,6 +1,6 @@
 package com.example.authentication.controller;
 
-import com.example.authentication.config.JwtProperties;
+import com.example.authentication.JwtProperties;
 import com.example.authentication.model.dto.Tokens;
 import com.example.authentication.model.dto.request.AccountRequest;
 import com.example.authentication.model.dto.request.RegisterRequest;

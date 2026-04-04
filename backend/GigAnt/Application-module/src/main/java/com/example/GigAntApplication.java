@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 
 @ComponentScan(basePackages = {
+    "com.example",
     "com.example.application",      // Главный модуль
     "com.example.core",             // Core-module
     "com.example.authentication",   // Authentication-module ← Ключевое!
