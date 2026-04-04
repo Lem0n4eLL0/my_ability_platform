@@ -1,4 +1,5 @@
 @use '@styles/variables' as *;
+@use '@styles/mixins' as *;
 
 $block-max-width: 800px;
 
@@ -20,9 +21,7 @@ $block-max-width: 800px;
 
   &__title {
     font-family: $main-font;
-    font-weight: 700;
-    font-size: 80px;
-    line-height: 87px;
+    @include typography($font-h1);
     color: $color-text-primary;
     margin-bottom: 30px;
   }
@@ -51,8 +50,7 @@ $block-max-width: 800px;
   background-color: $color-bg-yellow;
 
   &__title {
-    font-weight: 500;
-    font-size: 48px;
+    @include typography($font-h2);
     text-align: center;
   }
 
@@ -73,9 +71,7 @@ $block-max-width: 800px;
 
 .step {
   &__description {
-    font-weight: 400;
-    font-size: 32px;
-    line-height: 38px;
+    @include typography($font-body-large);
   }
 
   &__description_reverse {
@@ -97,12 +93,12 @@ $block-max-width: 800px;
   }
 
   &__step_two-three {
-    bottom: -84px;
+    bottom: -70px;
     left: -25%;
   }
 
   &__step_three-four {
-    top: 70px;
+    top: 40px;
     right: -25%;
   }
 }
@@ -127,15 +123,50 @@ $block-max-width: 800px;
   }
 
   &__title {
-    font-weight: 500;
-    font-size: 48px;
-    line-height: 58px;
+    @include typography($font-h2);
   }
 
   &__description {
     margin-top: 60px;
     padding: $page-padding;
-    font-weight: 400;
-    font-size: 36px;
+    @include typography($font-body-large);
+  }
+}
+
+.growth {
+  padding: $page-padding;
+  padding-top: 120px;
+  padding-bottom: 120px;
+  background-color: $color-bg-accent;
+
+  &__title {
+    @include typography($font-h2);
+    text-align: center;
+  }
+
+  &__arrow_step_one {
+    padding: 0 26px;
+  }
+  &__arrow_step_two {
+    padding: 0 20px;
+  }
+  &__arrow_step_three {
+    padding: 0 14px;
+  }
+
+  &__cards {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // gap: 20px;
+    padding: 80px 0 60px 0;
+  }
+
+  &__description {
+    @include typography($font-body-large);
+  }
+
+  &__description_wrapper {
+    max-width: 900px;
   }
 }

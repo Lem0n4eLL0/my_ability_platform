@@ -1,4 +1,6 @@
 import { ImgHTMLAttributes } from 'react';
+import style from './IMGIcon.module.scss';
+import clsx from 'clsx';
 
 interface IIMGIcon extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
@@ -9,7 +11,7 @@ interface IIMGIcon extends ImgHTMLAttributes<HTMLImageElement> {
 export const IMGIcon = (props: IIMGIcon) => {
   const { src, alt, className, wrapperClassName, ...rest } = props;
   return (
-    <div className={wrapperClassName}>
+    <div className={clsx(style['icon__wrapper'], wrapperClassName)}>
       <img src={src} alt={alt} className={className} {...rest} />
     </div>
   );

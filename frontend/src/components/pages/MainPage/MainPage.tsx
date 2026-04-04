@@ -1,5 +1,5 @@
-import { ComparePreviewTask, СarouselTask } from '@/common/commonTypes';
-import { SyntheticEvent, useEffect, useState } from 'react';
+import { ComparePreviewTask, Task, TestLevel, СarouselTask } from '@/common/commonTypes';
+import { SyntheticEvent, useEffect, useMemo, useState } from 'react';
 import style from './MainPage.module.scss';
 import { getCarouselTasks, getComparePreviewTasks } from '@/api/api';
 import { TryTestButton } from '@/components/TryTestButton';
@@ -11,9 +11,14 @@ import cupIcon from '@assets/cup-icon.svg';
 import arrowStepOneTwo from '@assets/arrow-1.svg';
 import arrowStepTwoThree from '@assets/arrow-2.svg';
 import arrowStepThreeFour from '@assets/arrow-3.svg';
+import growthArrowStepOneIcon from '@assets/growth_arrow_step_1.svg';
+import growthArrowStepTwoIcon from '@assets/growth_arrow_step_2.svg';
+import growthArrowStepThreeIcon from '@assets/growth_arrow_step_3.svg';
 import clsx from 'clsx';
 import { CardAutoCarousel } from '@/components/CardAutoCarousel';
 import { SmallCard } from '@/components/cards/SmallCard';
+import { BigTestCard } from '@/components/cards/BigTestCard';
+import { IMGIcon } from '@/components/shells/IMGIcon';
 
 export const MainPage = () => {
   const [carouselTasks, setCarouselTasks] = useState<СarouselTask[]>([]);
@@ -31,6 +36,20 @@ export const MainPage = () => {
       })
       .catch(e => {});
   }, []);
+
+  const isCarouselTasksRequestError: boolean = carouselTasks.length === 0;
+  const isComparePreviewTasksRequestError: boolean = comparePreviewTasks.length === 0;
+
+  const taskPreviewMap = useMemo(() => {
+    if (isComparePreviewTasksRequestError) return null;
+    return comparePreviewTasks.reduce(
+      (acc, task) => {
+        acc[task.level] = task;
+        return acc;
+      },
+      {} as Record<TestLevel, Task>
+    );
+  }, [comparePreviewTasks]);
 
   const TryTestButtonHandler = (_: SyntheticEvent<HTMLButtonElement>) => {};
 
@@ -100,11 +119,51 @@ export const MainPage = () => {
           <h2 className={style['tests__title']}>задач и тестов по 50+ направлениям IT</h2>
         </div>
         <CardAutoCarousel
-          items={carouselTasks.map(el => {
-            return <SmallCard key={el.id} task={el} />;
-          })}
+          items={
+            !isCarouselTasksRequestError
+              ? carouselTasks.map(el => {
+                  return <SmallCard key={el.id} task={el} />;
+                })
+              : []
+          }
         />
         <p className={style['tests__description']}>Найдите тесты под ваш стек технологий</p>
+      </section>
+      <section className={style['growth']}>
+        <h2 className={style['growth__title']}>Прокачивайте навыки постепенно</h2>
+        <div className={style['growth__cards']}>
+          {!isComparePreviewTasksRequestError && taskPreviewMap ? (
+            <>
+              <BigTestCard task={taskPreviewMap['ENTRANCE']} />
+              <IMGIcon
+                src={growthArrowStepOneIcon}
+                alt=""
+                wrapperClassName={style['growth__arrow_step_one']}
+              />
+              <BigTestCard task={taskPreviewMap['MEDIUM']} />
+              <IMGIcon
+                src={growthArrowStepTwoIcon}
+                alt=""
+                wrapperClassName={style['growth__arrow_step_two']}
+              />
+              <BigTestCard task={taskPreviewMap['HARD']} />
+              <IMGIcon
+                src={growthArrowStepThreeIcon}
+                alt=""
+                wrapperClassName={style['growth__arrow_step_three']}
+              />
+              <BigTestCard task={taskPreviewMap['EXPERT']} />
+            </>
+          ) : (
+            ''
+          )}
+        </div>
+        <div className={style['growth__description_wrapper']}>
+          <p className={style['growth__description']}>
+            Начните с базовых задач и постепенно переходите к сложным кейсам. Каждый пройденный
+            уровень открывает новые возможности и повышает ваш рейтинг
+          </p>
+        </div>
       </section>
     </div>
   );
