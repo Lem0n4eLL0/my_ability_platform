@@ -106,3 +106,36 @@ $block-max-width: 800px;
     right: -25%;
   }
 }
+
+.tests {
+  padding: 120px 0 60px 0;
+  background-color: $color-bg-yellow;
+
+  &__information {
+    display: flex;
+    gap: 60px;
+    align-items: center;
+    padding: $page-padding;
+    margin-bottom: 80px;
+  }
+
+  &__counter {
+    font-weight: 700;
+    text-wrap: nowrap;
+    font-size: 156px;
+    color: $color-text-secondary;
+  }
+
+  &__title {
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+  }
+
+  &__description {
+    margin-top: 60px;
+    padding: $page-padding;
+    font-weight: 400;
+    font-size: 36px;
+  }
+}

@@ -57,12 +57,12 @@
   }
 
   &__total_test {
-    transform: translateY(-100%);
+    transform: translateY(calc(-100% - 1px));
     border-radius: 0 0 6px 0;
   }
 
   &__rate {
-    transform: translateY(100%);
+    transform: translateY(calc(100% + 1px));
     border-radius: 0 6px 0 0;
   }
 

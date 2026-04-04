@@ -12,6 +12,8 @@ import arrowStepOneTwo from '@assets/arrow-1.svg';
 import arrowStepTwoThree from '@assets/arrow-2.svg';
 import arrowStepThreeFour from '@assets/arrow-3.svg';
 import clsx from 'clsx';
+import { CardAutoCarousel } from '@/components/CardAutoCarousel';
+import { SmallCard } from '@/components/cards/SmallCard';
 
 export const MainPage = () => {
   const [carouselTasks, setCarouselTasks] = useState<СarouselTask[]>([]);
@@ -91,6 +93,18 @@ export const MainPage = () => {
             Получите предложение — выделяйтесь среди кандидатов и находите работу мечты
           </p>
         </div>
+      </section>
+      <section className={style['tests']}>
+        <div className={style['tests__information']}>
+          <span className={style['tests__counter']}>10 000+</span>
+          <h2 className={style['tests__title']}>задач и тестов по 50+ направлениям IT</h2>
+        </div>
+        <CardAutoCarousel
+          items={carouselTasks.map(el => {
+            return <SmallCard key={el.id} task={el} />;
+          })}
+        />
+        <p className={style['tests__description']}>Найдите тесты под ваш стек технологий</p>
       </section>
     </div>
   );
