@@ -9,8 +9,25 @@ $transition: 0.3s ease;
   left: 0;
   right: 0;
   min-height: 80px;
-  background: $neutral-200;
-  z-index: 1000;
+  background: inherit;
+  z-index: 100;
+
+  &__bg {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: $color-bg-accent;
+    transition: box-shadow 0.3s ease;
+  }
+
+  &--scrolled &__bg {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background: rgba($color-bg-accent, 0.5);
+    backdrop-filter: blur(12px);
+  }
 
   &__container {
     flex: 1 0 auto;
@@ -111,7 +128,7 @@ $transition: 0.3s ease;
 
   &--primary {
     background: $green-500;
-    color: $color-text-accent-2;
+    color: $color-text-accent;
 
     &:hover {
       box-shadow: $green-btn-shadow;

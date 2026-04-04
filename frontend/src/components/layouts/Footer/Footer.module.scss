@@ -5,7 +5,9 @@ $footer-bg: #111111;
 .footer {
   background-color: $footer-bg;
   color: $color-text-accent;
-  padding: 20px 16px 16px;
+  padding: $page-padding;
+  padding-top: 20px;
+  padding-bottom: 16px;
 
   &__information {
     display: flex;
@@ -90,15 +92,16 @@ $footer-bg: #111111;
 }
 
 @media (max-width: 768px) {
-  .footer {
-    padding: 24px 0;
-  }
-
   .footer__row {
     flex-direction: column;
     align-items: center;
     text-align: center;
     gap: 20px;
+  }
+
+  .footer__information {
+    flex-direction: column;
+    gap: 10px;
   }
 
   .footer__left {
@@ -117,7 +120,7 @@ $footer-bg: #111111;
   }
 
   .footer__right {
-    margin-top: 4px;
+    align-self: end;
   }
 
   .copyright {

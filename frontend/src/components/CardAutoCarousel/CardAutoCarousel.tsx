@@ -36,8 +36,10 @@ export const CardAutoCarousel = (props: ICardAutoCarousel) => {
     <div>
       <div className={clsx(style['embla__viewport'], 'embla__viewport')} ref={emblaRef}>
         <div className={clsx(style['embla__container'], 'embla__container')}>
-          {items.map(el => (
-            <div className="embla__slide">{el}</div>
+          {items.map((el, ind) => (
+            <div key={ind} className={clsx(style['embla__slide'], 'embla__slide')}>
+              {el}
+            </div>
           ))}
         </div>
       </div>

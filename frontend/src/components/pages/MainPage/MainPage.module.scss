@@ -1,7 +1,7 @@
 @use '@styles/variables' as *;
 @use '@styles/mixins' as *;
 
-$block-max-width: 800px;
+$block-max-width: clamp(576px, calc(31.33333333rem + 20.74074074vw), 800px);
 
 .page__wrapper {
   height: 100%;
@@ -11,6 +11,7 @@ $block-max-width: 800px;
 .main {
   display: flex;
   align-items: center;
+  margin-left: auto;
   padding: $page-padding;
   height: calc(100vh - 80px);
   background-color: $color-bg-accent;
@@ -34,20 +35,27 @@ $block-max-width: 800px;
 
   &__description {
     font-family: $additional-font;
-    font-size: 30px;
-    line-height: 41px;
+    font-size: clamp(1.25rem, calc(1.04166667rem + 0.92592593vw), 1.875rem);
+    line-height: 1.4;
     color: $color-text-primary;
   }
 }
 
 .way {
   display: flex;
-  flex-direction: column;
-  gap: 90px;
+  justify-content: center;
   padding: $page-padding;
   padding-top: 150px;
   padding-bottom: 150px;
   background-color: $color-bg-yellow;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 90px;
+    width: 100%;
+    max-width: 1240px;
+  }
 
   &__title {
     @include typography($font-h2);
@@ -71,7 +79,7 @@ $block-max-width: 800px;
 
 .step {
   &__description {
-    @include typography($font-body-large);
+    @include typography($font-body-medium);
   }
 
   &__description_reverse {
@@ -88,18 +96,21 @@ $block-max-width: 800px;
   z-index: 10;
 
   &__step_one-two {
+    width: clamp(200px, calc(-6.5625rem + 25.41666667vw), 261px);
     top: 20px;
-    right: -30%;
+    right: -34%;
   }
 
   &__step_two-three {
+    width: clamp(120px, calc(-3.125rem + 14.16666667vw), 154px);
     bottom: -70px;
-    left: -25%;
+    left: -22%;
   }
 
   &__step_three-four {
-    top: 40px;
-    right: -25%;
+    width: clamp(170px, calc(2.8125rem + 10.41666667vw), 195px);
+    top: 46px;
+    right: -22%;
   }
 }
 
@@ -118,7 +129,7 @@ $block-max-width: 800px;
   &__counter {
     font-weight: 700;
     text-wrap: nowrap;
-    font-size: 156px;
+    font-size: clamp(6rem, calc(2rem + 8.88888889vw), 10rem);
     color: $color-text-secondary;
   }
 
@@ -154,11 +165,10 @@ $block-max-width: 800px;
     padding: 0 14px;
   }
 
-  &__cards {
+  &__cards_big {
     display: flex;
     align-items: center;
     justify-content: center;
-    // gap: 20px;
     padding: 80px 0 60px 0;
   }
 
@@ -183,5 +193,92 @@ $block-max-width: 800px;
 
   &__title {
     @include typography($font-h2);
+  }
+}
+
+@media (max-width: 576px) {
+  .main {
+    height: min-content;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  .main__information {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .way__wrapper {
+    gap: 26px;
+  }
+
+  .way__step {
+    gap: 0 16px;
+  }
+
+  .way__step_reverse {
+    flex-direction: row;
+    align-self: flex-start;
+  }
+
+  .step__description_reverse {
+    text-align: start;
+  }
+
+  .sample {
+    flex-direction: column-reverse;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .growth__arrow_step.growth__arrow_step_one,
+  .growth__arrow_step.growth__arrow_step_two,
+  .growth__arrow_step.growth__arrow_step_three {
+    display: none;
+  }
+
+  .tests {
+    &__information {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    &__title {
+      text-align: center;
+    }
+  }
+
+  .way,
+  .tests,
+  .growth,
+  .sample {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  .sample__title {
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) and (min-width: 576px) {
+  .main__information {
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  .way__step {
+    gap: 0 30px;
+  }
+}
+
+@media (max-width: 1240px) {
+  .arrow {
+    display: none;
+  }
+
+  .growth__cards_big {
+    display: none;
   }
 }

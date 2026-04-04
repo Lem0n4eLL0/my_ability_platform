@@ -71,46 +71,52 @@ export const MainPage = () => {
         </div>
       </section>
       <section className={style['way']}>
-        <h2 className={style['way__title']}>Стань востребованым в профессии всего за 4 шага</h2>
-        <div className={style['way__step']}>
-          <StepIcon src={profileIcon} alt="Профиль" extraClassName={style['step__icon']} />
-          <p className={style['step__description']}>
-            Создайте профиль — заполните информацию о себе и выберите направления для оценки
-          </p>
-          <img
-            src={arrowStepOneTwo}
-            alt=""
-            className={clsx(style['arrow'], style['arrow__step_one-two'])}
-          />
-        </div>
-        <div className={clsx(style['way__step'], style['way__step_reverse'])}>
-          <StepIcon src={checkDoubleIcon} alt="Две галочки" extraClassName={style['step__icon']} />
-          <p className={clsx(style['step__description'], style['step__description_reverse'])}>
-            Пройдите тестирование — решайте задачи по выбранным технологиям и получайте объективную
-            оценку
-          </p>
-          <img
-            src={arrowStepTwoThree}
-            alt=""
-            className={clsx(style['arrow'], style['arrow__step_two-three'])}
-          />
-        </div>
-        <div className={style['way__step']}>
-          <StepIcon src={linkIcon} alt="Ссылка" extraClassName={style['step__icon']} />
-          <p className={style['step__description']}>
-            Поделитесь результатами — отправьте работодателю ссылку на ваш публичный профиль
-          </p>
-          <img
-            src={arrowStepThreeFour}
-            alt=""
-            className={clsx(style['arrow'], style['arrow__step_three-four'])}
-          />
-        </div>
-        <div className={clsx(style['way__step'], style['way__step_reverse'])}>
-          <StepIcon src={cupIcon} alt="Кубок" extraClassName={style['step__icon']} />
-          <p className={clsx(style['step__description'], style['step__description_reverse'])}>
-            Получите предложение — выделяйтесь среди кандидатов и находите работу мечты
-          </p>
+        <div className={style['way__wrapper']}>
+          <h2 className={style['way__title']}>Стань востребованым в профессии всего за 4 шага</h2>
+          <div className={style['way__step']}>
+            <StepIcon src={profileIcon} alt="Профиль" extraClassName={style['step__icon']} />
+            <p className={style['step__description']}>
+              Создайте профиль — заполните информацию о себе и выберите направления для оценки
+            </p>
+            <img
+              src={arrowStepOneTwo}
+              alt=""
+              className={clsx(style['arrow'], style['arrow__step_one-two'])}
+            />
+          </div>
+          <div className={clsx(style['way__step'], style['way__step_reverse'])}>
+            <StepIcon
+              src={checkDoubleIcon}
+              alt="Две галочки"
+              extraClassName={style['step__icon']}
+            />
+            <p className={clsx(style['step__description'], style['step__description_reverse'])}>
+              Пройдите тестирование — решайте задачи по выбранным технологиям и получайте
+              объективную оценку
+            </p>
+            <img
+              src={arrowStepTwoThree}
+              alt=""
+              className={clsx(style['arrow'], style['arrow__step_two-three'])}
+            />
+          </div>
+          <div className={style['way__step']}>
+            <StepIcon src={linkIcon} alt="Ссылка" extraClassName={style['step__icon']} />
+            <p className={style['step__description']}>
+              Поделитесь результатами — отправьте работодателю ссылку на ваш публичный профиль
+            </p>
+            <img
+              src={arrowStepThreeFour}
+              alt=""
+              className={clsx(style['arrow'], style['arrow__step_three-four'])}
+            />
+          </div>
+          <div className={clsx(style['way__step'], style['way__step_reverse'])}>
+            <StepIcon src={cupIcon} alt="Кубок" extraClassName={style['step__icon']} />
+            <p className={clsx(style['step__description'], style['step__description_reverse'])}>
+              Получите предложение — выделяйтесь среди кандидатов и находите работу мечты
+            </p>
+          </div>
         </div>
       </section>
       <section className={style['tests']}>
@@ -131,26 +137,35 @@ export const MainPage = () => {
       </section>
       <section className={style['growth']}>
         <h2 className={style['growth__title']}>Прокачивайте навыки постепенно</h2>
-        <div className={style['growth__cards']}>
+        <div className={style['growth__cards_big']}>
           {!isComparePreviewTasksRequestError && taskPreviewMap ? (
             <>
               <BigTestCard task={taskPreviewMap['ENTRANCE']} />
               <IMGIcon
                 src={growthArrowStepOneIcon}
                 alt=""
-                wrapperClassName={style['growth__arrow_step_one']}
+                wrapperClassName={clsx(
+                  style['growth__arrow_step'],
+                  style['growth__arrow_step_one']
+                )}
               />
               <BigTestCard task={taskPreviewMap['MEDIUM']} />
               <IMGIcon
                 src={growthArrowStepTwoIcon}
                 alt=""
-                wrapperClassName={style['growth__arrow_step_two']}
+                wrapperClassName={clsx(
+                  style['growth__arrow_step'],
+                  style['growth__arrow_step_two']
+                )}
               />
               <BigTestCard task={taskPreviewMap['HARD']} />
               <IMGIcon
                 src={growthArrowStepThreeIcon}
                 alt=""
-                wrapperClassName={style['growth__arrow_step_three']}
+                wrapperClassName={clsx(
+                  style['growth__arrow_step'],
+                  style['growth__arrow_step_three']
+                )}
               />
               <BigTestCard task={taskPreviewMap['EXPERT']} />
             </>
