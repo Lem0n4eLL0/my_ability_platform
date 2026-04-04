@@ -1,6 +1,6 @@
 package com.example.authentication.controller;
 
-import com.example.authentication.JwtProperties;
+import com.example.authentication.config.JwtProperties;
 import com.example.authentication.model.dto.Tokens;
 import com.example.authentication.model.dto.request.AccountRequest;
 import com.example.authentication.model.dto.request.RegisterRequest;
@@ -21,6 +21,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,6 +60,11 @@ public class AuthController {
   public ResponseEntity<RegisterResponse> registerAccount(
       @RequestBody @Validated RegisterRequest request) {
     return ResponseEntity.ok(accountService.registerAccount(request));
+  }
+
+  @GetMapping
+  public String test() {
+    return "HELLO AUTHIST";
   }
 
   @PostMapping("/refresh")

@@ -1,6 +1,6 @@
 package com.example.authentication.service;
 
-import com.example.authentication.JwtProperties;
+import com.example.authentication.config.JwtProperties;
 import com.example.authentication.model.entity.Account;
 import io.jsonwebtoken.Jwts;
 import java.util.Date;

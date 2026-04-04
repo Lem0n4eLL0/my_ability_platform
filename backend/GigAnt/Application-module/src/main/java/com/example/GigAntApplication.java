@@ -3,6 +3,7 @@ package com.example;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 
 @ComponentScan(basePackages = {
@@ -14,6 +15,10 @@ import org.springframework.context.annotation.ComponentScan;
     "com.example.verification",     // Verification-module
     "com.example.notification"      // Notification-module
 })
+//@EnableAutoConfiguration
+//@EnableWebMvc
+@Configuration
+
 @SpringBootApplication
 public class GigAntApplication {
 
