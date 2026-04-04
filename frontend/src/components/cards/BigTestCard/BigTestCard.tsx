@@ -32,10 +32,7 @@ export const BigTestCard = <T extends Task>(props: IBigTestCard<T>) => {
   }, [task.level]);
 
   return (
-    <div
-      className={clsx(style['content'], contentClassName)}
-      onClick={() => onClick && onClick(task)}
-    >
+    <button className={clsx(style['content'], contentClassName)} onClick={() => onClick?.(task)}>
       <div
         className={style['content__img_block']}
         style={{ backgroundImage: `url(${task.imgURL})` }}
@@ -47,10 +44,10 @@ export const BigTestCard = <T extends Task>(props: IBigTestCard<T>) => {
       <div className={style['content__description']}>
         <div className={style['content__information']}>
           <Rate rating={task.rate} starsNumber={1} gap={2} ratePosition="right" />
-          <span>{totalTaskFormatter(task.totalTests, 'заданий')}</span>
+          <span>{totalTaskFormatter(task.totalTasks, 'заданий')}</span>
         </div>
         <h2 className={style['content__title']}>{task.title}</h2>
       </div>
-    </div>
+    </button>
   );
 };

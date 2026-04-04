@@ -9,7 +9,7 @@ interface IIMGIcon extends ImgHTMLAttributes<HTMLImageElement> {
 export const IMGIcon = (props: IIMGIcon) => {
   const { src, alt, className, wrapperClassName, ...rest } = props;
   return (
-    <div className={wrapperClassName}>
+    <div className={wrapperClassName} style={{ display: 'flex' }}>
       <img src={src} alt={alt} className={className} {...rest} />
     </div>
   );

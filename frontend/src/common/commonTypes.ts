@@ -14,7 +14,7 @@ export type TaskBase = {
   title: string;
   description: string;
   rate: number;
-  totalTests: number;
+  totalTasks: number;
   imgURL: string;
 };
 
@@ -23,4 +23,4 @@ export type Task = TaskBase & {
 };
 
 export type СarouselTask = TaskBase;
-export type ComparePreviewTask = TaskBase;
+export type ComparePreviewTask = Task;

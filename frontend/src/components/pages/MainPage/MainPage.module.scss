@@ -1,0 +1,39 @@
+@use '@styles/variables' as *;
+
+.page__wrapper {
+  height: 100%;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  padding: $page-padding;
+  height: calc(100vh - 80px);
+  background-color: $color-bg-accent;
+
+  &__content {
+    max-width: 800px;
+  }
+
+  &__title {
+    font-family: $main-font;
+    font-weight: 700;
+    font-size: 80px;
+    line-height: 87px;
+    color: $color-text-primary;
+    margin-bottom: 30px;
+  }
+
+  &__information {
+    display: flex;
+    align-items: center;
+    gap: 74px;
+  }
+
+  &__description {
+    font-family: $additional-font;
+    font-size: 30px;
+    line-height: 41px;
+    color: $color-text-primary;
+  }
+}
