@@ -170,3 +170,18 @@ $block-max-width: 800px;
     max-width: 900px;
   }
 }
+
+.sample {
+  display: flex;
+  gap: 68px;
+  align-items: center;
+  justify-content: center;
+  padding: $page-padding;
+  padding-top: 150px;
+  padding-bottom: 150px;
+  background-color: $color-bg-yellow;
+
+  &__title {
+    @include typography($font-h2);
+  }
+}

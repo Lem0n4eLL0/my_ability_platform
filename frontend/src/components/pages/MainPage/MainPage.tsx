@@ -165,6 +165,10 @@ export const MainPage = () => {
           </p>
         </div>
       </section>
+      <section className={style['sample']}>
+        <TryTestButton onClick={TryTestButtonHandler} />
+        <h2 className={style['sample__title']}>Начните строить своё цифровое портфолио сегодня</h2>
+      </section>
     </div>
   );
 };
