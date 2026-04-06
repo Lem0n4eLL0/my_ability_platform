@@ -1,4 +1,10 @@
-import { ComparePreviewTask, Task, TestLevel, СarouselTask } from '@/common/commonTypes';
+import {
+  ComparePreviewTask,
+  Task,
+  TEST_LEVELS,
+  TestLevel,
+  СarouselTask,
+} from '@/common/commonTypes';
 import { SyntheticEvent, useEffect, useMemo, useState } from 'react';
 import style from './MainPage.module.scss';
 import { getCarouselTasks, getComparePreviewTasks } from '@/api/api';
@@ -19,6 +25,40 @@ import { CardAutoCarousel } from '@/components/CardAutoCarousel';
 import { SmallCard } from '@/components/cards/SmallCard';
 import { BigTestCard } from '@/components/cards/BigTestCard';
 import { IMGIcon } from '@/components/shells/IMGIcon';
+import { LineTestCard } from '@/components/cards/LineTestCard';
+import React from 'react';
+
+const renderCardsWithArrows = (
+  cardType: 'small' | 'big',
+  taskPreviewMap: Record<TestLevel, Task>
+) => {
+  const levels = Object.keys(TEST_LEVELS) as TestLevel[];
+  const arrows = [growthArrowStepOneIcon, growthArrowStepTwoIcon, growthArrowStepThreeIcon];
+
+  const CardComponent = cardType === 'small' ? LineTestCard : BigTestCard;
+  const cardClassName =
+    cardType === 'small' ? style['growth__card_small'] : style['growth__card_big'];
+
+  return (
+    <>
+      {levels.map((level, index) => (
+        <React.Fragment key={level}>
+          <CardComponent task={taskPreviewMap[level]} className={cardClassName} />
+          {index < arrows.length && (
+            <IMGIcon
+              src={arrows[index]}
+              alt=""
+              wrapperClassName={clsx(
+                style['growth__arrow_step'],
+                style[`growth__arrow_step_${['one', 'two', 'three'][index]}`]
+              )}
+            />
+          )}
+        </React.Fragment>
+      ))}
+    </>
+  );
+};
 
 export const MainPage = () => {
   const [carouselTasks, setCarouselTasks] = useState<СarouselTask[]>([]);
@@ -137,37 +177,15 @@ export const MainPage = () => {
       </section>
       <section className={style['growth']}>
         <h2 className={style['growth__title']}>Прокачивайте навыки постепенно</h2>
-        <div className={style['growth__cards_big']}>
+        <div className={style['growth__cards']}>
           {!isComparePreviewTasksRequestError && taskPreviewMap ? (
             <>
-              <BigTestCard task={taskPreviewMap['ENTRANCE']} />
-              <IMGIcon
-                src={growthArrowStepOneIcon}
-                alt=""
-                wrapperClassName={clsx(
-                  style['growth__arrow_step'],
-                  style['growth__arrow_step_one']
-                )}
-              />
-              <BigTestCard task={taskPreviewMap['MEDIUM']} />
-              <IMGIcon
-                src={growthArrowStepTwoIcon}
-                alt=""
-                wrapperClassName={clsx(
-                  style['growth__arrow_step'],
-                  style['growth__arrow_step_two']
-                )}
-              />
-              <BigTestCard task={taskPreviewMap['HARD']} />
-              <IMGIcon
-                src={growthArrowStepThreeIcon}
-                alt=""
-                wrapperClassName={clsx(
-                  style['growth__arrow_step'],
-                  style['growth__arrow_step_three']
-                )}
-              />
-              <BigTestCard task={taskPreviewMap['EXPERT']} />
+              <div className={style['growth__cards_small_only']}>
+                {renderCardsWithArrows('small', taskPreviewMap)}
+              </div>
+              <div className={style['growth__cards_big_only']}>
+                {renderCardsWithArrows('big', taskPreviewMap)}
+              </div>
             </>
           ) : (
             ''

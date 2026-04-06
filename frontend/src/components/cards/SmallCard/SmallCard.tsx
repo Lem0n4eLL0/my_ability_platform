@@ -18,7 +18,7 @@ export const SmallCard = <T extends TaskBase>(props: ISmallCard<T>) => {
       >
         <div className={style['content__total_test']}>{totalTaskFormatter(task.totalTasks)}</div>
         <div className={style['content__rate']}>
-          <Rate rating={task.rate} gap={2} textColor="#f2f2f2" />
+          <Rate rating={task.rate} textColor="#f2f2f2" size="sm" />
         </div>
       </div>
       <div className={style['content__title_wrapper']}>

@@ -1,17 +1,19 @@
 import { useMemo } from 'react';
 import style from './Rate.module.scss';
 import { assertNever } from '@/utils/utils';
+import clsx from 'clsx';
 
 type IRate = {
   rating: number;
   ratingMax?: number;
   starsNumber?: number;
-  size?: 'sm' | 'md' | 'lg';
   ratePosition?: 'left' | 'right';
+  size?: 'sm' | 'md' | 'lg';
   color?: string;
   emptyColor?: string;
   textColor?: string;
   gap?: number | string;
+  className?: string;
 };
 
 const starPath =
@@ -25,8 +27,10 @@ export const Rate = (props: IRate) => {
     emptyColor = '#e0e0e0',
     textColor,
     starsNumber = 5,
-    gap = 1,
+    gap = 5,
     ratePosition = 'left',
+    size = 'md',
+    className,
   } = props;
 
   const flexDirection = useMemo(() => {
@@ -41,16 +45,33 @@ export const Rate = (props: IRate) => {
     }
   }, [ratePosition]);
 
+  const [fontSize, starSize] = useMemo(() => {
+    switch (size) {
+      case 'sm':
+        return [14, 14];
+      case 'md':
+        return [16, 16];
+      case 'lg':
+        return [18, 18];
+      default:
+        assertNever(size);
+        return [16, 16];
+    }
+  }, [size]);
+
   return (
     <div
-      className={style['star-rating']}
+      className={clsx(style['star-rating'], className)}
       aria-label={`Рейтинг: ${rating} из ${starsNumber}`}
-      style={{ flexDirection: flexDirection }}
+      style={{ flexDirection: flexDirection, gap: gap }}
     >
-      <span className={style['star-rating__value']} style={{ color: textColor }}>
+      <span
+        className={style['star-rating__value']}
+        style={{ color: textColor, fontSize: fontSize }}
+      >
         {rating.toFixed(1)}
       </span>
-      <div className={style['star-rating__stars']} style={{ gap: gap }}>
+      <div className={style['star-rating__stars']}>
         {Array.from({ length: starsNumber }).map((_, index) => {
           const starNumber = index;
           const starMaxRate = ratingMax / starsNumber;
@@ -64,7 +85,7 @@ export const Rate = (props: IRate) => {
             fillPercentage = 0;
           }
           return (
-            <div key={index} className={style['star-rating__star']}>
+            <div key={index} className={style['star-rating__star']} style={{ width: starSize }}>
               <svg viewBox="0 0 15 15" className={style['star-rating__star-svg']}>
                 <path d={starPath} fill={emptyColor} />
 

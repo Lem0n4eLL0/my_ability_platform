@@ -1,4 +1,5 @@
 @use '@styles/variables' as *;
+@use '@styles/mixins' as *;
 
 .content {
   display: flex;
@@ -6,22 +7,20 @@
   position: relative;
   width: 100%;
   max-width: 240px;
+  min-width: 200px;
   aspect-ratio: 3 / 4;
   background-color: $color-bg-secondary;
   border: none;
   padding: 0;
   border-radius: 10px;
-  box-shadow: $shadow-primary-1;
   overflow: hidden;
   font-family: $main-font;
-  transition-duration: 0.3s;
-  transition-property: transform;
-  transition-timing-function: ease;
+  transition: $card-hover-transition;
   color: $color-text-primary;
 
   &:hover {
     cursor: pointer;
-    transform: translateY(-4px);
+    transform: $card-hover-translateY;
     backface-visibility: hidden;
   }
 
@@ -37,19 +36,14 @@
     background-size: cover;
   }
 
-  &:hover .content__total_test,
-  &:hover .content__rate {
-    transform: translateY(0);
-  }
-
-  &__total_test {
+  &__level {
     border-radius: 0 0 6px 0;
     width: min-content;
-    background-color: $overlay-color;
     color: $color-text-primary;
     text-wrap: nowrap;
-    padding: 5px 22px;
+    padding: 5px 10px;
     font-size: 26px;
+    min-width: calc(60% - 20px);
   }
 
   &__description {
@@ -67,11 +61,11 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
+    font-size: 16px;
   }
 
   &__title {
-    font-size: 32px;
+    @include typography($font-card-title);
     margin: 0;
-    font-weight: 400;
   }
 }

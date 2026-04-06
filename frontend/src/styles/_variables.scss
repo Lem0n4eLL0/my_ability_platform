@@ -21,6 +21,12 @@ $font-h3: (
   weight: 600,
 );
 
+$font-card-title: (
+  size: 2rem,
+  line-height: 1.2,
+  weight: 500,
+);
+
 $font-body-large: (
   size: clamp(1.25rem, calc(0.16666667rem + 2.03703704vw), 2rem),
   line-height: 1.5,
@@ -92,3 +98,7 @@ $green-btn-shadow: 0 2px 16px rgba($green-500, 0.3);
 
 // overlay
 $overlay-color: rgba(33 33 33 / 0.7);
+
+// Effects
+$card-hover-transition: transform 0.3s ease;
+$card-hover-translateY: translateY(-4px);
