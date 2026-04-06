@@ -1,0 +1,75 @@
+@use '@styles/variables' as *;
+@use '@styles/mixins' as *;
+
+.card {
+  display: flex;
+  background-color: $color-bg-secondary;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 560px;
+  border: none;
+  padding: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: $card-hover-transition;
+  gap: 10px;
+  font-family: $main-font;
+
+  &:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+    backface-visibility: hidden;
+  }
+
+  &__information {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    padding: 10px 0 10px 20px;
+  }
+
+  &__title {
+    font-size: 1.4rem;
+    margin: 0 8px 0 0;
+  }
+
+  &__rate {
+    margin-top: 0;
+    // margin-top: 2px;
+  }
+
+  &__tasks {
+    margin-left: auto;
+    font-size: 14px;
+  }
+
+  &__level_wrapper {
+    display: flex;
+    align-self: stretch;
+    justify-content: center;
+    position: relative;
+    min-width: 100px;
+  }
+
+  &__level_clip {
+    position: absolute;
+    height: 100%;
+    z-index: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+    clip-path: ellipse(100% 100% at center right);
+  }
+
+  &__level {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    z-index: 1;
+    height: 100%;
+    font-size: 1.1rem;
+    padding: 0 10px;
+  }
+}

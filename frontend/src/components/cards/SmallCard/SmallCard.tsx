@@ -11,19 +11,19 @@ type ISmallCard<T extends TaskBase> = {
 export const SmallCard = <T extends TaskBase>(props: ISmallCard<T>) => {
   const { task, onClick } = props;
   return (
-    <div className={style['content']} onClick={() => onClick && onClick(task)}>
+    <button className={style['content']} onClick={() => onClick?.(task)}>
       <div
         className={style['content__img_block']}
         style={{ backgroundImage: `url(${task.imgURL})` }}
       >
-        <div className={style['content__total_test']}>{totalTaskFormatter(task.totalTests)}</div>
+        <div className={style['content__total_test']}>{totalTaskFormatter(task.totalTasks)}</div>
         <div className={style['content__rate']}>
-          <Rate rating={task.rate} gap={2} textColor="#f2f2f2" />
+          <Rate rating={task.rate} textColor="#f2f2f2" size="sm" />
         </div>
       </div>
       <div className={style['content__title_wrapper']}>
         <h2 className={style['content__title']}>{task.title}</h2>
       </div>
-    </div>
+    </button>
   );
 };

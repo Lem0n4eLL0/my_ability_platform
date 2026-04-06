@@ -1,8 +1,8 @@
 @use '@styles/variables' as *;
 
 .button {
-  width: 300px;
-  height: 90px;
+  min-height: 90px;
+  padding: 8px 30px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,6 +11,50 @@
   background-color: $color-accent-primary;
   border: none;
   border-radius: 10px;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 2px 24px rgba($green-500, 0.7);
+  }
+
+  @media (max-width: 768px) and (min-width: 576px) {
+    min-height: 75px;
+    padding: 6px 24px;
+    gap: 18px;
+
+    .title {
+      font-size: 32px;
+    }
+
+    .arrow__wrapper {
+      padding: 2px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    min-height: 60px;
+    padding: 5px 16px;
+    gap: 12px;
+    border-radius: 8px;
+
+    .title {
+      font-size: 24px;
+      text-wrap: pretty;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .arrow__wrapper {
+      margin-top: 1px;
+      padding: 2px;
+    }
+  }
+
+  &:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
 }
 
 .title {
@@ -21,5 +65,33 @@
 }
 
 .arrow {
-  padding-top: 9px;
+  &__wrapper {
+    margin-top: 2px;
+    padding: 3px;
+    overflow: hidden;
+  }
+}
+.button:hover .arrow-fast_animation {
+  animation: arrow-hover cubic-bezier(0, 0.63, 0.38, 1.17) 1s both;
+}
+
+@keyframes arrow-hover {
+  0% {
+    transform: translate(0, 0);
+  }
+  19% {
+    transform: translate(120%, -120%);
+  }
+  20% {
+    transform: scale(0);
+  }
+  21% {
+    transform: translate(-120%, 120%) scale(1);
+  }
+  80% {
+    transform: translate(1px, -1px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }

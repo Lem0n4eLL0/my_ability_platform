@@ -5,19 +5,20 @@
   flex-direction: column;
   position: relative;
   width: 200px;
-  height: 240px;
+  height: 220px;
   background-color: $color-bg-secondary;
+  border: none;
+  padding: 0;
   border-radius: 10px;
   box-shadow: $shadow-primary-1;
   overflow: hidden;
   font-family: $main-font;
-  transition-duration: 0.3s;
-  transition-property: transform box-shadow;
-  transition-timing-function: ease;
+  transition: $card-hover-transition;
+  transition-property: transform, box-shadow;
 
   &:hover {
     cursor: pointer;
-    transform: translateY(-4px);
+    transform: $card-hover-translateY;
     backface-visibility: hidden;
     box-shadow: $shadow-primary-accent-1;
   }
@@ -45,7 +46,7 @@
     display: flex;
     text-align: center;
     padding: 5px;
-    font-size: 16px;
+    font-size: 14px;
     text-wrap: nowrap;
     background-color: $overlay-color;
     color: $color-text-accent-2;
@@ -55,12 +56,12 @@
   }
 
   &__total_test {
-    transform: translateY(-100%);
+    transform: translateY(calc(-100% - 1px));
     border-radius: 0 0 6px 0;
   }
 
   &__rate {
-    transform: translateY(100%);
+    transform: translateY(calc(100% + 1px));
     border-radius: 0 6px 0 0;
   }
 

@@ -21,8 +21,8 @@ export const BaseCard: Story = {
       description:
         'Docker - инструмент контейнеризации ПО для гибкого развертования компонентов в различных средах c поддержкой контенеризации',
       rate: 3.4,
-      totalTests: 204,
-      imgURL: dockerURL,
+      totalTasks: 204,
+      imgURL: dockerURL as string,
     },
   },
 };
