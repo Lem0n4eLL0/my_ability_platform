@@ -23,8 +23,8 @@
     <developer/>
   </developers>
   <modules>
-    <module>Authentication-module</module>
     <module>Core-module</module>
+    <module>Authentication-module</module>
     <module>Test-module</module>
     <module>Verification-module</module>
     <module>Notification-module</module>
@@ -113,14 +113,14 @@
       <version>${org.mapstruct.version}</version>
     </dependency>
 
-    <!-- ✅ Lombok (если используешь @Data, @Builder и т.д.) -->
+
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <scope>provided</scope>
     </dependency>
 
-    <!-- ✅ Связка Lombok + MapStruct (чтобы не конфликтовали) -->
+
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok-mapstruct-binding</artifactId>
@@ -161,5 +161,4 @@
       </plugin>
     </plugins>
   </build>
-
 </project>

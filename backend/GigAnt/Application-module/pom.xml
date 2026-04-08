@@ -27,6 +27,7 @@
       <groupId>com.example</groupId>
       <artifactId>Authentication-module</artifactId>
       <version>0.0.1-SNAPSHOT</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.example</groupId>
@@ -37,6 +38,7 @@
       <groupId>com.example</groupId>
       <artifactId>Verification-module</artifactId>
       <version>0.0.1-SNAPSHOT</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.example</groupId>
@@ -58,12 +60,21 @@
 
   </dependencies>
 
+  <!-- В том же Application-module/pom.xml -->
   <build>
     <plugins>
-      <!-- ✅ ЭТОТ плагин создаёт исполняемый JAR для Docker -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <!-- Гарантирует, что все compile-зависимости попадут в fat-jar -->
+          <excludes>
+            <exclude>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+            </exclude>
+          </excludes>
+        </configuration>
         <executions>
           <execution>
             <goals>
