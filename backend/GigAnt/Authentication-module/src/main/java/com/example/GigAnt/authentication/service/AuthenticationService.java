@@ -30,7 +30,7 @@ public class AuthenticationService {
     if (Objects.isNull(account)) {
       throw new AccountNotExist();
     }
-    if (!isMatches(account.getPassword(), request.password())) {
+    if (!isMatches(request.password(), account.getPassword())) {
       throw new PasswordNotMatch();
     }
     return account;
