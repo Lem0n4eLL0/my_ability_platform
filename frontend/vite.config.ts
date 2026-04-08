@@ -23,6 +23,10 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      // 'react': path.resolve(__dirname, 'node_modules/react'),
+      // 'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
+      // 'react-redux': path.resolve(__dirname, 'node_modules/react-redux'),
+      // 'zod': path.resolve(__dirname, 'node_modules/zod'),
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       '@styles': fileURLToPath(new URL('./src/styles', import.meta.url)),
       '@utils': fileURLToPath(new URL('./src/utils', import.meta.url)),
@@ -32,7 +36,20 @@ export default defineConfig({
       '@features': fileURLToPath(new URL('./src/features', import.meta.url)),
       '@api': fileURLToPath(new URL('./src/api', import.meta.url)),
     },
+    // dedupe: ['react', 'react-dom']
   },
+  // optimizeDeps: {
+  //   include: [
+  //     'react',
+  //     'react-dom',
+  //     'react-redux',
+  //     'react-router',
+  //     'react-router-dom',
+  //     'zod'
+  //   ],
+  //   force: true,
+  //   exclude: []
+  // },
   test: {
     projects: [
       {

@@ -1,3 +1,5 @@
+import z from 'zod';
+
 export type UUID = string;
 
 export const TEST_LEVELS = {
@@ -24,3 +26,13 @@ export type Task = TaskBase & {
 
 export type СarouselTask = TaskBase;
 export type ComparePreviewTask = Task;
+
+const User = z.object({
+  firstName: z.email(),
+  lastName: z.string(),
+  surname: z.string(),
+  birthday: z.boolean(),
+  aboutMe: z.string(),
+});
+
+export type User = z.infer<typeof User>;

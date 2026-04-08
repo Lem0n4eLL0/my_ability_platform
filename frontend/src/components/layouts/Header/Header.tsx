@@ -47,13 +47,13 @@ export const Header = () => {
 
         <div className={style['header__actions']}>
           <NavLink
-            to="/login"
+            to="/auth/login"
             className={clsx(style['header__btn'], style['header__btn--outline'])}
           >
             Вход
           </NavLink>
           <NavLink
-            to="/register"
+            to="/registration/step-one"
             className={clsx(style['header__btn'], style['header__btn--primary'])}
           >
             Регистрация

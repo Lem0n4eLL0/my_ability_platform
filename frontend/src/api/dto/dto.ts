@@ -28,3 +28,10 @@ export interface CarouselTasksResponseDto {
 export interface TasksResponseDto {
   tasks: TaskDto[];
 }
+
+export interface RegistrationStepThreeRequestDTO {
+  firstName: string;
+  lastName: string;
+  surname: string;
+  birthday: string;
+}

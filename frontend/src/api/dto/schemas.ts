@@ -1,6 +1,12 @@
 import { Task, TestLevel } from '@/common/commonTypes';
-import { CarouselTasksResponseDto, RequestError } from '../apiTypes';
-import { CarouselTaskDto, DTORequestError, TaskDto, TasksResponseDto } from './dto';
+import { CarouselTasksResponseDto, RegistrationStepThreeRequest, RequestError } from '../apiTypes';
+import {
+  CarouselTaskDto,
+  DTORequestError,
+  RegistrationStepThreeRequestDTO,
+  TaskDto,
+  TasksResponseDto,
+} from './dto';
 
 export const errorMapper = (dto: DTORequestError): RequestError => {
   return {
@@ -50,4 +56,13 @@ export const mapTaskDomainToDto = (task: Task): TaskDto => ({
 
 export const mapTasksResponseToDomain = (dto: TasksResponseDto) => ({
   tasks: dto.tasks.map(mapTaskDtoToDomain),
+});
+
+export const mapStepThreeRequestToDTO = (
+  value: RegistrationStepThreeRequest
+): RegistrationStepThreeRequestDTO => ({
+  firstName: value.firstName,
+  lastName: value.lastName,
+  surname: value.surname,
+  birthday: value.birthday.toISOString(),
 });

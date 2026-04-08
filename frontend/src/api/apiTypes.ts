@@ -1,4 +1,6 @@
+import { PASSWORD_REGEX } from '@/common/constants';
 import { CarouselTaskDto } from './dto/dto';
+import * as z from 'zod';
 
 export const HTTP_METHODS = {
   GET: 'GET',
@@ -52,3 +54,50 @@ export type RefreshTokenResponce = {
 export interface CarouselTasksResponseDto {
   tasks: CarouselTaskDto[];
 }
+
+// Регистрация
+
+const RegistrationStepOneRequest = z
+  .object({
+    email: z.email(),
+    password: z.string().regex(PASSWORD_REGEX),
+    confirm: z.string().regex(PASSWORD_REGEX),
+    isAgreementAccepted: z.boolean(),
+  })
+  .refine(data => data.password === data.confirm, {
+    message: "Passwords don't match",
+    path: ['confirm'],
+  })
+  .refine(data => data.isAgreementAccepted === true, {
+    message: 'Please accept the terms and conditions',
+    path: ['isAgreementAccepted'],
+  });
+
+export type RegistrationStepOneRequest = Omit<
+  z.infer<typeof RegistrationStepOneRequest>,
+  'confirm'
+>;
+
+export type ConfirmEmailRequest = {
+  token: string;
+};
+
+const RegistrationStepThreeRequest = z.object({
+  firstName: z.string(),
+  lastName: z.string(),
+  surname: z.string(),
+  birthday: z.date(),
+});
+
+export type RegistrationStepThreeRequest = z.infer<typeof RegistrationStepThreeRequest>;
+
+const AuthenticationRequest = z.object({
+  email: z.email(),
+  password: z.string().regex(PASSWORD_REGEX),
+});
+
+export type AuthenticationRequest = z.infer<typeof AuthenticationRequest>;
+export type AuthenticationResponce = {
+  token: string;
+};
+// Профиль
