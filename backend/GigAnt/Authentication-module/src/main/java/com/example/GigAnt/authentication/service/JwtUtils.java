@@ -6,7 +6,9 @@ import io.jsonwebtoken.JwtParser;
 import java.util.Date;
 import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
 public class JwtUtils {
 
