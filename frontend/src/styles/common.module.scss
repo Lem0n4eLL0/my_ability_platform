@@ -1,5 +1,16 @@
 @use './variables' as *;
 
+.base {
+  &__link {
+    text-decoration: none;
+    color: $color-text-secondary;
+    :hover,
+    :focus {
+      color: rgba($color-text-secondary, 0.9);
+    }
+  }
+}
+
 .test {
   &__entrance {
     &_bg {

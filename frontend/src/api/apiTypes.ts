@@ -1,4 +1,4 @@
-import { PASSWORD_REGEX } from '@/common/constants';
+import { PASSWORD_REGEX, VALIDATION_ERROR } from '@/common/constants';
 import { CarouselTaskDto } from './dto/dto';
 import * as z from 'zod';
 
@@ -57,24 +57,29 @@ export interface CarouselTasksResponseDto {
 
 // Регистрация
 
-const RegistrationStepOneRequest = z
+export const registrationStepOneRequest = z
   .object({
-    email: z.email(),
-    password: z.string().regex(PASSWORD_REGEX),
-    confirm: z.string().regex(PASSWORD_REGEX),
+    email: z.email({ error: 'Неверный формат почты' }),
+    password: z
+      .string()
+      .min(8, 'Слишком маленький пароль')
+      .max(20, 'Слишком большой пароль')
+      .regex(/[A-Za-z]/, 'Нужна хотя бы одна буква')
+      .regex(/\d/, 'Нужна хотя бы одна цифра'),
+    confirm: z.string().nonempty({ error: VALIDATION_ERROR.NOT_EMPTY }),
     isAgreementAccepted: z.boolean(),
   })
   .refine(data => data.password === data.confirm, {
-    message: "Passwords don't match",
+    message: 'Пароли не совпадают',
     path: ['confirm'],
   })
   .refine(data => data.isAgreementAccepted === true, {
-    message: 'Please accept the terms and conditions',
+    message: 'Примите пользовательское соглашение',
     path: ['isAgreementAccepted'],
   });
 
 export type RegistrationStepOneRequest = Omit<
-  z.infer<typeof RegistrationStepOneRequest>,
+  z.infer<typeof registrationStepOneRequest>,
   'confirm'
 >;
 
@@ -82,7 +87,7 @@ export type ConfirmEmailRequest = {
   token: string;
 };
 
-const RegistrationStepThreeRequest = z.object({
+export const RegistrationStepThreeRequest = z.object({
   firstName: z.string(),
   lastName: z.string(),
   surname: z.string(),
@@ -91,7 +96,7 @@ const RegistrationStepThreeRequest = z.object({
 
 export type RegistrationStepThreeRequest = z.infer<typeof RegistrationStepThreeRequest>;
 
-const AuthenticationRequest = z.object({
+export const AuthenticationRequest = z.object({
   email: z.email(),
   password: z.string().regex(PASSWORD_REGEX),
 });

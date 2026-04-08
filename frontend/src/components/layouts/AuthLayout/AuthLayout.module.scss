@@ -1,0 +1,73 @@
+@use '@styles/variables' as *;
+
+.auth {
+  min-height: 100dvh;
+  display: flex;
+  background-color: $color-bg-secondary;
+  background:
+    radial-gradient(circle at center 40%, $yellow-200 0 25%, transparent 25% 100%, transparent),
+    radial-gradient(circle at left top, $yellow-200 0 20%, transparent 20% 30%, transparent),
+    radial-gradient(
+      circle at 15% bottom,
+      $yellow-200 0 15%,
+      $color-bg-secondary 15% 100%,
+      transparent
+    );
+}
+
+.form {
+  flex: 1 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  // border: 10px solid #f2d285;
+  border-right: none;
+}
+
+.right {
+  flex: 1 1 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  clip-path: polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%);
+  background-color: $color-bg-green;
+  background-color: #f2d285;
+
+  &__shape {
+    width: calc(100% - 10px);
+    height: 100%;
+    clip-path: polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%);
+    filter: drop-shadow(0 0 0 black);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1240px) {
+  .form {
+    flex-grow: 5;
+  }
+
+  .right {
+    flex-grow: 4;
+  }
+}
+
+@media (max-width: 768px) {
+  .auth {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(
+      circle at left top,
+      $yellow-200 0% 25%,
+      $color-bg-secondary 25% 60%,
+      $yellow-200 60% 100%,
+      $color-bg-secondary 85% 100%
+    );
+  }
+
+  .right {
+    display: none;
+  }
+}

@@ -1,5 +1,5 @@
 import { LOCAL_STORAGE_ACCESS_TOKEN_ALIAS } from '@/common/constants';
-import { baseHeaders, bulidURL, checkResponse, fetchWithRefresh } from './apiHelp';
+import { baseHeaders, bulidURL, fetchWithCheckResponse, fetchWithRefresh } from './apiHelp';
 import {
   AuthenticationRequest,
   AuthenticationResponce,
@@ -23,38 +23,32 @@ export const URL_API = import.meta.env.VITE_APP_API_URL || '';
 export const URL_PREFIX = '/api/v1/';
 
 export const refreshToken = () => {
-  return fetch(bulidURL('auth/refresh'), {
+  return fetchWithCheckResponse<RefreshTokenResponce>(bulidURL('auth/refresh'), {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
     credentials: 'include',
-  })
-    .then(res => checkResponse<RefreshTokenResponce>(res))
-    .then(res => {
-      localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_ALIAS, res.token);
-      return res;
-    });
+  }).then(res => {
+    localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_ALIAS, res.token);
+    return res;
+  });
 };
 
 export const getCarouselTasks = () => {
-  return fetch(bulidURL('tasks/carousel'), {
+  return fetchWithCheckResponse<CarouselTasksResponseDto>(bulidURL('tasks/carousel'), {
     method: HTTP_METHODS.GET,
     headers: baseHeaders,
-  })
-    .then(res => checkResponse<CarouselTasksResponseDto>(res))
-    .then(res => {
-      return mapCarouselTasksResponseToDomain(res);
-    });
+  }).then(res => {
+    return mapCarouselTasksResponseToDomain(res);
+  });
 };
 
 export const getComparePreviewTasks = () => {
-  return fetch(bulidURL('tasks/compare-preview'), {
+  return fetchWithCheckResponse<TasksResponseDto>(bulidURL('tasks/compare-preview'), {
     method: HTTP_METHODS.GET,
     headers: baseHeaders,
-  })
-    .then(res => checkResponse<TasksResponseDto>(res))
-    .then(res => {
-      return mapTasksResponseToDomain(res);
-    });
+  }).then(res => {
+    return mapTasksResponseToDomain(res);
+  });
 };
 
 export const authenticationVerification = () => {
@@ -65,7 +59,7 @@ export const authenticationVerification = () => {
 };
 
 export const registrationStepOne = (body: RegistrationStepOneRequest) => {
-  return fetch(bulidURL('registration/step-one'), {
+  return fetchWithCheckResponse(bulidURL('registration/step-one'), {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
     body: JSON.stringify(body),
@@ -73,7 +67,7 @@ export const registrationStepOne = (body: RegistrationStepOneRequest) => {
 };
 
 export const confirmEmail = (body: ConfirmEmailRequest) => {
-  return fetch(bulidURL('registration/confirm-email'), {
+  return fetchWithCheckResponse(bulidURL('registration/confirm-email'), {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
     body: JSON.stringify(body),
@@ -81,7 +75,7 @@ export const confirmEmail = (body: ConfirmEmailRequest) => {
 };
 
 export const registrationStepThree = (body: RegistrationStepThreeRequest) => {
-  return fetch(bulidURL('registration/step-three'), {
+  return fetchWithCheckResponse(bulidURL('registration/step-three'), {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
     body: JSON.stringify(mapStepThreeRequestToDTO(body)),
@@ -90,17 +84,15 @@ export const registrationStepThree = (body: RegistrationStepThreeRequest) => {
 };
 
 export const authenticationRequest = (body: AuthenticationRequest) => {
-  return fetch(bulidURL('auth'), {
+  return fetchWithCheckResponse<AuthenticationResponce>(bulidURL('auth'), {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
     body: JSON.stringify(body),
     credentials: 'include',
-  })
-    .then(res => checkResponse<AuthenticationResponce>(res))
-    .then(res => {
-      localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_ALIAS, res.token);
-      return res;
-    });
+  }).then(res => {
+    localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_ALIAS, res.token);
+    return res;
+  });
 };
 
 export const getProfile = () => {

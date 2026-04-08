@@ -1,0 +1,78 @@
+@use './variables' as *;
+
+.form_field {
+  width: 100%;
+  height: 100%;
+  max-height: 48px;
+  background-color: inherit;
+  border: 1px solid $color-border-dark;
+  border-radius: 10px;
+  padding: 16px 20px;
+  color: $color-text-primary;
+  font-size: 16px;
+  transition:
+    background-color $transition-duration-medium ease,
+    border-color $transition-duration-medium ease;
+
+  &::placeholder {
+    color: $color-text-disabled;
+  }
+
+  &:disabled {
+    color: $color-text-disabled;
+    background-color: $color-field-disabled;
+    border: 1px solid $color-field-disabled;
+  }
+
+  &:hover,
+  &:focus,
+  &:focus-visible {
+    border-color: $color-border-green;
+
+    &:disabled {
+      border-color: $color-field-disabled;
+    }
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
+
+  &__error {
+    &:hover,
+    &:focus,
+    &:focus-visible {
+      border-color: $error-color;
+    }
+    border-color: $error-color;
+  }
+}
+
+.form__button_green {
+  width: 100%;
+  min-height: 56px;
+  padding: 8px 10px;
+  text-align: center;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  background-color: $color-bg-green;
+  color: $color-text-accent;
+
+  cursor: pointer;
+  transition-property: background-color;
+  transition-duration: $transition-duration-small;
+
+  &:hover,
+  &:focus {
+    background-color: rgba($color-bg-green, 0.9);
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: default;
+    background-color: rgba($color-bg-green, 0.6);
+    color: $color-text-primary;
+  }
+}

@@ -1,0 +1,22 @@
+@use '@styles/_variables.scss' as *;
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 6px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-wrap: nowrap;
+  font-size: 18px;
+
+  &_content {
+    font-weight: 500;
+  }
+}

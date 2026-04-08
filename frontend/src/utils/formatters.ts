@@ -12,3 +12,9 @@ export const totalTaskFormatter = (value: number, lable: string = 'тестов'
 export const testLevelFormatter = (level: TestLevel): string => {
   return TEST_LEVELS[level];
 };
+
+export const formatZError = (value: { [key: string]: string[] }): { [key: string]: string } => {
+  return Object.fromEntries(
+    Object.entries(value).map(([key, messages]) => [key, messages[0] ?? ''])
+  );
+};

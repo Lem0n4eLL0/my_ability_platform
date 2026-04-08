@@ -5,6 +5,9 @@ import { Footer } from '@/components/layouts/Footer';
 import { MainPage } from '@/components/pages/MainPage';
 import { AuthProtector } from '@/components/protectors/AuthProtector';
 import { RegistrationProtector } from '@/components/protectors/RegistrationProtector';
+import { AuthLayout } from '@/components/layouts/AuthLayout';
+import { AuthImg } from '@/components/layouts/AuthImg';
+import { RegistrationStepOne } from '@/components/pages/RegistrationStepOne';
 
 const App = () => {
   return (
@@ -18,11 +21,13 @@ const App = () => {
           <Route index element={<MainPage />}></Route>
         </Route>
         <Route element={<MainLayout />}>
-          <Route path="registration/step-one" element={<div>Auth step one</div>}></Route>
-          <Route path="registration/step-two" element={<div>Auth step two</div>}></Route>
-          <Route path="registration/step-three" element={<div>Auth step three</div>}></Route>
-          <Route path="auth/confirm-email" element={<div>Auth confirm email</div>}></Route>
-          <Route path="auth/login" element={<div>Auth login</div>}></Route>
+          <Route element={<AuthLayout rightComponent={<AuthImg />} />}>
+            <Route path="registration/step-one" element={<RegistrationStepOne />} />
+            <Route path="registration/step-two" element={<div>Auth step two</div>} />
+            <Route path="registration/step-three" element={<div>Auth step three</div>} />
+            <Route path="auth/confirm-email" element={<div>Auth confirm email</div>} />
+            <Route path="auth/login" element={<div>Auth login</div>} />
+          </Route>
         </Route>
       </Route>
       <Route element={<AuthProtector isRedirectAuthorized={false} redirectPath="/" />}>
