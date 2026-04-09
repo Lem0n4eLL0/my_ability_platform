@@ -29,7 +29,7 @@ public class JwtService {
 
     return Jwts.builder()
         .subject(account.getId().toString())
-        .claim("role", account.getRole().name())
+        .claim("role", account.getRole())
         .claim("email", account.getEmail())
         .issuedAt(now)
         .expiration(expiry)

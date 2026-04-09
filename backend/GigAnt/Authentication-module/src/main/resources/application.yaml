@@ -1,5 +1,5 @@
 jwt:
-  secret: "your-256-bit-secret-key-here"
+  secret: "my-super-secret-key-32-chars-long!"
   access:
     expiration: 3600000
   refresh:

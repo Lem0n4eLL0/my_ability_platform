@@ -3,16 +3,47 @@ package com.example.GigAnt.authentication.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.function.Function;
-import lombok.RequiredArgsConstructor;
+import javax.crypto.SecretKey;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
+@Slf4j
 public class JwtUtils {
 
-  private JwtParser jwtParser;
+
+  private final JwtParser jwtParser;
+  private final SecretKey signingKey; // 🔹 Храните ключ отдельно — удобно для отладки
+
+  public JwtUtils(@Value("${jwt.secret}") String secret) {
+    validateSecret(secret);
+
+    // ✅ Инициализация для JJWT 0.12.x (единственный правильный путь)
+    this.signingKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    this.jwtParser = Jwts.parser()
+        .verifyWith(signingKey)
+        .build();
+
+    log.info("JWT parser initialized successfully with HS256 algorithm");
+  }
+
+  private void validateSecret(String secret) {
+    if (secret == null || secret.isBlank()) {
+      throw new IllegalStateException(
+          "JWT secret is not configured. Set jwt.secret property or JWT_SECRET env variable.");
+    }
+    if (secret.length() < 32) {
+      throw new IllegalStateException(
+          "JWT secret must be at least 32 characters for HS256. Current length: " + secret.length()
+      );
+    }
+  }
 
   public Claims extractAllClaims(String token) {
     return parseClaimsJws(token);
@@ -27,6 +58,7 @@ public class JwtUtils {
       throw new RuntimeException("Failed to parse token: " + e.getMessage(), e);
     }
   }
+
 
   public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
     final var claims = extractAllClaims(token);
