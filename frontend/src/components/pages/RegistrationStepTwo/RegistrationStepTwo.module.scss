@@ -1,0 +1,27 @@
+@use '@styles/variables' as *;
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 22px;
+  word-break: break-word;
+
+  &__status {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+
+    &_message {
+      text-wrap: nowrap;
+      width: max-content;
+
+      &_error {
+        text-align: center;
+        font-size: 20px;
+        color: $error-color;
+      }
+    }
+  }
+}

@@ -27,8 +27,13 @@ export const checkResponse = async <T>(res: Response): Promise<T> => {
   return Promise.reject(errorMapper(error));
 };
 
-export const fetchWithCheckResponse = <T>(info: RequestInfo, options: RequestInit): Promise<T> => {
-  return fetch(info, options).then(res => checkResponse<T>(res));
+export const fetchWithCheckResponse = <T = object>(
+  info: RequestInfo,
+  options: RequestInit
+): Promise<T> => {
+  return fetch(info, options).then(res => {
+    return checkResponse<T>(res);
+  });
 };
 
 export const fetchWithAccess = <T>(info: RequestInfo, options: RequestInit): Promise<T> => {

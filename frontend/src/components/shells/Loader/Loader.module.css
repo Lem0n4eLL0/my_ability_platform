@@ -1,0 +1,14 @@
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.absolute {
+  position: absolute;
+  inset: 0;
+}
+
+.relative {
+  position: relative;
+}
