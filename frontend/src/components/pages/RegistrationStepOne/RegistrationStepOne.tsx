@@ -37,28 +37,34 @@ export const RegistrationStepOne = () => {
 
   const requestError = {
     isError: !!registrationStepOneStatus.error,
-    message: registrationStepOneStatus.error?.message,
+    message: registrationStepOneStatus.error?.message ?? '',
   };
   const isregistrationStepOnePending = registrationStepOneStatus.status === 'PENDING';
 
   return (
-    <div className={style['content']}>
-      <h1 className={style['content__title']}>Создание аккаунта</h1>
+    <div className={formStyle['auth-form__content']}>
+      <h1 className={formStyle['auth-form__title']}>Создание аккаунта</h1>
       <form
         name="registration_step_one_form"
-        className={style['content__form']}
+        className={formStyle['auth-form__form']}
         onSubmit={e => void handleSubmit(registrationStepOneFormHandler)(e)}
         noValidate
       >
-        <div className={style['content__filds']}>
+        <div className={formStyle['auth-form__filds']}>
           <FormElement label="Почта" error={errors.email?.message}>
-            <Input {...register('email')} placeholder="Введите почту" isError={!!errors.email} />
+            <Input
+              {...register('email')}
+              placeholder="Введите почту"
+              isError={!!errors.email}
+              disabled={isregistrationStepOnePending}
+            />
           </FormElement>
           <FormElement label="Придумайте пароль" error={errors.password?.message}>
             <Input
               {...register('password')}
               placeholder="Введите пароль"
               isError={!!errors.password}
+              disabled={isregistrationStepOnePending}
             />
           </FormElement>
           <FormElement label="Повторите пароль" error={errors.confirm?.message}>
@@ -67,6 +73,7 @@ export const RegistrationStepOne = () => {
               type="password"
               placeholder="Повторите пароль"
               isError={!!errors.confirm}
+              disabled={isregistrationStepOnePending}
             />
           </FormElement>
         </div>
@@ -75,6 +82,7 @@ export const RegistrationStepOne = () => {
             type="checkbox"
             {...register('isAgreementAccepted')}
             className={style['content__checkbox']}
+            disabled={isregistrationStepOnePending}
           />
           <span className={style['content__agreement']}>
             Я согласен c{' '}
@@ -87,7 +95,7 @@ export const RegistrationStepOne = () => {
             </Link>
           </span>
         </div>
-        <div className={style['content__controls']}>
+        <div className={formStyle['auth-form__controls']}>
           {(requestError.isError || !!errors.isAgreementAccepted) && (
             <ErrorField>
               {requestError.message?.length !== 0

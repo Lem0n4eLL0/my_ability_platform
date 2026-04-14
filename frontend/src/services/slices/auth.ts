@@ -1,5 +1,7 @@
 import {
+  authenticationRequest,
   authenticationVerification,
+  checkEmailConfirm,
   confirmEmail,
   logoutMe,
   registrationStepOne,
@@ -20,11 +22,14 @@ type AuthState = {
   stepState: AuthSteps;
   isAuthInitializing: boolean;
   isProfileRegistered: boolean;
+  isEmailConfirm: boolean;
   statuses: {
     registrationStepOneStatus: RequestStatus;
+    checkEmailConfirmStatus: RequestStatus;
     confirmEmailStatus: RequestStatus;
     registrationStepThreeStatus: RequestStatus;
     authenticationVerificationStatus: RequestStatus;
+    authenticationStatus: RequestStatus;
     logoutStatus: RequestStatus;
   };
 };
@@ -33,11 +38,14 @@ const initialState: AuthState = {
   stepState: 'AuthStepOne',
   isAuthInitializing: true,
   isProfileRegistered: false,
+  isEmailConfirm: false,
   statuses: {
     registrationStepOneStatus: READY_REQUEST_STATUS,
+    checkEmailConfirmStatus: READY_REQUEST_STATUS,
     confirmEmailStatus: READY_REQUEST_STATUS,
     registrationStepThreeStatus: READY_REQUEST_STATUS,
     authenticationVerificationStatus: READY_REQUEST_STATUS,
+    authenticationStatus: READY_REQUEST_STATUS,
     logoutStatus: READY_REQUEST_STATUS,
   },
 };
@@ -65,6 +73,22 @@ const authSlice = createSlice({
       },
     }),
 
+    authentication: create.asyncThunk(authenticationRequest, {
+      pending: state => {
+        state.statuses.authenticationStatus.status = 'PENDING';
+        state.statuses.authenticationStatus.error = undefined;
+      },
+      rejected: (state, action) => {
+        state.statuses.authenticationStatus.status = 'ERROR';
+        state.statuses.authenticationStatus.error = action.error as RequestError;
+      },
+      fulfilled: state => {
+        state.statuses.authenticationStatus.status = 'SUCCESS';
+        state.statuses.authenticationStatus.error = undefined;
+        state.stepState = 'AuthCompleted';
+      },
+    }),
+
     registrationStepOne: create.asyncThunk(registrationStepOne, {
       pending: state => {
         state.statuses.registrationStepOneStatus.status = 'PENDING';
@@ -74,10 +98,31 @@ const authSlice = createSlice({
         state.statuses.registrationStepOneStatus.status = 'ERROR';
         state.statuses.registrationStepOneStatus.error = action.error as RequestError;
       },
-      fulfilled: (state, action) => {
+      fulfilled: state => {
         state.statuses.registrationStepOneStatus.status = 'SUCCESS';
         state.statuses.registrationStepOneStatus.error = undefined;
         state.stepState = 'AuthStepTwo';
+      },
+    }),
+
+    checkEmailConfirm: create.asyncThunk(checkEmailConfirm, {
+      pending: state => {
+        state.statuses.checkEmailConfirmStatus.status = 'PENDING';
+        state.statuses.checkEmailConfirmStatus.error = undefined;
+      },
+      rejected: (state, action) => {
+        state.statuses.checkEmailConfirmStatus.status = 'ERROR';
+        state.statuses.checkEmailConfirmStatus.error = action.error as RequestError;
+      },
+      fulfilled: (state, action) => {
+        if (action.payload.isConfirm) {
+          state.statuses.checkEmailConfirmStatus.status = 'SUCCESS';
+          state.statuses.checkEmailConfirmStatus.error = undefined;
+          state.isEmailConfirm = true;
+          state.stepState = 'AuthStepThree';
+        } else {
+          state.statuses.checkEmailConfirmStatus = READY_REQUEST_STATUS;
+        }
       },
     }),
 
@@ -90,7 +135,7 @@ const authSlice = createSlice({
         state.statuses.confirmEmailStatus.status = 'ERROR';
         state.statuses.confirmEmailStatus.error = action.error as RequestError;
       },
-      fulfilled: (state, action) => {
+      fulfilled: state => {
         state.statuses.confirmEmailStatus.status = 'SUCCESS';
         state.statuses.confirmEmailStatus.error = undefined;
         state.stepState = 'AuthStepThree';
@@ -106,7 +151,7 @@ const authSlice = createSlice({
         state.statuses.registrationStepThreeStatus.status = 'ERROR';
         state.statuses.registrationStepThreeStatus.error = action.error as RequestError;
       },
-      fulfilled: (state, action) => {
+      fulfilled: state => {
         state.statuses.registrationStepThreeStatus.status = 'SUCCESS';
         state.statuses.registrationStepThreeStatus.error = undefined;
         state.stepState = 'AuthCompleted';
@@ -130,6 +175,10 @@ const authSlice = createSlice({
       state.isAuthInitializing = action.payload;
     }),
 
+    setIsEmailConfirm: create.reducer((state, action: PayloadAction<boolean>) => {
+      state.isEmailConfirm = action.payload;
+    }),
+
     backToStepOne: create.reducer(state => {
       state.stepState = 'AuthStepOne';
       (Object.keys(state.statuses) as (keyof typeof state.statuses)[]).forEach(el => {
@@ -140,15 +189,20 @@ const authSlice = createSlice({
   }),
 
   extraReducers: builder => {
-    builder.addCase(getProfileUser.pending, (state, action) => {
-      state.isProfileRegistered = true;
-    });
+    builder
+      .addCase(getProfileUser.rejected, state => {
+        state.isProfileRegistered = false;
+      })
+      .addCase(getProfileUser.fulfilled, state => {
+        state.isProfileRegistered = true;
+      });
   },
 
   selectors: {
     selectStepState: store => store.stepState,
     selectIsAuthInitializing: store => store.isAuthInitializing,
     selectIsProfileRegistered: store => store.isProfileRegistered,
+    selectIsEmailConfirm: store => store.isEmailConfirm,
     selectIsAuthCompleted: store => store.stepState === 'AuthCompleted',
     selectStatuses: store => store.statuses,
   },
@@ -160,13 +214,17 @@ export const {
   selectIsAuthCompleted,
   selectIsAuthInitializing,
   selectIsProfileRegistered,
+  selectIsEmailConfirm,
   selectStatuses: selectStatusesAuth,
 } = authSlice.selectors;
 
 export const {
   setIsAuthInitializing,
   backToStepOne,
+  setIsEmailConfirm,
   logoutMe: logoutMeAuth,
+  authentication: authenticationAuth,
+  checkEmailConfirm: checkEmailConfirmAuth,
   authenticationVerification: authenticationVerificationAuth,
   registrationStepOne: registrationStepOneAuth,
   confirmEmail: confirmEmailAuth,

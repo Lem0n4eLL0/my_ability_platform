@@ -31,7 +31,7 @@ const User = z.object({
   firstName: z.email(),
   lastName: z.string(),
   surname: z.string(),
-  birthday: z.boolean(),
+  birthday: z.string(),
   aboutMe: z.string(),
 });
 

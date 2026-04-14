@@ -8,32 +8,71 @@ import { RegistrationProtector } from '@/components/protectors/RegistrationProte
 import { AuthLayout } from '@/components/layouts/AuthLayout';
 import { AuthImg } from '@/components/layouts/AuthImg';
 import { RegistrationStepOne } from '@/components/pages/RegistrationStepOne';
+import { RegistrationStepTwo } from '@/components/pages/RegistrationStepTwo';
+import { RegistrationStepThree } from '@/components/pages/RegistrationStepThree';
+import { AuthPage } from '@/components/pages/AuthPage';
+import { ConfirmEmailPage } from '@/components/pages/ConfirmEmailPage';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@/services/store';
+import { authenticationVerificationAuth, selectStatusesAuth } from '@/services/slices/auth';
+import { getProfileUser, selectStatusesUser } from '@/services/slices/user';
+import { Loader } from '@/components/shells/Loader';
+import commonStyle from '@styles/common.module.scss';
+import style from './App.module.scss';
 
 const App = () => {
+  const dispatch = useAppDispatch();
+  const { authenticationVerificationStatus } = useAppSelector(selectStatusesAuth);
+  const { getProfile } = useAppSelector(selectStatusesUser);
+
+  useEffect(() => {
+    Promise.allSettled([
+      dispatch(authenticationVerificationAuth()),
+      dispatch(getProfileUser()),
+    ]).catch(_ => {});
+  }, []);
+
+  if (authenticationVerificationStatus.status === 'PENDING' || getProfile.status === 'PENDING') {
+    return (
+      <div className={style['content__loader']}>
+        <Loader loaderClass={commonStyle['loader__main']} />
+      </div>
+    );
+  }
+
   return (
     <Routes>
       <Route element={<MainLayout header={<Header />} footer={<Footer />} />}>
         <Route path="employers" element={<div>Employers</div>}></Route>
         <Route path="about" element={<div>About</div>}></Route>
       </Route>
+
       <Route element={<AuthProtector isRedirectAuthorized={true} redirectPath="/profile" />}>
         <Route element={<MainLayout header={<Header />} footer={<Footer />} />}>
           <Route index element={<MainPage />}></Route>
         </Route>
         <Route element={<MainLayout />}>
+          <Route path="auth/confirm-email/:token" element={<ConfirmEmailPage />} />
           <Route element={<AuthLayout rightComponent={<AuthImg />} />}>
             <Route path="registration/step-one" element={<RegistrationStepOne />} />
-            <Route path="registration/step-two" element={<div>Auth step two</div>} />
-            <Route path="registration/step-three" element={<div>Auth step three</div>} />
-            <Route path="auth/confirm-email" element={<div>Auth confirm email</div>} />
-            <Route path="auth/login" element={<div>Auth login</div>} />
+            <Route path="registration/step-two" element={<RegistrationStepTwo />} />
+            <Route path="auth/login" element={<AuthPage />} />
           </Route>
         </Route>
       </Route>
+
       <Route element={<AuthProtector isRedirectAuthorized={false} redirectPath="/" />}>
+        <Route element={<MainLayout />}>
+          <Route element={<AuthLayout rightComponent={<AuthImg />} />}>
+            <Route path="registration/step-three" element={<RegistrationStepThree />} />
+          </Route>
+        </Route>
         <Route
           element={
-            <RegistrationProtector isRedirectRegistration={false} redirectPath="auth/step-three" />
+            <RegistrationProtector
+              isRedirectRegistration={false}
+              redirectPath="registration/step-three"
+            />
           }
         >
           <Route element={<MainLayout header={<div>Header 2</div>} footer={<Footer />} />}>

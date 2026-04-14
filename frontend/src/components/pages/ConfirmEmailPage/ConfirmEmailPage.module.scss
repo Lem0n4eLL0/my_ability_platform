@@ -1,6 +1,8 @@
-.content__loader {
+.content {
   height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 12px;
+  font-size: 22px;
 }

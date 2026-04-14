@@ -32,6 +32,6 @@ export interface TasksResponseDto {
 export interface RegistrationStepThreeRequestDTO {
   firstName: string;
   lastName: string;
-  surname: string;
+  surname: string | undefined;
   birthday: string;
 }

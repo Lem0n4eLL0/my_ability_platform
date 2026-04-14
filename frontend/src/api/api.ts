@@ -4,6 +4,7 @@ import {
   AuthenticationRequest,
   AuthenticationResponce,
   CarouselTasksResponseDto,
+  CheckEmailConfirmResponse,
   ConfirmEmailRequest,
   HTTP_METHODS,
   RefreshTokenResponce,
@@ -66,11 +67,25 @@ export const registrationStepOne = (body: RegistrationStepOneRequest) => {
   });
 };
 
+export type ConfirmEmailResponse = {
+  key: string;
+  token: string;
+};
 export const confirmEmail = (body: ConfirmEmailRequest) => {
-  return fetchWithCheckResponse(bulidURL('registration/confirm-email'), {
+  return fetchWithCheckResponse<ConfirmEmailResponse>(bulidURL('registration/confirm-email'), {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
     body: JSON.stringify(body),
+  }).then(res => {
+    localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_ALIAS, res.token);
+    return res;
+  });
+};
+
+export const checkEmailConfirm = () => {
+  return fetchWithCheckResponse<CheckEmailConfirmResponse>(bulidURL('registration/confirm-email'), {
+    method: HTTP_METHODS.GET,
+    headers: baseHeaders,
   });
 };
 
@@ -84,7 +99,7 @@ export const registrationStepThree = (body: RegistrationStepThreeRequest) => {
 };
 
 export const authenticationRequest = (body: AuthenticationRequest) => {
-  return fetchWithCheckResponse<AuthenticationResponce>(bulidURL('auth'), {
+  return fetchWithCheckResponse<AuthenticationResponce>(bulidURL('auth/login'), {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
     body: JSON.stringify(body),

@@ -31,7 +31,9 @@ export const fetchWithCheckResponse = <T = object>(
   info: RequestInfo,
   options: RequestInit
 ): Promise<T> => {
-  return fetch(info, options).then(res => checkResponse<T>(res));
+  return fetch(info, options).then(res => {
+    return checkResponse<T>(res);
+  });
 };
 
 export const fetchWithAccess = <T>(info: RequestInfo, options: RequestInit): Promise<T> => {

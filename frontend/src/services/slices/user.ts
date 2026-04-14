@@ -67,4 +67,4 @@ export const userReduser = userSlice.reducer;
 
 export const { getProfile: getProfileUser } = userSlice.actions;
 
-export const { selectData, selectEmail, selectStatuses } = userSlice.selectors;
+export const { selectData, selectEmail, selectStatuses: selectStatusesUser } = userSlice.selectors;

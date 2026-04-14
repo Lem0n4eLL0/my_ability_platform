@@ -16,4 +16,10 @@ export const PASSWORD_REGEX: RegExp =
 
 export const VALIDATION_ERROR = {
   NOT_EMPTY: 'Поле не может быть пустым',
+  LETTERS_AND_SOME_SYMB: 'Поле может содержать только буквы, пробелы и дефис',
+  EMAIL: 'Неверный формат почты',
+  MIN_SYMB: (value: number, field?: string) =>
+    `${field ? field : 'Поле'} должно содержать минимум ${value} символа`,
+  MAX_SYMB: (value: number, field?: string) =>
+    `${field ? field : 'Поле'} должно содержать максимум ${value} символов`,
 };
