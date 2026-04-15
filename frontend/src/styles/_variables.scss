@@ -51,9 +51,16 @@ $font-body-regular: (
   weight: 400,
 );
 
+$font-nav-link: (
+  size: clamp(1rem, calc(0.875rem + 0.55555556vw), 1.375rem),
+  line-height: 1.5,
+  weight: 400,
+);
+
 // === Palette ===
 $neutral-100: #f2f2f2;
 $neutral-200: #e6e8ff;
+$neutral-500: #c0c0c0;
 $neutral-900: #212121;
 $green-500: #0c523a;
 $yellow-500: #f2b424;
@@ -63,7 +70,7 @@ $yellow-200: #f2d285;
 $color-field-disabled: #e2e2e2;
 $color-text-disabled: #666;
 $error-color: #c20909;
-$loader-color: #0c523a;
+$loader-color: $green-500;
 
 // --- Текст ---
 $color-text-primary: $neutral-900;
@@ -74,6 +81,7 @@ $color-text-accent-2: $neutral-100;
 // --- Фон ---
 $color-bg-secondary: $neutral-100;
 $color-bg-secondary-2: $neutral-900;
+$color-bg-secondary-3: $neutral-500;
 $color-bg-accent: $neutral-200;
 $color-bg-yellow: $yellow-500;
 $color-bg-green: $green-500;
