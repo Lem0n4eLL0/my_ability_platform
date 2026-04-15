@@ -12,32 +12,40 @@
 
   &__navigation {
     display: flex;
-    gap: 20px;
+    gap: 16px;
     align-self: flex-end;
   }
 
   &__link {
+    position: relative;
     text-decoration: none;
     @include typography($font-nav-link);
     color: $color-bg-secondary-2;
     padding: 4px 0;
+    transition: color $transition-duration-extra-small;
 
     &:hover {
       color: rgba($color-text-secondary, 0.9);
     }
 
+    &::after {
+      content: '';
+      transform: scaleX(0);
+      transition: transform 0.2s ease-out;
+      position: absolute;
+      height: 2px;
+      width: 100%;
+      background-color: $color-text-secondary;
+      bottom: 0px;
+      left: 0;
+    }
+
     &_active {
-      position: relative;
       font-weight: 500;
       color: $color-text-secondary;
+
       &::after {
-        content: '';
-        position: absolute;
-        height: 2px;
-        width: 100%;
-        background-color: $color-text-secondary;
-        bottom: 0px;
-        left: 0;
+        transform: scaleX(1);
       }
     }
   }
@@ -71,6 +79,10 @@
     &__icon {
       width: 45px;
     }
+
+    &__navigation {
+      gap: 20px;
+    }
   }
 }
 
@@ -81,6 +93,10 @@
 
     &__icon {
       width: 50px;
+    }
+
+    &__navigation {
+      gap: 30px;
     }
   }
 }
