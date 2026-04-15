@@ -19,6 +19,7 @@ import { getProfileUser, selectStatusesUser } from '@/services/slices/user';
 import { Loader } from '@/components/shells/Loader';
 import commonStyle from '@styles/common.module.scss';
 import style from './App.module.scss';
+import { HeaderApp } from '@/components/layouts/HeaderApp';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -75,8 +76,9 @@ const App = () => {
             />
           }
         >
-          <Route element={<MainLayout header={<div>Header 2</div>} footer={<Footer />} />}>
+          <Route element={<MainLayout header={<HeaderApp />} footer={<Footer />} />}>
             <Route path="profile" element={<div>Profile</div>}></Route>
+            <Route path="tests" element={<div>Tests</div>}></Route>
           </Route>
         </Route>
       </Route>
