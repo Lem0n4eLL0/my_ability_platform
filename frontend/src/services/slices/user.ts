@@ -33,21 +33,31 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: create => ({
-    getProfile: create.asyncThunk(getProfile, {
-      pending: state => {
-        state.statuses.getProfile.status = 'PENDING';
-        state.statuses.getProfile.error = undefined;
+    getProfile: create.asyncThunk(
+      async (_, { rejectWithValue }) => {
+        try {
+          return await getProfile();
+        } catch (e) {
+          console.log('getProfile', e);
+          return rejectWithValue(e);
+        }
       },
-      rejected: (state, action) => {
-        state.statuses.getProfile.status = 'ERROR';
-        state.statuses.getProfile.error = action.error as RequestError;
-      },
-      fulfilled: (state, action) => {
-        state.statuses.getProfile.status = 'SUCCESS';
-        state.statuses.getProfile.error = undefined;
-        state.data.user = action.payload;
-      },
-    }),
+      {
+        pending: state => {
+          state.statuses.getProfile.status = 'PENDING';
+          state.statuses.getProfile.error = undefined;
+        },
+        rejected: (state, action) => {
+          state.statuses.getProfile.status = 'ERROR';
+          state.statuses.getProfile.error = action.error as RequestError;
+        },
+        fulfilled: (state, action) => {
+          state.statuses.getProfile.status = 'SUCCESS';
+          state.statuses.getProfile.error = undefined;
+          state.data.user = action.payload;
+        },
+      }
+    ),
   }),
 
   extraReducers: builder => {
