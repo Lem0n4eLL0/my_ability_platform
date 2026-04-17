@@ -1,6 +1,6 @@
 import { getProfile } from '@/api/api';
 import { RequestError, RequestStatus } from '@/api/apiTypes';
-import { User } from '@/common/commonTypes';
+import { TestResult, User } from '@/common/commonTypes';
 import { READY_REQUEST_STATUS } from '@/common/constants';
 import { asyncThunkCreator, buildCreateSlice } from '@reduxjs/toolkit';
 import { registrationStepOneAuth } from './auth';
@@ -16,6 +16,9 @@ type UserState = {
   data: {
     email: string | null;
     user: User | null;
+    testResults: {
+      [id: string]: Array<TestResult>;
+    };
   };
 };
 
@@ -26,6 +29,7 @@ const initialState: UserState = {
   data: {
     email: null,
     user: null,
+    testResults: {},
   },
 };
 

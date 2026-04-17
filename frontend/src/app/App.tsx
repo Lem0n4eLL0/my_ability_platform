@@ -20,6 +20,7 @@ import commonStyle from '@styles/common.module.scss';
 import style from './App.module.scss';
 import { HeaderApp } from '@/components/layouts/HeaderApp';
 import { selectIsAuthInitializing } from '@/services/slices/auth';
+import { ProfilePage } from '@/components/pages/ProfilePage';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -74,7 +75,7 @@ const App = () => {
           }
         >
           <Route element={<MainLayout header={<HeaderApp />} footer={<Footer />} />}>
-            <Route path="profile" element={<div>Profile</div>}></Route>
+            <Route path="profile" element={<ProfilePage />}></Route>
             <Route path="tests" element={<div>Tests</div>}></Route>
           </Route>
         </Route>
