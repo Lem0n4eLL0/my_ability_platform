@@ -3,9 +3,7 @@ package com.example.GigAnt.authentication.controller;
 import com.example.GigAnt.authentication.config.JwtProperties;
 import com.example.GigAnt.authentication.model.dto.Tokens;
 import com.example.GigAnt.authentication.model.dto.request.AccountRequest;
-import com.example.GigAnt.authentication.model.dto.request.RegisterRequest;
 import com.example.GigAnt.authentication.model.dto.response.AuthResponse;
-import com.example.GigAnt.authentication.model.dto.response.RegisterResponse;
 import com.example.GigAnt.authentication.model.entity.Account;
 import com.example.GigAnt.authentication.service.AccountService;
 import com.example.GigAnt.authentication.service.AuthenticationService;
@@ -19,7 +17,6 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,11 +53,6 @@ public class AuthController {
     ));
   }
 
-  @PostMapping("/register")
-  public ResponseEntity<RegisterResponse> registerAccount(
-      @RequestBody @Validated RegisterRequest request) {
-    return ResponseEntity.ok(accountService.registerAccount(request));
-  }
 
   @GetMapping
   public String test() {
