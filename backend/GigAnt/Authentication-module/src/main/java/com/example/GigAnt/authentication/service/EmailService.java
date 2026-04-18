@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 public class EmailService {
 
   private JavaMailSender javaMailSender;
+  private final JwtService jwtService;
 
   @Async
   public void sendEmail(SimpleMailMessage email) {
     javaMailSender.send(email);
   }
+
 }

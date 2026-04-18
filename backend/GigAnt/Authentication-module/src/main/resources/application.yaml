@@ -4,6 +4,8 @@ jwt:
     expiration: 3600000
   refresh:
     expiration: 86400000
+  email:
+    expiration: 3600000
 server:
   servlet:
     context-path: /api/v1

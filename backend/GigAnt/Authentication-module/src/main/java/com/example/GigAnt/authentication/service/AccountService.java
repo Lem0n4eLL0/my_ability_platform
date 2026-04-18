@@ -21,13 +21,14 @@ public class AccountService {
   private final AccountRepository repository;
   private final RegisterMapper mapper;
   private final AccountStatusRepository accountStatusRepository;
+  private final EmailVerificationService emailVerificationService;
 
   public RegisterResponse registerAccount(RegisterRequest request) {
     Account account = mapper.toEntity(request);
     String hashPassword = generatePasswordHash(account.getPassword());
     account.setPassword(hashPassword);
     AccountStatus accountStatus = accountStatusRepository.save(new AccountStatus(true, false));
-    ;
+
     account.setAccountStatus(accountStatus);
     try {
       repository.save(account);
@@ -36,8 +37,8 @@ public class AccountService {
     } catch (DataIntegrityViolationException e) {
       throw new AccountNotCreated();
     }
+    emailVerificationService.sendEmail(account);
     return mapper.toModel(account);
-
 
   }
 

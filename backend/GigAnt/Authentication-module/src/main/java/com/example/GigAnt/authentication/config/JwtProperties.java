@@ -12,6 +12,7 @@ public class JwtProperties {
   private String secret;
   private Access access;
   private Refresh refresh;
+  private Email email;
 
   @Data
   public static class Access {
@@ -21,6 +22,12 @@ public class JwtProperties {
 
   @Data
   public static class Refresh {
+
+    private long expiration;
+  }
+
+  @Data
+  public static class Email {
 
     private long expiration;
   }

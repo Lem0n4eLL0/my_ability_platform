@@ -19,12 +19,10 @@ public class JwtUtils {
 
 
   private final JwtParser jwtParser;
-  private final SecretKey signingKey; // 🔹 Храните ключ отдельно — удобно для отладки
+  private final SecretKey signingKey;
 
   public JwtUtils(@Value("${jwt.secret}") String secret) {
     validateSecret(secret);
-
-    // ✅ Инициализация для JJWT 0.12.x (единственный правильный путь)
     this.signingKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     this.jwtParser = Jwts.parser()
         .verifyWith(signingKey)
@@ -89,8 +87,13 @@ public class JwtUtils {
     return extractClaim(token, Claims::getSubject);
   }
 
+  public String getEmail(Claims claims) {
+    return claims.get("email", String.class);
+  }
+
   public String getAccountId(Claims claims) {
     return claims.getSubject();
   }
+
 
 }

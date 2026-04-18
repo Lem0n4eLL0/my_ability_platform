@@ -1,12 +1,14 @@
 package com.example.GigAnt.authentication.controller;
 
-import com.example.GigAnt.authentication.model.dto.request.DataRegistrationRequest;
+import com.example.GigAnt.authentication.model.dto.request.EmailConfirmRequest;
 import com.example.GigAnt.authentication.model.dto.request.RegisterRequest;
 import com.example.GigAnt.authentication.model.dto.response.Auth;
-import com.example.GigAnt.authentication.model.dto.response.DataRegistrationResponse;
 import com.example.GigAnt.authentication.model.dto.response.RegisterResponse;
+import com.example.GigAnt.authentication.model.entity.Account;
 import com.example.GigAnt.authentication.service.AccountService;
 import com.example.GigAnt.authentication.service.AuthenticationService;
+import com.example.GigAnt.authentication.service.EmailVerificationService;
+import com.example.GigAnt.authentication.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +24,8 @@ public class RegistrationController {
 
   private final AccountService accountService;
   private final AuthenticationService authenticationService;
+  private final EmailVerificationService emailVerificationService;
+  private final JwtService jwtService;
 
   @PostMapping("/step-one")
   public ResponseEntity<RegisterResponse> registerAccount(
@@ -30,14 +34,13 @@ public class RegistrationController {
   }
 
   @PostMapping("/confirm-email")
-  public ResponseEntity<Auth> confirmEmail(@RequestBody Auth token) {
+  public ResponseEntity<Auth> confirmEmail(@RequestBody EmailConfirmRequest request) {
+    Account account = emailVerificationService.confirmEmail(request);
+    var tokens = jwtService.getTokens(account);
+    return ResponseEntity.ok(new Auth(tokens.get("accessToken")));
+
 
   }
 
-  @PostMapping("/step-three")
-  public ResponseEntity<DataRegistrationResponse> registerFinalStep(@RequestBody
-  DataRegistrationRequest request) {
-
-  }
 
 }
