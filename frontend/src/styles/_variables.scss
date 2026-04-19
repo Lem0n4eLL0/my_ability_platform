@@ -16,9 +16,9 @@ $font-h2: (
 );
 
 $font-h3: (
-  size: 3rem,
-  line-height: 1.2,
-  weight: 600,
+  size: clamp(1.25rem, calc(1.17857143rem + 0.35714286vw), 1.5rem),
+  line-height: inherit,
+  weight: 500,
 );
 
 $form-title: (

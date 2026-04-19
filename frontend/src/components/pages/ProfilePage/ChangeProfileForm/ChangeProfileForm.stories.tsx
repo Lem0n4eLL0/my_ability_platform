@@ -1,16 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
 import { ChangeProfileForm } from './ChangeProfileForm';
-import { configureStore } from '@reduxjs/toolkit';
-import { Provider } from 'react-redux';
-import { userReduser } from '@/services/slices/user';
 import { User } from '@/common/commonTypes';
-
-const createMockStore = () =>
-  configureStore({
-    reducer: {
-      user: userReduser,
-    },
-  });
+import { fn } from 'storybook/test';
 
 const mockUser: User = {
   id: 1,
@@ -19,11 +10,11 @@ const mockUser: User = {
   surname: 'Александрович',
   birthday: '2004-12-10T17:35:31.927032488Z',
   profileUniqeLink: 'https://exemple.com',
-  aboutMyself: undefined,
+  aboutMyself: null,
   contactPhone: '+79171647381',
   github: 'https://github.com/vlad',
   email: 'vladislavche@bk.ru',
-  avatarLink: undefined,
+  avatarLink: null,
   role: 'APPLICANT',
   projects: [],
   educations: [],
@@ -35,14 +26,8 @@ const meta = {
   title: 'ChangeProfileForm',
   component: ChangeProfileForm,
   tags: ['autodocs'],
-  decorators: [
-    Story => (
-      <Provider store={createMockStore()}>
-        <Story />
-      </Provider>
-    ),
-  ],
   args: {
+    onСancel: fn(),
     user: mockUser,
   },
 } satisfies Meta<typeof ChangeProfileForm>;
@@ -57,9 +42,9 @@ export const ChangeProfileFormEmptyFields: Story = {
   args: {
     user: {
       ...mockUser,
-      github: undefined,
-      contactPhone: undefined,
-      surname: undefined,
+      github: null,
+      contactPhone: null,
+      surname: null,
     },
   },
 };

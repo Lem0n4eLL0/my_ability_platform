@@ -1,0 +1,42 @@
+@use '@styles/variables' as *;
+@use '@styles/mixins' as *;
+
+.fill-profile {
+  text-wrap: nowrap;
+
+  &__title {
+    @include typography($font-h3);
+    margin: 0 0 20px 0;
+  }
+
+  &__list {
+    display: flex;
+    gap: 12px 10px;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;
+  }
+
+  &__list-item {
+    list-style: none;
+
+    border-radius: 10px;
+    background-color: $neutral-100;
+  }
+
+  &__link {
+    display: inline-block;
+    padding: 4px 10px;
+    text-decoration: none;
+    font-size: 18px;
+    color: currentColor;
+  }
+}
+
+@media (max-width: 768px) {
+  .fill-profile {
+    &__list {
+      gap: 8px 6px;
+    }
+  }
+}

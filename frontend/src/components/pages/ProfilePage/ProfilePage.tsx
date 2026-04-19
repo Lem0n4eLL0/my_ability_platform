@@ -4,6 +4,7 @@ import { selectUser } from '@/services/slices/user';
 import { fullNameFormatter } from '@/utils/formatters';
 import { ChangeProfileForm } from './ChangeProfileForm';
 import { SyntheticEvent, useState } from 'react';
+import { FillProfile } from './FillProfile';
 
 export const ProfilePage = () => {
   const user = useAppSelector(selectUser);
@@ -30,12 +31,7 @@ export const ProfilePage = () => {
           )}
         </div>
         {isChangeProfile && <ChangeProfileForm user={user} onСancel={onClose} />}
-        <div className={style['fill-profile']}>
-          <h2 className={style['fill-profile__title']}>Можете дополнить профиль</h2>
-          <ul className={style['fill-profile__list']}>
-            <li className={style['fill-profile__list-item']}></li>
-          </ul>
-        </div>
+        {<FillProfile user={user} />}
       </div>
       <div className={style['profile__dividing-line']}></div>
       <div className={style['profile__information']}></div>
