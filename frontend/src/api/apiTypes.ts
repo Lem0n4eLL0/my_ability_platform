@@ -1,8 +1,7 @@
 import { VALIDATION_ERROR, ZOD_ENTITY } from '@/common/constants';
-import { CarouselTaskDto } from './dto/dto';
+import { CarouselTaskDto, TestResultDTO } from './dto/dto';
 import * as z from 'zod';
 import {
-  TestResult,
   UserCertificate,
   UserEducation,
   UserProject,
@@ -92,7 +91,7 @@ export type ConfirmEmailRequest = {
 
 export const registrationStepThreeRequest = z.object({
   firstName: ZOD_ENTITY.USER.FIRST_NAME,
-  lastName: ZOD_ENTITY.USER.LAST_NAME,
+  lastName: ZOD_ENTITY.USER.SECOND_NAME,
   surname: ZOD_ENTITY.USER.SURNAME,
   birthday: ZOD_ENTITY.USER.BIRTHDAY,
 });
@@ -120,8 +119,14 @@ export type UserEducationRequest = OmitID<UserEducation>;
 export type UserWorkExperienceRequest = OmitID<UserWorkExperience>;
 export type UserCertificateRequest = OmitID<UserCertificate>;
 export type TestResultRequest = {
-  testsResult: Array<TestResult>;
+  testsResult: Array<TestResultDTO>;
 };
 export type TestResultsHistoryRequest = {
-  testResults: Array<TestResult>;
+  testResults: Array<TestResultDTO>;
 };
+
+export const ChangeMainProfileRequestSchema = z.object({
+  surname: ZOD_ENTITY.USER.SURNAME,
+  contactPhone: ZOD_ENTITY.USER.CONTACT_PHONE,
+  github: ZOD_ENTITY.USER.GITHUB,
+});

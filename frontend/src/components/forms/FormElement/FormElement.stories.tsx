@@ -25,13 +25,6 @@ export const LabeledInputElement: Story = {
   },
 };
 
-export const RequiredLabeledInputElement: Story = {
-  args: {
-    label: 'Имя',
-    isRequired: true,
-  },
-};
-
 export const LabeledErrorInputElement: Story = {
   args: {
     label: 'Имя',

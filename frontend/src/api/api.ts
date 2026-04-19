@@ -18,18 +18,25 @@ import {
   UserWorkExperienceRequest,
 } from './apiTypes';
 import {
+  certificateResponseMapper,
+  educationResponseMapper,
   mapCarouselTasksResponseToDomain,
   mapStepThreeRequestToDTO,
   mapTasksResponseToDomain,
+  projectResponseMapper,
+  testResultResponseMapper,
+  userResponseMapper,
+  workExperienceResponseMapper,
 } from './dto/schemas';
-import { TasksResponseDto } from './dto/dto';
 import {
-  User,
-  UserCertificate,
-  UserEducation,
-  UserProject,
-  UserWorkExperience,
-} from '@/common/commonTypes';
+  TasksResponseDto,
+  UserCertificateDTO,
+  UserDTO,
+  UserEducationDTO,
+  UserProjectDTO,
+  UserWorkExperienceDTO,
+} from './dto/dto';
+import { User } from '@/common/commonTypes';
 
 export const URL_API = import.meta.env.VITE_APP_API_URL || '';
 
@@ -124,99 +131,109 @@ export const authenticationRequest = (body: AuthenticationRequest) => {
 
 // Profile
 export const getProfile = () => {
-  return fetchWithRefresh<User>(bulidURL('me'), {
+  return fetchWithRefresh<UserDTO>(bulidURL('me'), {
     method: HTTP_METHODS.GET,
     headers: baseHeaders,
-  });
+  }).then(userResponseMapper);
+};
+
+export type ChangeMainProfileRequest = Partial<Pick<User, 'surname' | 'github' | 'contactPhone'>>;
+
+export const updateProfile = (body: ChangeMainProfileRequest) => {
+  return fetchWithRefresh<UserDTO>(bulidURL('me'), {
+    method: HTTP_METHODS.PATCH,
+    headers: baseHeaders,
+    body: JSON.stringify(body),
+  }).then(userResponseMapper);
 };
 
 // Me Projects
 
 export const createProject = (body: UserProjectRequest) => {
-  return fetchWithRefresh<UserProject>(bulidURL('me/project'), {
+  return fetchWithRefresh<UserProjectDTO>(bulidURL('me/project'), {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
     body: JSON.stringify(body),
-  });
+  }).then(projectResponseMapper);
 };
-export const updateProject = (id: string, body: UserProjectRequest) => {
-  return fetchWithRefresh<UserProject>(bulidURL(`me/project/${id}`), {
+export const updateProject = (props: { id: string; body: UserProjectRequest }) => {
+  return fetchWithRefresh<UserProjectDTO>(bulidURL(`me/project/${props.id}`), {
     method: HTTP_METHODS.PUT,
     headers: baseHeaders,
-    body: JSON.stringify(body),
-  });
+    body: JSON.stringify(props.body),
+  }).then(projectResponseMapper);
 };
 export const deleteProject = (id: string) => {
-  return fetchWithRefresh<UserProject>(bulidURL(`me/project/${id}`), {
+  return fetchWithRefresh<UserProjectDTO>(bulidURL(`me/project/${id}`), {
     method: HTTP_METHODS.DELETE,
     headers: baseHeaders,
-  });
+  }).then(projectResponseMapper);
 };
 
 // Me Educations
 export const createEducation = (body: UserEducationRequest) => {
-  return fetchWithRefresh<UserEducation>(bulidURL('me/education'), {
+  return fetchWithRefresh<UserEducationDTO>(bulidURL('me/education'), {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
     body: JSON.stringify(body),
-  });
+  }).then(educationResponseMapper);
 };
-export const updateEducation = (id: string, body: UserEducationRequest) => {
-  return fetchWithRefresh<UserEducation>(bulidURL(`me/education/${id}`), {
+export const updateEducation = (props: { id: string; body: UserEducationRequest }) => {
+  return fetchWithRefresh<UserEducationDTO>(bulidURL(`me/education/${props.id}`), {
     method: HTTP_METHODS.PUT,
     headers: baseHeaders,
-    body: JSON.stringify(body),
-  });
+    body: JSON.stringify(props.body),
+  }).then(educationResponseMapper);
 };
 export const deleteEducation = (id: string) => {
-  return fetchWithRefresh<UserEducation>(bulidURL(`me/education/${id}`), {
+  return fetchWithRefresh<UserEducationDTO>(bulidURL(`me/education/${id}`), {
     method: HTTP_METHODS.PUT,
     headers: baseHeaders,
-  });
+  }).then(educationResponseMapper);
 };
 
-// Me Educations
+// Me Work Experience
 export const createWorkExperience = (body: UserWorkExperienceRequest) => {
-  return fetchWithRefresh<UserWorkExperience>(bulidURL(`me/work-experience`), {
+  return fetchWithRefresh<UserWorkExperienceDTO>(bulidURL(`me/work-experience`), {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
     body: JSON.stringify(body),
-  });
+  }).then(workExperienceResponseMapper);
 };
-export const updateWorkExperience = (id: string, body: UserWorkExperienceRequest) => {
-  return fetchWithRefresh<UserWorkExperience>(bulidURL(`me/work-experience/${id}`), {
+export const updateWorkExperience = (props: { id: string; body: UserWorkExperienceRequest }) => {
+  return fetchWithRefresh<UserWorkExperienceDTO>(bulidURL(`me/work-experience/${props.id}`), {
     method: HTTP_METHODS.PUT,
     headers: baseHeaders,
-    body: JSON.stringify(body),
-  });
+    body: JSON.stringify(props.body),
+  }).then(workExperienceResponseMapper);
 };
 export const deleteWorkExperience = (id: string) => {
-  return fetchWithRefresh<UserWorkExperience>(bulidURL(`me/work-experience/${id}`), {
+  return fetchWithRefresh<UserWorkExperienceDTO>(bulidURL(`me/work-experience/${id}`), {
     method: HTTP_METHODS.DELETE,
     headers: baseHeaders,
-  });
+  }).then(workExperienceResponseMapper);
 };
 
 // Me Certificate
 export const createCertificate = (body: UserCertificateRequest) => {
-  return fetchWithRefresh<UserCertificate>(bulidURL(`me/certificate`), {
+  return fetchWithRefresh<UserCertificateDTO>(bulidURL(`me/certificate`), {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
     body: JSON.stringify(body),
-  });
+  }).then(certificateResponseMapper);
 };
-export const updateCertificate = (id: string, body: UserCertificateRequest) => {
-  return fetchWithRefresh<UserCertificate>(bulidURL(`me/certificate/${id}`), {
+export const updateCertificate = (props: { id: string; body: UserCertificateRequest }) => {
+  return fetchWithRefresh<UserCertificateDTO>(bulidURL(`me/certificate/${props.id}`), {
     method: HTTP_METHODS.PUT,
     headers: baseHeaders,
-    body: JSON.stringify(body),
-  });
+    body: JSON.stringify(props.body),
+  }).then(certificateResponseMapper);
 };
 export const deleteCertificate = (id: string) => {
-  return fetchWithRefresh<UserCertificate>(bulidURL(`me/certificate/${id}`), {
+  return fetchWithRefresh<UserCertificateDTO>(bulidURL(`me/certificate/${id}`), {
     method: HTTP_METHODS.DELETE,
     headers: baseHeaders,
-  });
+  }).then(certificateResponseMapper);
 };
 
 // Tests
@@ -224,8 +241,9 @@ export const getTestsResult = () => {
   return fetchWithRefresh<TestResultRequest>(bulidURL(`me/tests-result`), {
     method: HTTP_METHODS.GET,
     headers: baseHeaders,
-  }).then(res => res.testsResult);
+  }).then(res => res.testsResult.map(testResultResponseMapper));
 };
+
 export const getTestResultsHistory = (testId: string) => {
   return fetchWithRefresh<TestResultsHistoryRequest>(
     bulidURL(`me/test-results/history/${testId}`),
@@ -233,7 +251,7 @@ export const getTestResultsHistory = (testId: string) => {
       method: HTTP_METHODS.GET,
       headers: baseHeaders,
     }
-  ).then(res => res.testResults);
+  ).then(res => res.testResults.map(testResultResponseMapper));
 };
 
 export const logoutMe = () => {

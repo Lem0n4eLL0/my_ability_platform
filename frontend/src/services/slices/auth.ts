@@ -174,7 +174,6 @@ const authSlice = createSlice({
         state.isAuthInitializing = false;
         state.isProfileRegistered = false;
         const error = action.payload as RequestError;
-        console.log(error);
         if (error.errorCode === RESPONSE_ERRORS.REFRESH_TOKEN_EXPIRED) {
           state.isUserAuthenticated = false;
         } else if (error.errorCode === RESPONSE_ERRORS.PROFILE_NOT_REGISTERED) {

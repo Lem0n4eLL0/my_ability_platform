@@ -1,4 +1,4 @@
-import { TEST_LEVELS, TestLevel } from '@/common/commonTypes';
+import { TEST_LEVELS, TestLevel, User } from '@/common/commonTypes';
 
 export const totalTaskFormatter = (value: number, lable: string = 'тестов'): string => {
   const strValue = String(value);
@@ -17,4 +17,12 @@ export const formatZError = (value: { [key: string]: string[] }): { [key: string
   return Object.fromEntries(
     Object.entries(value).map(([key, messages]) => [key, messages[0] ?? ''])
   );
+};
+
+export const fullNameFormatter = (user: User): string => {
+  return `${user.firstName} ${user.secondName}` + (user.surname ? user.surname : '');
+};
+
+export const dateForInputFormatter = (date: Date): string => {
+  return date.toISOString().split('T')[0];
 };

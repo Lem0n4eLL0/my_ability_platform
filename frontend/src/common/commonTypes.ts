@@ -12,6 +12,13 @@ export const TEST_LEVELS = {
 
 export type TestLevel = keyof typeof TEST_LEVELS;
 
+export const TEST_LEVELS_PRIORITY: Record<TestLevel, number> = {
+  ENTRANCE: 1,
+  MEDIUM: 2,
+  HARD: 3,
+  EXPERT: 4,
+};
+
 export type TaskBase = {
   id: UUID;
   title: string;
@@ -31,46 +38,46 @@ export type ComparePreviewTask = Task;
 export const USER_ROLES = ['ADMIN', 'APPLICANT', 'COMPANY'] as const;
 export type UserRole = (typeof USER_ROLES)[number];
 
-const UserProject = z.object({
+export const UserProjectSchema = z.object({
   id: ZOD_ENTITY.UUID,
   title: ZOD_ENTITY.USER_PROJECT.TITLE,
   description: ZOD_ENTITY.USER_PROJECT.DESCRIPTION,
   link: ZOD_ENTITY.LINK,
 });
-export type UserProject = z.infer<typeof UserProject>;
+export type UserProject = z.infer<typeof UserProjectSchema>;
 
-const UserEducation = z.object({
+export const UserEducationSchema = z.object({
   id: ZOD_ENTITY.UUID,
   city: ZOD_ENTITY.CITY,
   university: ZOD_ENTITY.USER_EDUCATION.UNIVERSITY,
   faculty: ZOD_ENTITY.USER_EDUCATION.FACULTY,
   specialization: ZOD_ENTITY.USER_EDUCATION.SPECIALIZATION,
   status: ZOD_ENTITY.USER_EDUCATION.STATUS,
-  dataGradudatuion: ZOD_ENTITY.USER_EDUCATION.DATA_GRADUDATUION,
+  yearGradudatuion: ZOD_ENTITY.USER_EDUCATION.YEAR_GRADUDATUION,
 });
-export type UserEducation = z.infer<typeof UserEducation>;
+export type UserEducation = z.infer<typeof UserEducationSchema>;
 
-const UserWorkExperience = z.object({
+export const UserWorkExperienceSchema = z.object({
   id: ZOD_ENTITY.UUID,
   city: ZOD_ENTITY.CITY,
   company: ZOD_ENTITY.USER_WORK_EXPERIENCE.COMPANY,
-  yearStart: ZOD_ENTITY.USER_WORK_EXPERIENCE.DATE_START,
-  yearEnd: ZOD_ENTITY.USER_WORK_EXPERIENCE.DATE_END,
+  dateStart: ZOD_ENTITY.USER_WORK_EXPERIENCE.DATE_START,
+  dateEnd: ZOD_ENTITY.USER_WORK_EXPERIENCE.DATE_END,
   post: ZOD_ENTITY.USER_WORK_EXPERIENCE.POST,
 });
-export type UserWorkExperience = z.infer<typeof UserWorkExperience>;
+export type UserWorkExperience = z.infer<typeof UserWorkExperienceSchema>;
 
-const UserCertificate = z.object({
+export const UserCertificateSchema = z.object({
   id: ZOD_ENTITY.UUID,
   title: ZOD_ENTITY.USER_CERTIFICATES.TITLE,
   link: ZOD_ENTITY.LINK,
 });
-export type UserCertificate = z.infer<typeof UserCertificate>;
+export type UserCertificate = z.infer<typeof UserCertificateSchema>;
 
-const User = z.object({
+export const UserSchema = z.object({
   id: ZOD_ENTITY.USER.ID_USER,
   firstName: ZOD_ENTITY.USER.FIRST_NAME,
-  lastName: ZOD_ENTITY.USER.LAST_NAME,
+  secondName: ZOD_ENTITY.USER.SECOND_NAME,
   surname: ZOD_ENTITY.USER.SURNAME,
   birthday: ZOD_ENTITY.USER.BIRTHDAY,
   profileUniqeLink: ZOD_ENTITY.LINK,
@@ -78,29 +85,30 @@ const User = z.object({
   contactPhone: ZOD_ENTITY.USER.CONTACT_PHONE,
   github: ZOD_ENTITY.USER.GITHUB,
   email: ZOD_ENTITY.EMAIL,
-  avatarLink: ZOD_ENTITY.LINK,
+  avatarLink: ZOD_ENTITY.LINK.nullable(),
   role: z.enum(USER_ROLES),
   get projects() {
-    return z.array(UserProject);
+    return z.array(UserProjectSchema);
   },
   get educations() {
-    return z.array(UserEducation);
+    return z.array(UserEducationSchema);
   },
   get workExperience() {
-    return z.array(UserWorkExperience);
+    return z.array(UserWorkExperienceSchema);
   },
   get certificates() {
-    return z.array(UserCertificate);
+    return z.array(UserCertificateSchema);
   },
 });
-export type User = z.infer<typeof User>;
+export type User = z.infer<typeof UserSchema>;
 
-const TestResult = z.object({
+export const TestResultSchema = z.object({
   id: ZOD_ENTITY.UUID,
   testId: ZOD_ENTITY.UUID,
   title: ZOD_ENTITY.TESTS.TESTS_RESULT,
   estimationProcent: ZOD_ENTITY.TESTS.TESTS_RESULT.ESTIMATION_PROCENT,
+  isTestPassed: z.boolean(),
   difficulty: z.enum(TEST_LEVELS),
   reconfirmationDate: ZOD_ENTITY.TESTS.TESTS_RESULT.RECONFIRMATION_DATE,
 });
-export type TestResult = z.infer<typeof TestResult>;
+export type TestResult = z.infer<typeof TestResultSchema>;

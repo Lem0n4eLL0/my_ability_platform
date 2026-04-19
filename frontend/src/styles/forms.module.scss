@@ -1,6 +1,16 @@
 @use './variables' as *;
 @use '@styles/mixins' as *;
 
+.form_field.field__error,
+.form_field_small.field__error {
+  &:hover,
+  &:focus,
+  &:focus-visible {
+    border-color: $error-color;
+  }
+  border-color: $error-color;
+}
+
 .form_field {
   width: 100%;
   height: 100%;
@@ -39,14 +49,39 @@
   &:focus-visible {
     outline: none;
   }
+}
 
-  &__error {
-    &:hover,
-    &:focus,
-    &:focus-visible {
-      border-color: $error-color;
+.form_field_small {
+  padding: 4px 6px;
+  background-color: inherit;
+  border: 1px solid $color-border-dark;
+  border-radius: 6px;
+  color: $color-text-primary;
+  font-size: 14px;
+
+  &::placeholder {
+    color: $color-text-disabled;
+  }
+
+  &:disabled {
+    color: $color-text-disabled;
+    background-color: $color-field-disabled;
+    border: 1px solid $color-field-disabled;
+  }
+
+  &:hover,
+  &:focus,
+  &:focus-visible {
+    border-color: $color-border-green;
+
+    &:disabled {
+      border-color: $color-field-disabled;
     }
-    border-color: $error-color;
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
   }
 }
 
@@ -67,13 +102,13 @@
 
   &:hover,
   &:focus {
-    background-color: rgba($color-bg-green, 0.9);
+    background-color: $green-button-color-hover;
     outline: none;
   }
 
   &:disabled {
     cursor: default;
-    background-color: rgba($color-bg-green, 0.6);
+    background-color: $green-button-color-disabled;
     color: $color-text-primary;
   }
 }

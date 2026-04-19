@@ -3,7 +3,7 @@ import z from 'zod';
 
 export const LOCAL_STORAGE_ACCESS_TOKEN_ALIAS = 'accessToken';
 
-//
+// Entity
 export const READY_REQUEST_STATUS: RequestStatus = {
   status: 'READY',
   error: undefined,
@@ -33,6 +33,7 @@ export const VALIDATION_ERROR = {
 };
 
 // ZOD Validation
+
 export const ZOD_ENTITY = {
   UUID: z.uuid(),
   EMAIL: z.email({ error: VALIDATION_ERROR.EMAIL }),
@@ -53,7 +54,7 @@ export const ZOD_ENTITY = {
       .max(50, VALIDATION_ERROR.MAX_SYMB(50, 'Имя'))
       .regex(/^[а-яА-ЯёЁa-zA-Z\s-]+$/, VALIDATION_ERROR.LETTERS_AND_SOME_SYMB)
       .transform(val => val.trim()),
-    LAST_NAME: z
+    SECOND_NAME: z
       .string()
       .min(1, 'Фамилия обязательна')
       .min(2, VALIDATION_ERROR.MIN_SYMB(2, 'Фамилия'))
@@ -61,33 +62,57 @@ export const ZOD_ENTITY = {
       .regex(/^[а-яА-ЯёЁa-zA-Z\s-]+$/, VALIDATION_ERROR.LETTERS_AND_SOME_SYMB)
       .transform(val => val.trim()),
     SURNAME: z
-      .string()
-      .min(2, VALIDATION_ERROR.MIN_SYMB(2, 'Отчество'))
-      .max(50, VALIDATION_ERROR.MAX_SYMB(50, 'Отчество'))
-      .regex(/^[а-яА-ЯёЁa-zA-Z\s-]+$/, VALIDATION_ERROR.LETTERS_AND_SOME_SYMB)
-      .transform(val => val.trim())
-      .optional(),
-    BIRTHDAY: z.date({ error: 'Дата рождения обязательна' }).refine(date => {
+      .literal('')
+      .or(
+        z
+          .string()
+          .min(2, VALIDATION_ERROR.MIN_SYMB(2, 'Отчество'))
+          .max(50, VALIDATION_ERROR.MAX_SYMB(50, 'Отчество'))
+          .regex(/^[а-яА-ЯёЁa-zA-Z\s-]+$/, VALIDATION_ERROR.LETTERS_AND_SOME_SYMB)
+      )
+      .transform(val => (val === '' ? null : val))
+      .nullable(),
+    BIRTHDAY: z.string({ error: 'Дата рождения обязательна' }).refine(dateString => {
       const today = new Date();
       const minDate = new Date(today.getFullYear() - 120, today.getMonth(), today.getDate());
       const maxDate = new Date(today.getFullYear() - 5, today.getMonth(), today.getDate());
+      const date = new Date(dateString);
       return date >= minDate && date <= maxDate;
     }, 'Возраст должен быть от 5 до 120 лет'),
     ABOUT_MYSELF: z
-      .string()
-      .min(2, VALIDATION_ERROR.MIN_SYMB(2, 'О себе'))
-      .max(255, VALIDATION_ERROR.MAX_SYMB(2, 'О себе'))
-      .optional(),
-    CONTACT_PHONE: z.e164().optional(),
-    GITHUB: z.url({ hostname: /^github\.com$/, protocol: /^https$/ }).optional(),
-    AVATAR_LINK: z.url().optional(),
+      .literal('')
+      .or(
+        z
+          .string()
+          .min(2, VALIDATION_ERROR.MIN_SYMB(2, 'О себе'))
+          .max(255, VALIDATION_ERROR.MAX_SYMB(2, 'О себе'))
+      )
+      .transform(val => (val === '' ? null : val))
+      .nullable(),
+    CONTACT_PHONE: z
+      .literal('')
+      .or(z.e164({ error: 'Неверный формат телефона' }))
+      .transform(val => (val === '' ? null : val))
+      .nullable(),
+    GITHUB: z
+      .literal('')
+      .or(
+        z.url({
+          hostname: /^github\.com$/,
+          protocol: /^https$/,
+          error: 'Допустима только ссылка на github',
+        })
+      )
+      .transform(val => (val === '' ? null : val))
+      .nullable(),
+    AVATAR_LINK: z.url().nullable(),
   },
   USER_PROJECT: {
     TITLE: z
       .string()
       .min(2, VALIDATION_ERROR.MIN_SYMB(2, 'Заголовок'))
       .max(50, VALIDATION_ERROR.MAX_SYMB(50, 'Заголовок')),
-    DESCRIPTION: z.string().max(255, VALIDATION_ERROR.MAX_SYMB(255, ' Описание')),
+    DESCRIPTION: z.string().max(255, VALIDATION_ERROR.MAX_SYMB(255, 'Описание')),
   },
   USER_EDUCATION: {
     UNIVERSITY: z
@@ -102,10 +127,10 @@ export const ZOD_ENTITY = {
       .string()
       .min(2, VALIDATION_ERROR.MIN_SYMB(2))
       .max(100, VALIDATION_ERROR.MAX_SYMB(100)),
-    STATUS: z.string().optional(),
-    DATA_GRADUDATUION: z
+    STATUS: z.string().nullable(),
+    YEAR_GRADUDATUION: z
       .number()
-      .optional()
+      .nullable()
       .refine(
         year => {
           if (!year) return true;
@@ -119,8 +144,15 @@ export const ZOD_ENTITY = {
       .string()
       .min(2, VALIDATION_ERROR.MIN_SYMB(2))
       .max(100, VALIDATION_ERROR.MAX_SYMB(100)),
-    DATE_START: z.date(),
-    DATE_END: z.date().max(new Date()).optional(),
+    DATE_START: z.string(),
+    DATE_END: z
+      .string()
+      .nullable()
+      .refine(dateStr => {
+        if (!dateStr) return;
+        const date = new Date(dateStr);
+        return date < new Date();
+      }, 'Нельзя выбрать дату в будущем'),
     POST: z.string().min(2, VALIDATION_ERROR.MIN_SYMB(2)).max(100, VALIDATION_ERROR.MAX_SYMB(100)),
   },
   USER_CERTIFICATES: {
@@ -133,7 +165,7 @@ export const ZOD_ENTITY = {
         .min(2, VALIDATION_ERROR.MIN_SYMB(2))
         .max(100, VALIDATION_ERROR.MAX_SYMB(100)),
       ESTIMATION_PROCENT: z.number().gte(0, 'Значение не может быть отрицательным'),
-      RECONFIRMATION_DATE: z.date().min(new Date()),
+      RECONFIRMATION_DATE: z.string(),
     },
   },
 };
