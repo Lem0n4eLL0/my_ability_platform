@@ -6,17 +6,16 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
 import { ChangeMainProfileRequestSchema } from '@/api/apiTypes';
-import { selectStatusesUser, updateProfileUser } from '@/services/slices/user';
+import { selectStatusesUser, updateMainProfileUser } from '@/services/slices/user';
 import { Input } from '@/components/forms/Input';
 import { useAppDispatch, useAppSelector } from '@/services/store';
 import { dateForInputFormatter } from '@/utils/formatters';
 import { ErrorField } from '@/components/forms/ErrorField';
 import clsx from 'clsx';
-import { SyntheticEvent } from 'react';
 
 export type IChangeProfileForm = {
   user: User;
-  onСancel: (e: SyntheticEvent<HTMLButtonElement>) => void;
+  onСancel: () => void;
 };
 
 export type ChangeMainProfileRequest = z.infer<typeof ChangeMainProfileRequestSchema>;
@@ -24,7 +23,7 @@ export type ChangeMainProfileRequest = z.infer<typeof ChangeMainProfileRequestSc
 export const ChangeProfileForm = (props: IChangeProfileForm) => {
   const { user, onСancel } = props;
   const dispatch = useAppDispatch();
-  const { updateProfileStatus } = useAppSelector(selectStatusesUser);
+  const { updateMainProfileStatus } = useAppSelector(selectStatusesUser);
   const {
     register,
     handleSubmit,
@@ -39,7 +38,7 @@ export const ChangeProfileForm = (props: IChangeProfileForm) => {
     },
   });
 
-  const changeProfileHandler = (data: ChangeMainProfileRequest) => {
+  const changeProfileHandler = async (data: ChangeMainProfileRequest) => {
     const response = Object.keys(dirtyFields).reduce((acc, key) => {
       if (dirtyFields[key as keyof typeof dirtyFields]) {
         acc[key as keyof ChangeMainProfileRequest] =
@@ -47,15 +46,18 @@ export const ChangeProfileForm = (props: IChangeProfileForm) => {
       }
       return acc;
     }, {} as Partial<ChangeMainProfileRequest>);
-    void dispatch(updateProfileUser(response));
+    const result = await dispatch(updateMainProfileUser(response));
+    if (result.meta.requestStatus === 'fulfilled') {
+      onСancel();
+    }
   };
 
   const birthday = dateForInputFormatter(new Date(user.birthday));
   const requestError = {
-    isError: !!updateProfileStatus.error,
-    message: updateProfileStatus.error?.message ?? '',
+    isError: !!updateMainProfileStatus.error,
+    message: updateMainProfileStatus.error?.message ?? '',
   };
-  const isUpdateProfileStatusPending = updateProfileStatus.status === 'PENDING';
+  const isUpdateProfileStatusPending = updateMainProfileStatus.status === 'PENDING';
 
   return (
     <form
@@ -152,12 +154,16 @@ export const ChangeProfileForm = (props: IChangeProfileForm) => {
         <div className={style['form__controls']}>
           <button
             type="submit"
-            className={clsx(style['form__button'], style['form__button_green'])}
+            className={clsx(formStyle['form__button_small'], formStyle['form__button_small_green'])}
             disabled={!isDirty || !isValid || isUpdateProfileStatusPending}
           >
             {!isUpdateProfileStatusPending ? 'Изменить' : 'Изменение...'}
           </button>
-          <button className={style['form__button']} type="button" onClick={onСancel}>
+          <button
+            className={clsx(formStyle['form__button_small'], style['form__сancel-button'])}
+            type="button"
+            onClick={onСancel}
+          >
             Отмена
           </button>
         </div>

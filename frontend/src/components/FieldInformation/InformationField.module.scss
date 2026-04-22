@@ -1,0 +1,92 @@
+@use '@styles/variables' as *;
+
+.information-field {
+  font-size: 20px;
+  color: $color-text-primary;
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+
+    &_end {
+      justify-content: flex-end;
+    }
+  }
+
+  &__title {
+    font-size: 22px;
+    margin: 0;
+    color: currentColor;
+  }
+
+  &__add-button {
+    font-size: 18px;
+    color: rgba($color-border-green, 0.8);
+    background-color: transparent;
+    border: none;
+    padding: 3px 0 2px;
+    transition: color $transition-duration-extra-small;
+
+    &:hover {
+      color: $color-border-green;
+    }
+    cursor: pointer;
+  }
+
+  &__content {
+    position: relative;
+    border: 1px solid $color-border-green;
+    border-radius: 16px;
+    padding: 16px 50px 16px 20px;
+  }
+
+  &__edit {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 22px;
+    height: 22px;
+    border: none;
+    background: transparent;
+
+    color: $color-border-green;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  &__edit svg {
+    fill: rgba($color-border-green, 0.7);
+    transition: fill $transition-duration-extra-small;
+  }
+
+  &__edit:hover svg {
+    fill: $color-border-green;
+  }
+}
+
+@media (max-width: 768px) {
+  .information-field {
+    font-size: 18px;
+
+    &__title {
+      font-size: 20px;
+    }
+
+    &__content {
+      padding: 12px 40px 12px 16px;
+    }
+
+    &__edit {
+      top: 8px;
+      right: 8px;
+      width: 20px;
+      height: 20px;
+    }
+
+    &__add-button {
+      font-size: 16px;
+    }
+  }
+}

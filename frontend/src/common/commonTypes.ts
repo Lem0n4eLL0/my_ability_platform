@@ -42,7 +42,7 @@ export const UserProjectSchema = z.object({
   id: ZOD_ENTITY.UUID,
   title: ZOD_ENTITY.USER_PROJECT.TITLE,
   description: ZOD_ENTITY.USER_PROJECT.DESCRIPTION,
-  link: ZOD_ENTITY.LINK,
+  link: ZOD_ENTITY.USER.GITHUB,
 });
 export type UserProject = z.infer<typeof UserProjectSchema>;
 
@@ -70,7 +70,7 @@ export type UserWorkExperience = z.infer<typeof UserWorkExperienceSchema>;
 export const UserCertificateSchema = z.object({
   id: ZOD_ENTITY.UUID,
   title: ZOD_ENTITY.USER_CERTIFICATES.TITLE,
-  link: ZOD_ENTITY.LINK,
+  link: ZOD_ENTITY.EXTERNAL_LINK,
 });
 export type UserCertificate = z.infer<typeof UserCertificateSchema>;
 

@@ -100,7 +100,7 @@ export const projectResponseMapper = (dto: UserProjectDTO): UserProject => {
   };
 
   const res = UserProjectSchema.safeParse(result);
-  console.log(res);
+  // console.log(res);
   return result;
 };
 
@@ -116,7 +116,7 @@ export const educationResponseMapper = (dto: UserEducationDTO): UserEducation =>
   };
 
   const res = UserEducationSchema.safeParse(result);
-  console.log(res);
+  // console.log(res);
   return result;
 };
 
@@ -131,7 +131,7 @@ export const workExperienceResponseMapper = (dto: UserWorkExperienceDTO): UserWo
   };
 
   const res = UserWorkExperienceSchema.safeParse(result);
-  console.log(res);
+  // console.log(res);
   return result;
 };
 
@@ -143,7 +143,7 @@ export const certificateResponseMapper = (dto: UserCertificateDTO): UserCertific
   };
 
   const res = UserCertificateSchema.safeParse(result);
-  console.log(res);
+  // console.log(res);
   return result;
 };
 
@@ -168,7 +168,7 @@ export const userResponseMapper = (dto: UserDTO): User => {
   };
 
   const res = UserSchema.safeParse(result);
-  console.log(res);
+  // console.log(res);
   return result;
 };
 
@@ -184,6 +184,6 @@ export const testResultResponseMapper = (dto: TestResultDTO): TestResult => {
   };
 
   const res = TestResultSchema.safeParse(result);
-  console.log(res);
+  // console.log(res);
   return result;
 };

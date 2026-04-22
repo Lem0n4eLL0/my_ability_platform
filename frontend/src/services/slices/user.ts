@@ -31,7 +31,8 @@ const createSlice = buildCreateSlice({
 type UserState = {
   statuses: {
     getProfileStatus: RequestStatus;
-    updateProfileStatus: RequestStatus;
+    updateMainProfileStatus: RequestStatus;
+    updateAboutMyselfStatus: RequestStatus;
     createProjectStatus: RequestStatus;
     updateProjectStatus: RequestStatus;
     deleteProjectStatus: RequestStatus;
@@ -61,7 +62,8 @@ type UserState = {
 const initialState: UserState = {
   statuses: {
     getProfileStatus: READY_REQUEST_STATUS,
-    updateProfileStatus: READY_REQUEST_STATUS,
+    updateMainProfileStatus: READY_REQUEST_STATUS,
+    updateAboutMyselfStatus: READY_REQUEST_STATUS,
     createProjectStatus: READY_REQUEST_STATUS,
     updateProjectStatus: READY_REQUEST_STATUS,
     deleteProjectStatus: READY_REQUEST_STATUS,
@@ -92,7 +94,6 @@ const userSlice = createSlice({
         try {
           return await getProfile();
         } catch (e) {
-          console.log(e);
           return rejectWithValue(e);
         }
       },
@@ -113,18 +114,34 @@ const userSlice = createSlice({
       }
     ),
 
-    updateProfile: create.asyncThunk(updateProfile, {
+    updateMainProfile: create.asyncThunk(updateProfile, {
       pending: state => {
-        state.statuses.updateProfileStatus.status = 'PENDING';
-        state.statuses.updateProfileStatus.error = undefined;
+        state.statuses.updateMainProfileStatus.status = 'PENDING';
+        state.statuses.updateMainProfileStatus.error = undefined;
       },
       rejected: (state, action) => {
-        state.statuses.updateProfileStatus.status = 'ERROR';
-        state.statuses.updateProfileStatus.error = action.error as RequestError;
+        state.statuses.updateMainProfileStatus.status = 'ERROR';
+        state.statuses.updateMainProfileStatus.error = action.error as RequestError;
       },
       fulfilled: (state, action) => {
-        state.statuses.updateProfileStatus.status = 'SUCCESS';
-        state.statuses.updateProfileStatus.error = undefined;
+        state.statuses.updateMainProfileStatus.status = 'SUCCESS';
+        state.statuses.updateMainProfileStatus.error = undefined;
+        state.data.user = action.payload;
+      },
+    }),
+
+    updateAboutMyself: create.asyncThunk(updateProfile, {
+      pending: state => {
+        state.statuses.updateAboutMyselfStatus.status = 'PENDING';
+        state.statuses.updateAboutMyselfStatus.error = undefined;
+      },
+      rejected: (state, action) => {
+        state.statuses.updateAboutMyselfStatus.status = 'ERROR';
+        state.statuses.updateAboutMyselfStatus.error = action.error as RequestError;
+      },
+      fulfilled: (state, action) => {
+        state.statuses.updateAboutMyselfStatus.status = 'SUCCESS';
+        state.statuses.updateAboutMyselfStatus.error = undefined;
         state.data.user = action.payload;
       },
     }),
@@ -427,6 +444,7 @@ const userSlice = createSlice({
       }
       return results;
     },
+    selectUserIcon: store => store.data.user?.avatarLink,
     selectStatuses: store => store.statuses,
   },
 });
@@ -442,7 +460,8 @@ export const userReduser = userSlice.reducer;
 
 export const {
   getProfile: getProfileUser,
-  updateProfile: updateProfileUser,
+  updateMainProfile: updateMainProfileUser,
+  updateAboutMyself: updateAboutMyselfUser,
   createProject: createProjectUser,
   updateProject: updateProjectUser,
   deleteProject: deleteProjectUser,
@@ -462,6 +481,7 @@ export const {
 export const {
   selectData,
   selectUser,
+  selectUserIcon,
   selectTestsResult,
   selectEmail,
   selectStatuses: selectStatusesUser,

@@ -85,6 +85,23 @@
   animation: loader-animation 0.8s infinite linear;
 }
 
+.profile__avatar-base {
+  fill: $icon-profile-color;
+}
+
+.info {
+  &__list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+  }
+  &__list-item {
+  }
+}
+
 @keyframes loader-animation {
   0% {
     transform: rotateZ(0deg);

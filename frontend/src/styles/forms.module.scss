@@ -113,6 +113,38 @@
   }
 }
 
+.form__button_small {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: none;
+  background-color: $color-bg-clear;
+  color: currentColor;
+  transition: background-color $transition-duration-extra-small;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $grey-button-color-hover;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &_green {
+    background-color: $color-bg-green;
+    color: $color-text-accent;
+
+    &:hover {
+      background-color: $green-button-color-hover;
+    }
+
+    &:disabled {
+      background-color: $green-button-color-disabled;
+      color: $color-text-primary;
+    }
+  }
+}
+
 .auth-form {
   &__content {
     padding: 20px 20px;

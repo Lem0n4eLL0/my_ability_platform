@@ -6,7 +6,7 @@
 
   &__title {
     @include typography($font-h3);
-    margin: 0 0 20px 0;
+    margin: 0 0 16px 0;
   }
 
   &__list {
@@ -19,17 +19,20 @@
 
   &__list-item {
     list-style: none;
-
+    background-color: $color-bg-clear;
+    box-shadow: $shadow-small;
     border-radius: 10px;
-    background-color: $neutral-100;
+    overflow: hidden;
   }
 
-  &__link {
+  &__button {
     display: inline-block;
     padding: 4px 10px;
     text-decoration: none;
+    border: none;
     font-size: 18px;
     color: currentColor;
+    cursor: pointer;
   }
 }
 
@@ -37,6 +40,15 @@
   .fill-profile {
     &__list {
       gap: 8px 6px;
+    }
+
+    &__title {
+      margin: 0 0 10px 0;
+    }
+
+    &__button {
+      padding: 3px 8px;
+      font-size: 16px;
     }
   }
 }

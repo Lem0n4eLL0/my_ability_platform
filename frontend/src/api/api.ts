@@ -138,8 +138,11 @@ export const getProfile = () => {
 };
 
 export type ChangeMainProfileRequest = Partial<Pick<User, 'surname' | 'github' | 'contactPhone'>>;
+export type UpdateProfileRequest = Partial<
+  Pick<User, 'surname' | 'github' | 'contactPhone' | 'aboutMyself'>
+>;
 
-export const updateProfile = (body: ChangeMainProfileRequest) => {
+export const updateProfile = (body: UpdateProfileRequest) => {
   return fetchWithRefresh<UserDTO>(bulidURL('me'), {
     method: HTTP_METHODS.PATCH,
     headers: baseHeaders,

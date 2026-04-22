@@ -45,6 +45,18 @@ export const ZOD_ENTITY = {
     .regex(/\d/, 'Нужна хотя бы одна цифра'),
   CITY: z.string().min(1, VALIDATION_ERROR.MIN_SYMB(1)).max(50, VALIDATION_ERROR.MAX_SYMB(50)),
   LINK: z.url(),
+  GITHUB: z.url({
+    hostname: /^github\.com$/,
+    protocol: /^https$/,
+    error: 'Допустима только ссылка на github',
+  }),
+  EXTERNAL_LINK: z.url({
+    hostname:
+      /^(drive\.google\.com|docs\.google\.com|yadi\.sk|disk\.yandex\.(ru|com)|(www\.)?dropbox\.com|1drv\.ms|onedrive\.live\.com|mega\.nz|cloud\.mail\.ru|box\.com)$/,
+    protocol: /^https$/,
+    error:
+      'Допустима только ссылка на облачное хранилище (Google Drive, Яндекс.Диск, Dropbox, OneDrive, Mega, Cloud Mail.ru, Box)',
+  }),
   USER: {
     ID_USER: z.number(),
     FIRST_NAME: z
@@ -85,7 +97,7 @@ export const ZOD_ENTITY = {
         z
           .string()
           .min(2, VALIDATION_ERROR.MIN_SYMB(2, 'О себе'))
-          .max(255, VALIDATION_ERROR.MAX_SYMB(2, 'О себе'))
+          .max(512, VALIDATION_ERROR.MAX_SYMB(512, 'О себе'))
       )
       .transform(val => (val === '' ? null : val))
       .nullable(),

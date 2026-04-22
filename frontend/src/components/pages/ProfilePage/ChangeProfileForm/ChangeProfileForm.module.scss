@@ -5,7 +5,7 @@
   flex-direction: column;
   gap: 20px;
   color: $color-text-primary;
-  max-width: min-content;
+  max-width: 190px;
   font-size: 16px;
 
   &__fieldset {
@@ -44,36 +44,7 @@
     margin-top: 4px;
   }
 
-  &__button {
-    padding: 6px 8px;
-    border: 1px solid $color-border-dark;
-    border-radius: 6px;
-    background-color: transparent;
-    color: currentColor;
-    transition: background-color $transition-duration-extra-small;
-
-    &:hover {
-      cursor: pointer;
-      background-color: $grey-button-color-hover;
-    }
-
-    &:disabled {
-      cursor: default;
-    }
-
-    &_green {
-      background-color: $color-bg-green;
-      color: $color-text-accent;
-      border: none;
-
-      &:hover {
-        background-color: $green-button-color-hover;
-      }
-
-      &:disabled {
-        background-color: $green-button-color-disabled;
-        color: $color-text-primary;
-      }
-    }
+  &__сancel-button {
+    box-shadow: $shadow-small;
   }
 }

@@ -20,7 +20,7 @@ export const formatZError = (value: { [key: string]: string[] }): { [key: string
 };
 
 export const fullNameFormatter = (user: User): string => {
-  return `${user.firstName} ${user.secondName}` + (user.surname ? user.surname : '');
+  return `${user.secondName} ${user.firstName} ` + (user.surname ? user.surname : '');
 };
 
 export const dateForInputFormatter = (date: Date): string => {
