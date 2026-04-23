@@ -1,0 +1,34 @@
+jwt:
+  secret: "my-super-secret-key-32-chars-long!"
+  access:
+    expiration: 3600000
+  refresh:
+    expiration: 86400000
+  email:
+    expiration: 3600000
+server:
+  servlet:
+    context-path: /api/v1
+spring:
+  mail:
+    host: smtp.yandex.ru
+    port: 587
+    username: ${MAIL}
+    password: ${MAIL_PASSWORD}
+    #    username: rsasa7864@gmail.com
+    #    password: f&-kf(eMj!H-
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+api:
+  domain: ${API_DOMAIN}
+  version: ${APP_VERSION}
+

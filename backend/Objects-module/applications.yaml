@@ -1,0 +1,14 @@
+resilience4j:
+  retry:
+    instances:
+      fileOperations:
+        max-attempts: 3
+        wait-duration: 1s
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2
+
+  timelimiter:
+    instances:
+      fileOperations:
+        timeout-duration: 10s
+        cancel-running-future: true

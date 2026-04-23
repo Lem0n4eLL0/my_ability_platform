@@ -1,0 +1,10 @@
+http://localhost:8080/actuator/health - здоровье приложеняи
+
+http://localhost:8080/actuator/info - информация
+
+http://localhost:8080/swagger-ui.html - сваггер
+
+http://localhost:8080/v3/api-docs - опен апи сваггер json
+
+http://localhost:5050 pg admin
+localhost:6379 redis

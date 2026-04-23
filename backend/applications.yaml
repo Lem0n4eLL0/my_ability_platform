@@ -1,0 +1,17 @@
+spring:
+  session:
+    store-type: redis
+  redis:
+    host: redis
+    port: 6379
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,beans
+  endpoint:
+    beans:
+      enabled: true
+server:
+  servlet:
+    context-path: /api/v1

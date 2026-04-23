@@ -1,0 +1,42 @@
+# application.yml
+spring:
+  application:
+    name: gigant-application
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    validate-on-migrate: true
+
+  # DataSource
+  datasource:
+    url: jdbc:postgresql://postgres:5432/${POSTGRES_DB:skills_verification}
+    username: ${POSTGRES_USER:gigant_admin}
+    password: ${POSTGRES_PASSWORD:SecureP@ssw0rd_2024!}
+    driver-class-name: org.postgresql.Driver
+
+  # JPA (опционально, если используешь Hibernate)
+  jpa:
+    hibernate:
+      ddl-auto: validate  # ← Не создаёт таблицы сам, полагается на миграции
+    show-sql: true
+server:
+  servlet:
+    context-path: /api/v1
+
