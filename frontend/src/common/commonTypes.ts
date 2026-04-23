@@ -9,7 +9,7 @@ export const TEST_LEVELS = {
   HARD: 'HARD',
   EXPERT: 'EXPERT',
 };
-
+export const TEST_LEVELS_ARRAY = ['ENTRANCE', 'MEDIUM', 'HARD', 'EXPERT'] as const;
 export type TestLevel = keyof typeof TEST_LEVELS;
 
 export const TEST_LEVELS_PRIORITY: Record<TestLevel, number> = {
@@ -105,10 +105,10 @@ export type User = z.infer<typeof UserSchema>;
 export const TestResultSchema = z.object({
   id: ZOD_ENTITY.UUID,
   testId: ZOD_ENTITY.UUID,
-  title: ZOD_ENTITY.TESTS.TESTS_RESULT,
+  title: ZOD_ENTITY.TESTS.TESTS_RESULT.TITLE,
   estimationProcent: ZOD_ENTITY.TESTS.TESTS_RESULT.ESTIMATION_PROCENT,
   isTestPassed: z.boolean(),
-  difficulty: z.enum(TEST_LEVELS),
+  difficulty: z.enum(TEST_LEVELS_ARRAY),
   reconfirmationDate: ZOD_ENTITY.TESTS.TESTS_RESULT.RECONFIRMATION_DATE,
 });
 export type TestResult = z.infer<typeof TestResultSchema>;

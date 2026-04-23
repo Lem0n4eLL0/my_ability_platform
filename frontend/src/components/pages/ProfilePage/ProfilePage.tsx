@@ -101,7 +101,7 @@ export const ProfilePage = () => {
 
   return (
     <div className={style['profile']}>
-      <div className={style['profile__main']}>
+      <section className={style['profile__main']}>
         <div className={style['profile__avatar-wrapper']}>
           <div className={style['profile__avatar']}>
             {avatarLink ? (
@@ -146,9 +146,9 @@ export const ProfilePage = () => {
         <div className={style['profile__fill-profile-wrapper']}>
           <FillProfile array={fillProfileArray.filter(el => el.isEmpty)} />
         </div>
-      </div>
+      </section>
 
-      <div className={style['profile__information-wrapper']}>
+      <section className={style['profile__information-wrapper']}>
         <div className={style['profile__test-result-wrapper']}>Тесты</div>
         <div className={style['profile__information']}>
           {!fillProfile.aboutMyself.isEmpty && !isChangeAboutMyself ? (
@@ -264,7 +264,7 @@ export const ProfilePage = () => {
             </ul>
           )}
         </div>
-      </div>
+      </section>
     </div>
   );
 };

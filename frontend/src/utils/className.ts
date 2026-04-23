@@ -17,3 +17,39 @@ export const testLevelClasses = (level: TestLevel) => {
       return [commonStyle['test__none_bg'], commonStyle['test__none_box-shadow']];
   }
 };
+
+export const testResultClasses = (level: TestLevel) => {
+  switch (level) {
+    case 'ENTRANCE':
+      return [
+        commonStyle['test__entrance_box-shadow-small'],
+        commonStyle['test__entrance_color'],
+        commonStyle['test__entrance_stroke'],
+      ];
+    case 'MEDIUM':
+      return [
+        commonStyle['test__medium_box-shadow-small'],
+        commonStyle['test__medium_color'],
+        commonStyle['test__medium_stroke'],
+      ];
+    case 'HARD':
+      return [
+        commonStyle['test__hard_box-shadow-small'],
+        commonStyle['test__hard_color'],
+        commonStyle['test__hard_stroke'],
+      ];
+    case 'EXPERT':
+      return [
+        commonStyle['test__expert_box-shadow-small'],
+        commonStyle['test__expert_color'],
+        commonStyle['test__expert_stroke'],
+      ];
+    default:
+      assertNever(level);
+      return [
+        commonStyle['test__none_box-shadow-small'],
+        commonStyle['test__none_color'],
+        commonStyle['test__none_stroke'],
+      ];
+  }
+};

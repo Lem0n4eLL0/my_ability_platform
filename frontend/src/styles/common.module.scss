@@ -22,6 +22,15 @@
     &_box-shadow {
       box-shadow: $test-entrance-shadow;
     }
+    &_box-shadow-small {
+      box-shadow: $test-entrance-shadow-small;
+    }
+    &_color {
+      color: $test-entrance-bg;
+    }
+    &_stroke {
+      stroke: $test-entrance-bg;
+    }
   }
 
   &__medium {
@@ -30,6 +39,15 @@
     }
     &_box-shadow {
       box-shadow: $test-medium-shadow;
+    }
+    &_box-shadow-small {
+      box-shadow: $test-medium-shadow-small;
+    }
+    &_color {
+      color: $test-medium-bg;
+    }
+    &_stroke {
+      stroke: $test-medium-bg;
     }
   }
 
@@ -40,6 +58,15 @@
     &_box-shadow {
       box-shadow: $test-hard-shadow;
     }
+    &_box-shadow-small {
+      box-shadow: $test-hard-shadow-small;
+    }
+    &_color {
+      color: $test-hard-bg;
+    }
+    &_stroke {
+      stroke: $test-hard-bg;
+    }
   }
 
   &__expert {
@@ -49,6 +76,15 @@
     &_box-shadow {
       box-shadow: $test-expert-shadow;
     }
+    &_box-shadow-small {
+      box-shadow: $test-expert-shadow-small;
+    }
+    &_color {
+      color: $test-expert-bg;
+    }
+    &_stroke {
+      stroke: $test-expert-bg;
+    }
   }
 
   &__none {
@@ -57,6 +93,15 @@
     }
     &_box-shadow {
       box-shadow: $test-none-shadow;
+    }
+    &_box-shadow-small {
+      box-shadow: $test-none-shadow-small;
+    }
+    &_color {
+      color: $test-none-bg;
+    }
+    &_stroke {
+      stroke: $test-none-bg;
     }
   }
 }
