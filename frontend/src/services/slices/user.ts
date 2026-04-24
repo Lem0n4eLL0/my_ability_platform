@@ -22,7 +22,6 @@ import { READY_REQUEST_STATUS } from '@/common/constants';
 import { asyncThunkCreator, buildCreateSlice, createSelector } from '@reduxjs/toolkit';
 import { registrationStepOneAuth } from './auth';
 import { RootState } from '../store';
-import { findBestTestResult } from '@/utils/utils';
 
 const createSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
@@ -378,12 +377,21 @@ const userSlice = createSlice({
       fulfilled: (state, action) => {
         state.statuses.getTestsResultStatus.status = 'SUCCESS';
         state.statuses.getTestsResultStatus.error = undefined;
-        if (state.data.testResults) {
+        if (!state.data.testResults) {
+          state.data.testResults = {};
           for (const result of action.payload) {
-            state.data.testResults[result.id] = {
-              getHistoryStatus: READY_REQUEST_STATUS,
-              results: [result],
-            };
+            const prev = state.data.testResults[result.testId];
+            if (!prev) {
+              state.data.testResults[result.testId] = {
+                getHistoryStatus: READY_REQUEST_STATUS,
+                results: [result],
+              };
+            } else {
+              state.data.testResults[result.testId] = {
+                getHistoryStatus: READY_REQUEST_STATUS,
+                results: [result, ...prev.results],
+              };
+            }
           }
         }
       },
@@ -434,16 +442,7 @@ const userSlice = createSlice({
     selectData: store => store.data,
     selectUser: store => store.data.user,
     selectEmail: store => store.data.email,
-    selectTestsResult: store => {
-      if (!store.data.testResults) return [];
-
-      const results: Array<TestResult> = [];
-      for (const key in store.data.testResults) {
-        const best = findBestTestResult(store.data.testResults[key].results);
-        if (best) results.push(best);
-      }
-      return results;
-    },
+    selectTestsResult: store => store.data.testResults,
     selectUserIcon: store => store.data.user?.avatarLink,
     selectStatuses: store => store.statuses,
   },

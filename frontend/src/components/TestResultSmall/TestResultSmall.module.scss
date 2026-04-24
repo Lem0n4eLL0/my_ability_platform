@@ -5,7 +5,6 @@
   align-items: center;
   border: none;
   background-color: $color-bg-clear;
-  box-shadow: $shadow-small;
   border-radius: 10px;
   font-size: 16px;
   padding: 6px 10px;
@@ -17,12 +16,12 @@
   }
 
   &__title {
+    text-wrap: nowrap;
     font-weight: 500;
   }
 
   &__procent {
     font-size: 12px;
-    color: $test-entrance-bg;
     margin-left: 4px;
   }
 

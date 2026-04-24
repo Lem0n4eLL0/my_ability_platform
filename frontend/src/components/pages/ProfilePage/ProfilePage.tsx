@@ -1,18 +1,25 @@
-import { useAppSelector } from '@/services/store';
+import { useAppDispatch, useAppSelector } from '@/services/store';
 import style from './ProfilePage.module.scss';
 import formStyle from '@styles/forms.module.scss';
 import commonStyle from '@styles/common.module.scss';
-import { selectUser } from '@/services/slices/user';
+import {
+  getTestsResultUser,
+  selectStatusesUser,
+  selectTestsResult,
+  selectUser,
+} from '@/services/slices/user';
 import { ChangeProfileForm } from './ChangeProfileForm';
 import { FillProfile } from './FillProfile';
 import clsx from 'clsx';
 import { ProfileIconBase } from './ProfileIconBase/ProfileIconBase';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { InformationField } from '@/components/FieldInformation';
 import { FieldInfoDouble } from '@/components/FieldInfoDouble';
-import { User } from '@/common/commonTypes';
+import { TestResult, User } from '@/common/commonTypes';
 import { FormChangeAboutMyself } from '@/components/forms/FormChangeAboutMyself';
+import { TestsResult } from './TestsResult';
+import { findBestTestResult } from '@/utils/utils';
 
 type ProfileFill = keyof Pick<
   User,
@@ -28,10 +35,27 @@ export type InfoField = {
 };
 
 export const ProfilePage = () => {
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
+  const { getTestsResultStatus } = useAppSelector(selectStatusesUser);
+  const testResults = useAppSelector(selectTestsResult);
   const [isChangeProfile, setIsChangeProfile] = useState(false);
   const [isChangeAboutMyself, setIsChangeAboutMyself] = useState(false);
   const navigate = useNavigate();
+
+  const results = useMemo(() => {
+    if (!testResults) return [];
+    const results: Array<TestResult> = [];
+    for (const key in testResults) {
+      const best = findBestTestResult(testResults[key].results);
+      if (best) results.push(best);
+    }
+    return results;
+  }, [testResults]);
+
+  useEffect(() => {
+    void dispatch(getTestsResultUser());
+  }, []);
 
   const fillProfile = ((): ActionProfileFillMap | undefined => {
     if (!user) return;
@@ -149,7 +173,9 @@ export const ProfilePage = () => {
       </section>
 
       <section className={style['profile__information-wrapper']}>
-        <div className={style['profile__test-result-wrapper']}>Тесты</div>
+        <div className={style['profile__test-result-wrapper']}>
+          <TestsResult tests={results} />
+        </div>
         <div className={style['profile__information']}>
           {!fillProfile.aboutMyself.isEmpty && !isChangeAboutMyself ? (
             <InformationField

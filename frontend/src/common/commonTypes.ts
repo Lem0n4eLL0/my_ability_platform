@@ -9,6 +9,16 @@ export const TEST_LEVELS = {
   HARD: 'HARD',
   EXPERT: 'EXPERT',
 };
+
+export const TEST_LEVELS_RU: {
+  [value in keyof typeof TEST_LEVELS]: string;
+} = {
+  ENTRANCE: 'Начинающий',
+  MEDIUM: 'Средний',
+  HARD: 'Сложный',
+  EXPERT: 'Продвинутый',
+};
+
 export const TEST_LEVELS_ARRAY = ['ENTRANCE', 'MEDIUM', 'HARD', 'EXPERT'] as const;
 export type TestLevel = keyof typeof TEST_LEVELS;
 

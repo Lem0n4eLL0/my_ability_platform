@@ -1,0 +1,44 @@
+@use '@styles/variables' as *;
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 16px 22px;
+  border-radius: 10px;
+  background-color: $color-bg-clear;
+  box-shadow: $shadow-small;
+
+  &__title {
+    margin: 0 0 10px;
+    font-size: 22px;
+  }
+
+  &__block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__list-title {
+    font-size: 12px;
+    // color: $color-text-primary-2;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__list-item {
+  }
+}
+
+@media (max-width: 768px) {
+  .results__title {
+    font-size: 20px;
+  }
+}

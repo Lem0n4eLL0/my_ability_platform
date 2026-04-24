@@ -91,10 +91,12 @@
     &__main {
       width: 100%;
       align-items: center;
+      gap: 0;
     }
 
     &__test-result-wrapper {
       min-height: auto;
+      padding-bottom: 50px;
     }
   }
 }
