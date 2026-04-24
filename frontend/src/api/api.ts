@@ -3,7 +3,6 @@ import { baseHeaders, bulidURL, fetchWithCheckResponse, fetchWithRefresh } from 
 import {
   AuthenticationRequest,
   AuthenticationResponce,
-  CarouselTasksResponseDto,
   CheckEmailConfirmResponse,
   ConfirmEmailRequest,
   HTTP_METHODS,
@@ -20,16 +19,13 @@ import {
 import {
   certificateResponseMapper,
   educationResponseMapper,
-  mapCarouselTasksResponseToDomain,
   mapStepThreeRequestToDTO,
-  mapTasksResponseToDomain,
   projectResponseMapper,
   testResultResponseMapper,
   userResponseMapper,
   workExperienceResponseMapper,
 } from './dto/schemas';
 import {
-  TasksResponseDto,
   UserCertificateDTO,
   UserDTO,
   UserEducationDTO,
@@ -50,24 +46,6 @@ export const refreshToken = () => {
   }).then(res => {
     localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_ALIAS, res.token);
     return res;
-  });
-};
-
-export const getCarouselTasks = () => {
-  return fetchWithCheckResponse<CarouselTasksResponseDto>(bulidURL('tasks/carousel'), {
-    method: HTTP_METHODS.GET,
-    headers: baseHeaders,
-  }).then(res => {
-    return mapCarouselTasksResponseToDomain(res);
-  });
-};
-
-export const getComparePreviewTasks = () => {
-  return fetchWithCheckResponse<TasksResponseDto>(bulidURL('tasks/compare-preview'), {
-    method: HTTP_METHODS.GET,
-    headers: baseHeaders,
-  }).then(res => {
-    return mapTasksResponseToDomain(res);
   });
 };
 
@@ -270,5 +248,14 @@ export const logoutMe = () => {
   }).then(() => {
     localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_ALIAS, '');
     location.reload();
+  });
+};
+
+// tests
+
+export const getTests = () => {
+  return fetchWithRefresh(bulidURL(`tests`), {
+    method: HTTP_METHODS.GET,
+    headers: baseHeaders,
   });
 };

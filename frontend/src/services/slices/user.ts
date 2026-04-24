@@ -24,6 +24,7 @@ import { registrationStepOneAuth } from './auth';
 import { RootState } from '../store';
 
 const createSlice = buildCreateSlice({
+  // потом переместить в общий файл
   creators: { asyncThunk: asyncThunkCreator },
 });
 

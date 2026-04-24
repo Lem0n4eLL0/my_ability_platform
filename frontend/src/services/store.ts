@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { userReduser } from './slices/user';
 import { authReducer } from './slices/auth';
+import { testsReduser } from './slices/tests';
 
 const rootRedusers = combineSlices({
   auth: authReducer,
   user: userReduser,
+  tests: testsReduser,
 });
 
 export const store = configureStore({

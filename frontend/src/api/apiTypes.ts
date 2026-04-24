@@ -130,3 +130,9 @@ export const ChangeMainProfileRequestSchema = z.object({
   contactPhone: ZOD_ENTITY.USER.CONTACT_PHONE,
   github: ZOD_ENTITY.USER.GITHUB,
 });
+
+export type Pagination<T> = {
+  limit: number;
+  offset: number;
+  data: T[];
+};

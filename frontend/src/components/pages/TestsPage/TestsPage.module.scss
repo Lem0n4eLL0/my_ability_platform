@@ -1,0 +1,17 @@
+@use '@styles/variables' as *;
+
+.content {
+  display: flex;
+  gap: 30px;
+  padding: $page-padding;
+  padding-top: $page-header2-top-padding;
+  padding-bottom: $page-header2-top-padding;
+}
+
+.sort {
+  width: 100%;
+  max-width: 300px;
+  background-color: $color-bg-clear;
+  border-radius: 10px;
+  box-shadow: $shadow-primary-1;
+}

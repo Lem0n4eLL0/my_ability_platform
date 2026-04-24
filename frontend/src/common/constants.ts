@@ -1,5 +1,6 @@
 import { RequestStatus } from '@/api/apiTypes';
 import z from 'zod';
+import { ComparePreviewTask, СarouselTask } from './commonTypes';
 
 export const LOCAL_STORAGE_ACCESS_TOKEN_ALIAS = 'accessToken';
 
@@ -180,4 +181,118 @@ export const ZOD_ENTITY = {
       RECONFIRMATION_DATE: z.string(),
     },
   },
+};
+
+// Главная страница
+
+export const CAROUSEL_TASKS: {
+  tasks: СarouselTask[];
+} = {
+  tasks: [
+    {
+      id: '1',
+      title: 'React Developer Test',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 15,
+      rate: 4.5,
+      description: '',
+    },
+    {
+      id: '2',
+      title: 'Node.js Backend Test',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 120,
+      rate: 4.7,
+      description: '',
+    },
+    {
+      id: '3',
+      title: 'Python Data Science',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 12,
+      rate: 4.3,
+      description: '',
+    },
+    {
+      id: '4',
+      title: 'DevOps Engineer',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 18,
+      rate: 4.6,
+      description: '',
+    },
+    {
+      id: '5',
+      title: 'Frontend Architecture',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 40,
+      rate: 4.8,
+      description: '',
+    },
+    {
+      id: '6',
+      title: 'Engine test',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 10,
+      rate: 3.1,
+      description: '',
+    },
+    {
+      id: '7',
+      title: 'The balance test',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 56,
+      rate: 4.3,
+      description: '',
+    },
+    {
+      id: '8',
+      title: 'Frontend Vue',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 10,
+      rate: 4.8,
+      description: '',
+    },
+  ],
+};
+
+export const COMPARE_PREVIEW_TASKS: { tasks: ComparePreviewTask[] } = {
+  tasks: [
+    {
+      id: '1',
+      title: 'Docker',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 15,
+      rate: 4.5,
+      description: '',
+      level: 'ENTRANCE',
+    },
+    {
+      id: '2',
+      title: 'Docker',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 56,
+      rate: 4.7,
+      description: '',
+      level: 'MEDIUM',
+    },
+    {
+      id: '3',
+      title: 'Docker',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 156,
+      rate: 4.2,
+      description: '',
+      level: 'HARD',
+    },
+    {
+      id: '4',
+      title: 'Docker',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 45,
+      rate: 3.4,
+      description: '',
+      level: 'EXPERT',
+    },
+  ],
 };

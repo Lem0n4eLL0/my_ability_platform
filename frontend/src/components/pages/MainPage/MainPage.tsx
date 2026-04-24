@@ -1,13 +1,6 @@
-import {
-  ComparePreviewTask,
-  Task,
-  TEST_LEVELS,
-  TestLevel,
-  СarouselTask,
-} from '@/common/commonTypes';
-import { SyntheticEvent, useEffect, useMemo, useState } from 'react';
+import { Task, TEST_LEVELS, TestLevel } from '@/common/commonTypes';
+import { SyntheticEvent } from 'react';
 import style from './MainPage.module.scss';
-import { getCarouselTasks, getComparePreviewTasks } from '@/api/api';
 import { TryTestButton } from '@/components/TryTestButton';
 import { StepIcon } from '@/components/StepIcon/StepIcon';
 import profileIcon from '@assets/user-profile-icon.svg';
@@ -27,6 +20,7 @@ import { BigTestCard } from '@/components/cards/BigTestCard';
 import { IMGIcon } from '@/components/shells/IMGIcon';
 import { LineTestCard } from '@/components/cards/LineTestCard';
 import React from 'react';
+import { CAROUSEL_TASKS, COMPARE_PREVIEW_TASKS } from '@/common/constants';
 
 const renderCardsWithArrows = (
   cardType: 'small' | 'big',
@@ -61,35 +55,15 @@ const renderCardsWithArrows = (
 };
 
 export const MainPage = () => {
-  const [carouselTasks, setCarouselTasks] = useState<СarouselTask[]>([]);
-  const [comparePreviewTasks, setComparePreviewTasks] = useState<ComparePreviewTask[]>([]);
-
-  useEffect(() => {
-    Promise.allSettled([getCarouselTasks(), getComparePreviewTasks()])
-      .then(([carTasks, prevTasks]) => {
-        if (carTasks.status === 'fulfilled') {
-          setCarouselTasks(carTasks.value.tasks);
-        }
-        if (prevTasks.status === 'fulfilled') {
-          setComparePreviewTasks(prevTasks.value.tasks);
-        }
-      })
-      .catch(e => {});
-  }, []);
-
-  const isCarouselTasksRequestError: boolean = carouselTasks.length === 0;
-  const isComparePreviewTasksRequestError: boolean = comparePreviewTasks.length === 0;
-
-  const taskPreviewMap = useMemo(() => {
-    if (isComparePreviewTasksRequestError) return null;
-    return comparePreviewTasks.reduce(
+  const taskPreviewMap = (() => {
+    return COMPARE_PREVIEW_TASKS.tasks.reduce(
       (acc, task) => {
         acc[task.level] = task;
         return acc;
       },
       {} as Record<TestLevel, Task>
     );
-  }, [comparePreviewTasks]);
+  })();
 
   const TryTestButtonHandler = (_: SyntheticEvent<HTMLButtonElement>) => {};
 
@@ -165,31 +139,23 @@ export const MainPage = () => {
           <h2 className={style['tests__title']}>задач и тестов по 50+ направлениям IT</h2>
         </div>
         <CardAutoCarousel
-          items={
-            !isCarouselTasksRequestError
-              ? carouselTasks.map(el => {
-                  return <SmallCard key={el.id} task={el} />;
-                })
-              : []
-          }
+          items={CAROUSEL_TASKS.tasks.map(el => {
+            return <SmallCard key={el.id} task={el} />;
+          })}
         />
         <p className={style['tests__description']}>Найдите тесты под ваш стек технологий</p>
       </section>
       <section className={style['growth']}>
         <h2 className={style['growth__title']}>Прокачивайте навыки постепенно</h2>
         <div className={style['growth__cards']}>
-          {!isComparePreviewTasksRequestError && taskPreviewMap ? (
-            <>
-              <div className={style['growth__cards_small_only']}>
-                {renderCardsWithArrows('small', taskPreviewMap)}
-              </div>
-              <div className={style['growth__cards_big_only']}>
-                {renderCardsWithArrows('big', taskPreviewMap)}
-              </div>
-            </>
-          ) : (
-            ''
-          )}
+          <>
+            <div className={style['growth__cards_small_only']}>
+              {renderCardsWithArrows('small', taskPreviewMap)}
+            </div>
+            <div className={style['growth__cards_big_only']}>
+              {renderCardsWithArrows('big', taskPreviewMap)}
+            </div>
+          </>
         </div>
         <div className={style['growth__description_wrapper']}>
           <p className={style['growth__description']}>
