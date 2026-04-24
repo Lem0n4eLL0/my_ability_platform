@@ -1,9 +1,14 @@
 import { NavLink } from 'react-router';
 import style from './HeaderApp.module.scss';
-import dokerImg from '@assets/docker.png';
+import commonStyle from '@styles/common.module.scss';
 import clsx from 'clsx';
+import { useAppSelector } from '@/services/store';
+import { selectUserIcon } from '@/services/slices/user';
+import { ProfileIconBase } from '@/components/pages/ProfilePage/ProfileIconBase/ProfileIconBase';
 
 export const HeaderApp = () => {
+  const iconLink = useAppSelector(selectUserIcon);
+
   return (
     <header className={style['header']}>
       <nav className={style['header__navigation']}>
@@ -26,7 +31,13 @@ export const HeaderApp = () => {
       </nav>
       <div className={style['header__icon']}>
         <NavLink to="/profile" className={style['header__link-icon']}>
-          <img src={dokerImg as string} alt="Иконка профиля" className={style['header__img']} />
+          {iconLink ? (
+            <img src={iconLink} alt="Иконка профиля" className={style['header__img']} />
+          ) : (
+            <ProfileIconBase
+              className={clsx(commonStyle['profile__avatar-base'], style['header__img'])}
+            />
+          )}
         </NavLink>
       </div>
     </header>

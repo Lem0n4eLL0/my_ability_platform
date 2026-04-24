@@ -1,6 +1,13 @@
-import { VALIDATION_ERROR } from '@/common/constants';
-import { CarouselTaskDto } from './dto/dto';
+import { VALIDATION_ERROR, ZOD_ENTITY } from '@/common/constants';
+import { CarouselTaskDto, TestResultDTO } from './dto/dto';
 import * as z from 'zod';
+import {
+  UserCertificate,
+  UserEducation,
+  UserProject,
+  UserWorkExperience,
+} from '@/common/commonTypes';
+import { OmitID } from '@/utils/utils';
 
 export const HTTP_METHODS = {
   GET: 'GET',
@@ -59,13 +66,8 @@ export interface CarouselTasksResponseDto {
 
 export const registrationStepOneRequest = z
   .object({
-    email: z.email({ error: VALIDATION_ERROR.EMAIL }),
-    password: z
-      .string()
-      .min(8, VALIDATION_ERROR.MIN_SYMB(8))
-      .max(20, VALIDATION_ERROR.MAX_SYMB(20))
-      .regex(/[A-Za-z]/, 'Нужна хотя бы одна буква')
-      .regex(/\d/, 'Нужна хотя бы одна цифра'),
+    email: ZOD_ENTITY.EMAIL,
+    password: ZOD_ENTITY.PASSWORD,
     confirm: z.string().nonempty({ error: VALIDATION_ERROR.NOT_EMPTY }),
     isAgreementAccepted: z.boolean(),
   })
@@ -88,48 +90,17 @@ export type ConfirmEmailRequest = {
 };
 
 export const registrationStepThreeRequest = z.object({
-  firstName: z
-    .string()
-    .min(1, 'Имя обязательно')
-    .min(2, VALIDATION_ERROR.MAX_SYMB(2, 'Имя'))
-    .max(50, VALIDATION_ERROR.MAX_SYMB(50, 'Имя'))
-    .regex(/^[а-яА-ЯёЁa-zA-Z\s-]+$/, VALIDATION_ERROR.LETTERS_AND_SOME_SYMB)
-    .transform(val => val.trim()),
-
-  lastName: z
-    .string()
-    .min(1, 'Фамилия обязательна')
-    .min(2, VALIDATION_ERROR.MAX_SYMB(2, 'Фамилия'))
-    .max(50, VALIDATION_ERROR.MAX_SYMB(50, 'Фамилия'))
-    .regex(/^[а-яА-ЯёЁa-zA-Z\s-]+$/, VALIDATION_ERROR.LETTERS_AND_SOME_SYMB)
-    .transform(val => val.trim()),
-
-  surname: z
-    .string()
-    .min(2, VALIDATION_ERROR.MAX_SYMB(2, 'Отчество'))
-    .max(50, VALIDATION_ERROR.MAX_SYMB(50, 'Отчество'))
-    .regex(/^[а-яА-ЯёЁa-zA-Z\s-]+$/, VALIDATION_ERROR.LETTERS_AND_SOME_SYMB)
-    .transform(val => val.trim())
-    .optional(),
-
-  birthday: z.date({ error: 'Дата рождения обязательна' }).refine(date => {
-    const today = new Date();
-    const minDate = new Date(today.getFullYear() - 120, today.getMonth(), today.getDate());
-    const maxDate = new Date(today.getFullYear() - 5, today.getMonth(), today.getDate());
-    return date >= minDate && date <= maxDate;
-  }, 'Возраст должен быть от 5 до 120 лет'),
+  firstName: ZOD_ENTITY.USER.FIRST_NAME,
+  lastName: ZOD_ENTITY.USER.SECOND_NAME,
+  surname: ZOD_ENTITY.USER.SURNAME,
+  birthday: ZOD_ENTITY.USER.BIRTHDAY,
 });
 
 export type RegistrationStepThreeRequest = z.infer<typeof registrationStepThreeRequest>;
 
 export const authenticationRequest = z.object({
-  email: z.email({ error: VALIDATION_ERROR.EMAIL }),
-  password: z
-    .string()
-    .min(8, VALIDATION_ERROR.MIN_SYMB(8))
-    .max(20, VALIDATION_ERROR.MAX_SYMB(20))
-    .regex(/[A-Za-z]/, 'Нужна хотя бы одна буква')
-    .regex(/\d/, 'Нужна хотя бы одна цифра'),
+  email: ZOD_ENTITY.EMAIL,
+  password: ZOD_ENTITY.PASSWORD,
 });
 
 export type AuthenticationRequest = z.infer<typeof authenticationRequest>;
@@ -140,4 +111,22 @@ export type AuthenticationResponce = {
 export type CheckEmailConfirmResponse = {
   isConfirm: boolean;
 };
+
 // Профиль
+
+export type UserProjectRequest = OmitID<UserProject>;
+export type UserEducationRequest = OmitID<UserEducation>;
+export type UserWorkExperienceRequest = OmitID<UserWorkExperience>;
+export type UserCertificateRequest = OmitID<UserCertificate>;
+export type TestResultRequest = {
+  testsResult: Array<TestResultDTO>;
+};
+export type TestResultsHistoryRequest = {
+  testResults: Array<TestResultDTO>;
+};
+
+export const ChangeMainProfileRequestSchema = z.object({
+  surname: ZOD_ENTITY.USER.SURNAME,
+  contactPhone: ZOD_ENTITY.USER.CONTACT_PHONE,
+  github: ZOD_ENTITY.USER.GITHUB,
+});

@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE_ACCESS_TOKEN_ALIAS } from '@/common/constants';
+import { LOCAL_STORAGE_ACCESS_TOKEN_ALIAS, RESPONSE_ERRORS } from '@/common/constants';
 import { DTORequestError } from './dto/dto';
 import { errorMapper } from './dto/schemas';
 import { refreshToken, URL_API, URL_PREFIX } from './api';
@@ -47,13 +47,13 @@ export const fetchWithAccess = <T>(info: RequestInfo, options: RequestInit): Pro
 export const fetchWithRefresh = <T>(info: RequestInfo, options: RequestInit): Promise<T> => {
   options.credentials = 'include';
   return fetchWithAccess<T>(info, options).catch((e: RequestError) => {
-    if (e.error === 'Unauthorized') {
+    if (e.errorCode === RESPONSE_ERRORS.ACCESS_TOKEN_EXPIRED) {
       return refreshToken()
         .then(() => {
           return fetchWithAccess<T>(info, options);
         })
         .catch((e: RequestError) => {
-          if (e.errorCode === 'REFRESH_TOKEN_EXPIRED') {
+          if (e.errorCode === RESPONSE_ERRORS.REFRESH_TOKEN_EXPIRED) {
             localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_ALIAS, '');
             window.location.reload();
           }

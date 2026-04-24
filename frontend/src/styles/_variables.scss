@@ -16,9 +16,9 @@ $font-h2: (
 );
 
 $font-h3: (
-  size: 3rem,
-  line-height: 1.2,
-  weight: 600,
+  size: clamp(1.25rem, calc(1.17857143rem + 0.35714286vw), 1.5rem),
+  line-height: inherit,
+  weight: 500,
 );
 
 $form-title: (
@@ -74,6 +74,7 @@ $loader-color: $green-500;
 
 // --- Текст ---
 $color-text-primary: $neutral-900;
+$color-text-primary-2: #494949;
 $color-text-secondary: $green-500;
 $color-text-accent: $neutral-200;
 $color-text-accent-2: $neutral-100;
@@ -85,6 +86,7 @@ $color-bg-secondary-3: $neutral-500;
 $color-bg-accent: $neutral-200;
 $color-bg-yellow: $yellow-500;
 $color-bg-green: $green-500;
+$color-bg-clear: #fff;
 
 // --- Акценты ---
 $color-accent-primary: $green-500;
@@ -106,6 +108,8 @@ $page-padding: 0 clamp(20px, calc(-2.22916667rem + 12.68518519vw), 147px);
 // === SVG ===
 // --- Colors ---
 $icon-step-color: $neutral-200;
+$icon-profile-color: #e7e7e7;
+$icon-svg-bg-color: #e7e7e7;
 
 // === Shadow ===
 $shadow-primary-1: 0 0 10px rgba(0 0 0 / 0.4);
@@ -114,9 +118,17 @@ $test-entrance-shadow: -1px 2px 10px rgba(63 190 78 / 0.4);
 $test-medium-shadow: -1px 2px 10px rgba(191 187 64 / 0.4);
 $test-hard-shadow: -1px 2px 10px rgba(191 64 64 / 0.4);
 $test-expert-shadow: -1px 2px 10px rgba(151 64 191 / 0.4);
+
+$test-entrance-shadow-small: 0 0 4px rgba(63 190 78 / 0.5);
+$test-medium-shadow-small: 0 0 4px rgba(191 187 64 / 0.5);
+$test-hard-shadow-small: 0 0 4px rgba(191 64 64 / 0.5);
+$test-expert-shadow-small: 0 0 4px rgba(151 64 191 / 0.5);
+$test-none-shadow-small: 0 0 4px rgba(0, 0, 0, 0.5);
+
 $test-none-shadow: -1px 2px 10px rgba(0 0 0 / 0.4);
 $green-btn-shadow: 0 2px 16px rgba($green-500, 0.3);
 $block-form-shadow: -1px 2px 10px rgba(0 0 0 / 0.3);
+$shadow-small: 0 0 5px rgba(0 0 0 / 0.2);
 
 // overlay
 $overlay-color: rgba(33 33 33 / 0.7);
@@ -127,3 +139,8 @@ $card-hover-translateY: translateY(-4px);
 $transition-duration-extra-small: 0.1s;
 $transition-duration-small: 0.15s;
 $transition-duration-medium: 0.2s;
+
+$green-button-color-hover: rgba($color-bg-green, 0.9);
+$green-button-color-disabled: rgba($color-bg-green, 0.6);
+
+$grey-button-color-hover: #eeeeee;

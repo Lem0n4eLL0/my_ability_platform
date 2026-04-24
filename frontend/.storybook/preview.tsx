@@ -1,6 +1,27 @@
 import type { Preview } from '@storybook/react-vite';
+import { userReduser } from '../src/services/slices/user';
+import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+
+const createMockStore = () =>
+  configureStore({
+    reducer: {
+      user: userReduser,
+    },
+  });
 
 const preview: Preview = {
+  decorators: [
+    Story => (
+      <Provider store={createMockStore()}>
+        <MemoryRouter>
+          <Story />
+        </MemoryRouter>
+      </Provider>
+    ),
+  ],
+
   parameters: {
     controls: {
       matchers: {

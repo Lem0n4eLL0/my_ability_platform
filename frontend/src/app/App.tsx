@@ -14,26 +14,23 @@ import { AuthPage } from '@/components/pages/AuthPage';
 import { ConfirmEmailPage } from '@/components/pages/ConfirmEmailPage';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/services/store';
-import { authenticationVerificationAuth, selectStatusesAuth } from '@/services/slices/auth';
-import { getProfileUser, selectStatusesUser } from '@/services/slices/user';
+import { getProfileUser } from '@/services/slices/user';
 import { Loader } from '@/components/shells/Loader';
 import commonStyle from '@styles/common.module.scss';
 import style from './App.module.scss';
 import { HeaderApp } from '@/components/layouts/HeaderApp';
+import { selectIsAuthInitializing } from '@/services/slices/auth';
+import { ProfilePage } from '@/components/pages/ProfilePage';
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const { authenticationVerificationStatus } = useAppSelector(selectStatusesAuth);
-  const { getProfile } = useAppSelector(selectStatusesUser);
+  const isAuthInitializing = useAppSelector(selectIsAuthInitializing);
 
   useEffect(() => {
-    Promise.allSettled([
-      dispatch(authenticationVerificationAuth()),
-      dispatch(getProfileUser()),
-    ]).catch(_ => {});
+    void dispatch(getProfileUser());
   }, []);
 
-  if (authenticationVerificationStatus.status === 'PENDING' || getProfile.status === 'PENDING') {
+  if (isAuthInitializing) {
     return (
       <div className={style['content__loader']}>
         <Loader loaderClass={commonStyle['loader__main']} />
@@ -62,6 +59,7 @@ const App = () => {
         </Route>
       </Route>
 
+      {/* Добавить протектор для успешного получения профиля */}
       <Route element={<AuthProtector isRedirectAuthorized={false} redirectPath="/" />}>
         <Route element={<MainLayout />}>
           <Route element={<AuthLayout rightComponent={<AuthImg />} />}>
@@ -77,7 +75,7 @@ const App = () => {
           }
         >
           <Route element={<MainLayout header={<HeaderApp />} footer={<Footer />} />}>
-            <Route path="profile" element={<div>Profile</div>}></Route>
+            <Route path="profile" element={<ProfilePage />}></Route>
             <Route path="tests" element={<div>Tests</div>}></Route>
           </Route>
         </Route>

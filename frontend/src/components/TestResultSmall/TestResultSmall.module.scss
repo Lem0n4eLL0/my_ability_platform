@@ -1,0 +1,47 @@
+@use '@styles/variables' as *;
+
+.result {
+  display: flex;
+  align-items: center;
+  border: none;
+  background-color: $color-bg-clear;
+  border-radius: 10px;
+  font-size: 16px;
+  padding: 6px 10px;
+  margin: 0;
+  color: $color-text-primary;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &__title {
+    text-wrap: nowrap;
+    font-weight: 500;
+  }
+
+  &__procent {
+    font-size: 12px;
+    margin-left: 4px;
+  }
+
+  &__dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    margin: 0 8px;
+    background-color: $icon-svg-bg-color;
+  }
+
+  &__bg-circle {
+    fill: none;
+    stroke: $icon-svg-bg-color;
+  }
+
+  &__circle {
+    fill: none;
+    transition: stroke-dashoffset 0.8s ease-out;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+  }
+}

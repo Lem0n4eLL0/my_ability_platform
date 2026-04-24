@@ -9,7 +9,7 @@ export interface IBaseInput extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = forwardRef<HTMLInputElement, IBaseInput>((props, ref) => {
-  const { type, extraClassName, isError, value, formatterFunc, ...rest } = props;
+  const { type, extraClassName, className, isError, value, formatterFunc, ...rest } = props;
 
   return (
     <input
@@ -18,8 +18,8 @@ export const Input = forwardRef<HTMLInputElement, IBaseInput>((props, ref) => {
       value={formatterFunc ? formatterFunc(String(value)) : value}
       className={clsx(
         extraClassName,
-        formStyle['form_field'],
-        isError && formStyle['form_field__error']
+        className ? className : formStyle['form_field'],
+        isError && formStyle['field__error']
       )}
       {...rest}
     />

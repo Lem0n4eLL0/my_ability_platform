@@ -1,0 +1,21 @@
+@use '@styles/variables' as *;
+@use '@styles/mixins' as *;
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 500;
+
+  &__description {
+    font-size: 16px;
+    font-weight: 400;
+    color: $color-text-primary-2;
+  }
+}
+
+@media (max-width: 768px) {
+  .content__description {
+    font-size: 14px;
+  }
+}
