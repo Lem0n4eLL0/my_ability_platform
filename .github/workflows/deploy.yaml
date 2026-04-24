@@ -6,8 +6,9 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  OWNER: ${{github.repository_owner}}
-  REPO: ${{ github.repository }}
+  # 👇 Приводим владельца к нижнему регистру сразу для всего пайплайна
+  OWNER_LC: ${{ github.repository_owner | lower }}
+  REPO_NAME: ${{ github.event.repository.name }}
 
 jobs:
   build-backend:
@@ -27,7 +28,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.CR_PAT }}  # 👈 Используем твой PAT, а не GITHUB_TOKEN
 
       - name: Build & Push Backend
         uses: docker/build-push-action@v5
@@ -36,8 +37,9 @@ jobs:
           file: ./backend/Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.REPO }}/backend:latest
-            ${{ env.REGISTRY }}/${{ env.REPO }}/backend:${{ github.sha }}
+            # 👇 Используем OWNER_LC вместо владельца с заглавными
+            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/${{ env.REPO_NAME }}/backend:latest
+            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/${{ env.REPO_NAME }}/backend:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -58,7 +60,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.CR_PAT }}  # 👈 Тоже меняем здесь
 
       - name: Build & Push Frontend
         uses: docker/build-push-action@v5
@@ -69,23 +71,23 @@ jobs:
           build-args: |
             VITE_APP_API_URL=${{ vars.VITE_APP_API_URL }}
           tags: |
-            ${{ env.REGISTRY }}/${{ env.REPO }}/frontend:latest
-            ${{ env.REGISTRY }}/${{ env.REPO }}/frontend:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/${{ env.REPO_NAME }}/frontend:latest
+            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/${{ env.REPO_NAME }}/frontend:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
   deploy:
     needs: [build-backend, build-frontend]
     runs-on: ubuntu-latest
-
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@master
         with:
-          host: ${{secrets.SSH_HOST}}
-          username: ${{secrets.SERVER_USERNAME}}
-          key: ${{ secrets.SSH_PRIVATE_KEY}}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            # 👇 Здесь тоже используем CR_PAT для логина на сервере
             echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             
             cd /opt/gigant
@@ -96,5 +98,3 @@ jobs:
             docker compose -f docker-compose.yml -f docker-compose.prod.yml pull
             docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --remove-orphans
             docker image prune -f --filter "until=24h"
-
-
