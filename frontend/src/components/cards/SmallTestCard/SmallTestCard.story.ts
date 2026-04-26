@@ -1,13 +1,13 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
-import { SmallCard } from './SmallCard';
 import dockerURL from '../../../assets/docker.png';
+import { SmallTestCard } from './SmallTestCard';
 
 const meta = {
-  title: 'SmallCard',
-  component: SmallCard,
+  title: 'SmallTestCard',
+  component: SmallTestCard,
 
   tags: ['autodocs'],
-} satisfies Meta<typeof SmallCard>;
+} satisfies Meta<typeof SmallTestCard>;
 
 export default meta;
 
@@ -15,7 +15,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BaseCard: Story = {
   args: {
-    task: {
+    test: {
       id: '1',
       title: 'Docker',
       description:
@@ -23,6 +23,10 @@ export const BaseCard: Story = {
       rate: 3.4,
       totalTasks: 204,
       imgURL: dockerURL as string,
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
     },
   },
 };

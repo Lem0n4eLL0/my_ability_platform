@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
 import { LineTestCard } from './LineTestCard';
 import dockerURL from '../../../assets/docker.png';
-import { Task } from '@/common/commonTypes';
+import { Test } from '@/common/commonTypes';
 
-const task = {
+const test: Test = {
   id: '1',
   title: 'Docker',
   description:
@@ -11,13 +11,17 @@ const task = {
   rate: 3.4,
   totalTasks: 204,
   imgURL: dockerURL as string,
+  difficulty: 'ENTRANCE',
+  timeLimitSeconds: null,
+  rechargeTimeSecondes: null,
+  reconfirmationTimeSeconds: null,
 };
 
 const meta = {
   title: 'LineTestCard',
-  component: LineTestCard<Task>,
+  component: LineTestCard,
   tags: ['autodocs'],
-} satisfies Meta<typeof LineTestCard<Task>>;
+} satisfies Meta<typeof LineTestCard>;
 
 export default meta;
 
@@ -25,36 +29,36 @@ type Story = StoryObj<typeof meta>;
 
 export const CardEntrance: Story = {
   args: {
-    task: {
-      ...task,
-      level: 'ENTRANCE',
+    test: {
+      ...test,
+      difficulty: 'ENTRANCE',
     },
   },
 };
 
 export const CardMedium: Story = {
   args: {
-    task: {
-      ...task,
-      level: 'MEDIUM',
+    test: {
+      ...test,
+      difficulty: 'MEDIUM',
     },
   },
 };
 
 export const CardHard: Story = {
   args: {
-    task: {
-      ...task,
-      level: 'HARD',
+    test: {
+      ...test,
+      difficulty: 'HARD',
     },
   },
 };
 
 export const CardExpert: Story = {
   args: {
-    task: {
-      ...task,
-      level: 'EXPERT',
+    test: {
+      ...test,
+      difficulty: 'EXPERT',
     },
   },
 };

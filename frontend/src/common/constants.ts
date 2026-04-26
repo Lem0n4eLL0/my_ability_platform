@@ -1,6 +1,6 @@
-import { RequestStatus } from '@/api/apiTypes';
+import { PaginationRequestParams, PaginationResponse, RequestStatus } from '@/api/apiTypes';
 import z from 'zod';
-import { ComparePreviewTask, СarouselTask } from './commonTypes';
+import { Test } from './commonTypes';
 
 export const LOCAL_STORAGE_ACCESS_TOKEN_ALIAS = 'accessToken';
 
@@ -8,6 +8,17 @@ export const LOCAL_STORAGE_ACCESS_TOKEN_ALIAS = 'accessToken';
 export const READY_REQUEST_STATUS: RequestStatus = {
   status: 'READY',
   error: undefined,
+};
+
+export const PAGINATION_TESTS_LIMIT = 15;
+export const PAGINATION_RESPONSE_PARAMS_BASE: PaginationResponse = {
+  limit: PAGINATION_TESTS_LIMIT,
+  offset: 0,
+  hasMore: true,
+};
+export const PAGINATION_REQUEST_PARAMS_BASE: PaginationRequestParams = {
+  limit: PAGINATION_TESTS_LIMIT,
+  offset: 0,
 };
 
 // RegExp
@@ -181,12 +192,24 @@ export const ZOD_ENTITY = {
       RECONFIRMATION_DATE: z.string(),
     },
   },
+  TEST: {
+    TITLE: z.string().min(1, VALIDATION_ERROR.MIN_SYMB(1)).max(100, VALIDATION_ERROR.MAX_SYMB(100)),
+    DESCRIPTION: z
+      .string()
+      .min(2, VALIDATION_ERROR.MIN_SYMB(2))
+      .max(256, VALIDATION_ERROR.MAX_SYMB(256)),
+    RATE: z.number().gte(0).lte(5),
+    TOTAL_TASKS: z.number().gt(0).optional(),
+    TIME_LIMIT_SECONDS: z.number().gt(0),
+    RECHARGE_TIME_SECONDS: z.number().gt(0),
+    RECONFIRMATION_TIME_SECONDS: z.number().gt(0),
+  },
 };
 
 // Главная страница
 
 export const CAROUSEL_TASKS: {
-  tasks: СarouselTask[];
+  tasks: Test[];
 } = {
   tasks: [
     {
@@ -196,6 +219,10 @@ export const CAROUSEL_TASKS: {
       totalTasks: 15,
       rate: 4.5,
       description: '',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
     },
     {
       id: '2',
@@ -204,6 +231,10 @@ export const CAROUSEL_TASKS: {
       totalTasks: 120,
       rate: 4.7,
       description: '',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
     },
     {
       id: '3',
@@ -212,6 +243,10 @@ export const CAROUSEL_TASKS: {
       totalTasks: 12,
       rate: 4.3,
       description: '',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
     },
     {
       id: '4',
@@ -220,6 +255,10 @@ export const CAROUSEL_TASKS: {
       totalTasks: 18,
       rate: 4.6,
       description: '',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
     },
     {
       id: '5',
@@ -228,6 +267,10 @@ export const CAROUSEL_TASKS: {
       totalTasks: 40,
       rate: 4.8,
       description: '',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
     },
     {
       id: '6',
@@ -236,6 +279,10 @@ export const CAROUSEL_TASKS: {
       totalTasks: 10,
       rate: 3.1,
       description: '',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
     },
     {
       id: '7',
@@ -244,6 +291,10 @@ export const CAROUSEL_TASKS: {
       totalTasks: 56,
       rate: 4.3,
       description: '',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
     },
     {
       id: '8',
@@ -252,11 +303,15 @@ export const CAROUSEL_TASKS: {
       totalTasks: 10,
       rate: 4.8,
       description: '',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
     },
   ],
 };
 
-export const COMPARE_PREVIEW_TASKS: { tasks: ComparePreviewTask[] } = {
+export const COMPARE_PREVIEW_TASKS: { tasks: Test[] } = {
   tasks: [
     {
       id: '1',
@@ -265,7 +320,10 @@ export const COMPARE_PREVIEW_TASKS: { tasks: ComparePreviewTask[] } = {
       totalTasks: 15,
       rate: 4.5,
       description: '',
-      level: 'ENTRANCE',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
     },
     {
       id: '2',
@@ -274,7 +332,10 @@ export const COMPARE_PREVIEW_TASKS: { tasks: ComparePreviewTask[] } = {
       totalTasks: 56,
       rate: 4.7,
       description: '',
-      level: 'MEDIUM',
+      difficulty: 'MEDIUM',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
     },
     {
       id: '3',
@@ -283,7 +344,10 @@ export const COMPARE_PREVIEW_TASKS: { tasks: ComparePreviewTask[] } = {
       totalTasks: 156,
       rate: 4.2,
       description: '',
-      level: 'HARD',
+      difficulty: 'HARD',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
     },
     {
       id: '4',
@@ -292,7 +356,24 @@ export const COMPARE_PREVIEW_TASKS: { tasks: ComparePreviewTask[] } = {
       totalTasks: 45,
       rate: 3.4,
       description: '',
-      level: 'EXPERT',
+      difficulty: 'EXPERT',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
     },
   ],
+};
+
+// SEARCH_PARAMS_ALIAS
+
+export const SEARCH_PARAMS_ALIAS = {
+  PAGINATION: {
+    LIMIT: 'limit',
+    OFFSET: 'offset',
+    HAS_MORE: 'hasMore',
+  },
+  TESTS_FILTERS: {
+    VALUE: 'value',
+    DIFFICULTY: 'difficulty',
+  },
 };

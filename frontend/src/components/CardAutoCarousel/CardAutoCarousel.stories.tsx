@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { CardAutoCarousel } from './CardAutoCarousel';
-import { SmallCard } from '@/components/cards/SmallCard';
-import { TaskBase } from '@/common/commonTypes';
 import dockerURL from '@assets/docker.png';
+import { Test } from '@/common/commonTypes';
+import { SmallTestCard } from '../cards/SmallTestCard';
 
 const meta = {
   title: 'Components/CardAutoCarousel',
@@ -13,7 +13,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const mockTasks: TaskBase[] = [
+const mockTests: Test[] = [
   {
     id: '1',
     title: 'React Developer Test',
@@ -21,6 +21,10 @@ const mockTasks: TaskBase[] = [
     totalTasks: 15,
     rate: 4.5,
     description: '',
+    difficulty: 'ENTRANCE',
+    timeLimitSeconds: null,
+    rechargeTimeSecondes: null,
+    reconfirmationTimeSeconds: null,
   },
   {
     id: '2',
@@ -29,6 +33,10 @@ const mockTasks: TaskBase[] = [
     totalTasks: 120,
     rate: 4.7,
     description: '',
+    difficulty: 'ENTRANCE',
+    timeLimitSeconds: null,
+    rechargeTimeSecondes: null,
+    reconfirmationTimeSeconds: null,
   },
   {
     id: '3',
@@ -37,6 +45,10 @@ const mockTasks: TaskBase[] = [
     totalTasks: 12,
     rate: 4.3,
     description: '',
+    difficulty: 'ENTRANCE',
+    timeLimitSeconds: null,
+    rechargeTimeSecondes: null,
+    reconfirmationTimeSeconds: null,
   },
   {
     id: '4',
@@ -45,6 +57,10 @@ const mockTasks: TaskBase[] = [
     totalTasks: 18,
     rate: 4.6,
     description: '',
+    difficulty: 'ENTRANCE',
+    timeLimitSeconds: null,
+    rechargeTimeSecondes: null,
+    reconfirmationTimeSeconds: null,
   },
   {
     id: '5',
@@ -53,6 +69,10 @@ const mockTasks: TaskBase[] = [
     totalTasks: 40,
     rate: 4.8,
     description: '',
+    difficulty: 'ENTRANCE',
+    timeLimitSeconds: null,
+    rechargeTimeSecondes: null,
+    reconfirmationTimeSeconds: null,
   },
   {
     id: '6',
@@ -61,6 +81,10 @@ const mockTasks: TaskBase[] = [
     totalTasks: 10,
     rate: 3.1,
     description: '',
+    difficulty: 'ENTRANCE',
+    timeLimitSeconds: null,
+    rechargeTimeSecondes: null,
+    reconfirmationTimeSeconds: null,
   },
   {
     id: '7',
@@ -69,6 +93,10 @@ const mockTasks: TaskBase[] = [
     totalTasks: 56,
     rate: 4.3,
     description: '',
+    difficulty: 'ENTRANCE',
+    timeLimitSeconds: null,
+    rechargeTimeSecondes: null,
+    reconfirmationTimeSeconds: null,
   },
   {
     id: '8',
@@ -77,11 +105,15 @@ const mockTasks: TaskBase[] = [
     totalTasks: 10,
     rate: 4.8,
     description: '',
+    difficulty: 'ENTRANCE',
+    timeLimitSeconds: null,
+    rechargeTimeSecondes: null,
+    reconfirmationTimeSeconds: null,
   },
 ];
 
 export const CardEntrance: Story = {
   args: {
-    items: mockTasks.map(task => <SmallCard key={task.id} task={task} />),
+    items: mockTests.map(test => <SmallTestCard key={test.id} test={test} />),
   },
 };
