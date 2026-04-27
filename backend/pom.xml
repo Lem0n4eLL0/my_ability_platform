@@ -10,11 +10,9 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.example</groupId>
-  <artifactId>GigAnt</artifactId>
+  <artifactId>my-ability-platform</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>GigAnt</name>
-  <description>Demo project for Spring Boot</description>
   <url/>
   <licenses>
     <license/>
