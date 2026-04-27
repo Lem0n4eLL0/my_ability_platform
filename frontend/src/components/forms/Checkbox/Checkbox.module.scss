@@ -1,0 +1,25 @@
+@use '@styles/variables' as *;
+
+.checkbox {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  border: 2px solid $color-form-base;
+  border-radius: 6px;
+  cursor: pointer;
+
+  &_checked {
+    border-color: $color-form-active;
+
+    &::after {
+      position: absolute;
+      content: '';
+      inset: 50%;
+      width: calc(100% - 6px);
+      height: calc(100% - 6px);
+      transform: translate(-50%, -50%);
+      background-color: $color-form-active;
+      border-radius: 4px;
+    }
+  }
+}
