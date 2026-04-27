@@ -42,7 +42,6 @@ public class ProfileService {
     try {
       profile = repository.save(profile);
     } catch (DataIntegrityViolationException e) {
-      // Сработает, если для accountId уже существует профиль (unique constraint)
       throw new PersistenceError("UserProfile");
     }
     return mapper.toModel(profile);
