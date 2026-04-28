@@ -1,4 +1,9 @@
-import { PaginationRequestParams, PaginationResponse, RequestStatus } from '@/api/apiTypes';
+import {
+  PaginationRequestParams,
+  PaginationResponse,
+  RequestStatus,
+  TestsFiltersRequestParams,
+} from '@/api/apiTypes';
 import z from 'zod';
 import { Test } from './commonTypes';
 
@@ -10,7 +15,7 @@ export const READY_REQUEST_STATUS: RequestStatus = {
   error: undefined,
 };
 
-export const PAGINATION_TESTS_LIMIT = 15;
+export const PAGINATION_TESTS_LIMIT = 20;
 export const PAGINATION_RESPONSE_PARAMS_BASE: PaginationResponse = {
   limit: PAGINATION_TESTS_LIMIT,
   offset: 0,
@@ -19,6 +24,9 @@ export const PAGINATION_RESPONSE_PARAMS_BASE: PaginationResponse = {
 export const PAGINATION_REQUEST_PARAMS_BASE: PaginationRequestParams = {
   limit: PAGINATION_TESTS_LIMIT,
   offset: 0,
+};
+export const TESTS_FILTERS_REQUEST_PARAMS_BASE: Omit<TestsFiltersRequestParams, 'value'> = {
+  difficulty: undefined,
 };
 
 // RegExp
@@ -96,11 +104,11 @@ export const ZOD_ENTITY = {
       )
       .transform(val => (val === '' ? null : val))
       .nullable(),
-    BIRTHDAY: z.string({ error: 'Дата рождения обязательна' }).refine(dateString => {
+    BIRTHDAY: z.string({ error: 'Дата рождения обязательна' }).refine(dateStr => {
       const today = new Date();
       const minDate = new Date(today.getFullYear() - 120, today.getMonth(), today.getDate());
       const maxDate = new Date(today.getFullYear() - 5, today.getMonth(), today.getDate());
-      const date = new Date(dateString);
+      const date = new Date(dateStr);
       return date >= minDate && date <= maxDate;
     }, 'Возраст должен быть от 5 до 120 лет'),
     ABOUT_MYSELF: z

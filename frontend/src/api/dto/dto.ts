@@ -97,3 +97,26 @@ export type TestResultDTO = {
   difficulty: string;
   reconfirmationDate: string;
 };
+
+export type PaginationResponseDTO = {
+  limit: number;
+  offset: number;
+  hasMore: boolean;
+};
+
+export type GetTestsResponseDTO = {
+  pagination: PaginationResponseDTO;
+  tests: Array<TestDTO>;
+};
+
+export type TestDTO = {
+  id: string;
+  title: string;
+  description: string | null;
+  rate: number;
+  imgURL: string | null;
+  difficulty: string;
+  timeLimitSeconds: number | null;
+  rechargeTimeSecondes: number | null;
+  reconfirmationTimeSeconds: number | null;
+};

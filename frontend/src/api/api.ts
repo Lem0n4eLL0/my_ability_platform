@@ -1,10 +1,11 @@
-import { LOCAL_STORAGE_ACCESS_TOKEN_ALIAS } from '@/common/constants';
+import { LOCAL_STORAGE_ACCESS_TOKEN_ALIAS, SEARCH_PARAMS_ALIAS } from '@/common/constants';
 import { baseHeaders, bulidURL, fetchWithCheckResponse, fetchWithRefresh } from './apiHelp';
 import {
   AuthenticationRequest,
   AuthenticationResponce,
   CheckEmailConfirmResponse,
   ConfirmEmailRequest,
+  GetTestsRequest,
   HTTP_METHODS,
   RefreshTokenResponce,
   RegistrationStepOneRequest,
@@ -22,10 +23,12 @@ import {
   mapStepThreeRequestToDTO,
   projectResponseMapper,
   testResultResponseMapper,
+  testsResponseMapper,
   userResponseMapper,
   workExperienceResponseMapper,
 } from './dto/schemas';
 import {
+  GetTestsResponseDTO,
   UserCertificateDTO,
   UserDTO,
   UserEducationDTO,
@@ -253,9 +256,20 @@ export const logoutMe = () => {
 
 // tests
 
-export const getTests = () => {
-  return fetchWithRefresh(bulidURL(`tests`), {
+export const getTests = (params: GetTestsRequest) => {
+  const searchParams = new URLSearchParams();
+
+  searchParams.set(SEARCH_PARAMS_ALIAS.PAGINATION.LIMIT, String(params.pagination.limit));
+  searchParams.set(SEARCH_PARAMS_ALIAS.PAGINATION.OFFSET, String(params.pagination.offset));
+  if (params.filters.value)
+    searchParams.set(SEARCH_PARAMS_ALIAS.TESTS_FILTERS.VALUE, String(params.filters.value));
+  if (params.filters.difficulty && params.filters.difficulty.length !== 0)
+    params.filters.difficulty.forEach(el => {
+      searchParams.append(SEARCH_PARAMS_ALIAS.TESTS_FILTERS.DIFFICULTY, String(el));
+    });
+
+  return fetchWithRefresh<GetTestsResponseDTO>(bulidURL('tests', searchParams.toString()), {
     method: HTTP_METHODS.GET,
     headers: baseHeaders,
-  });
+  }).then(testsResponseMapper);
 };

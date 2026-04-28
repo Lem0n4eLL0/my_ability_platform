@@ -1,5 +1,6 @@
 import z from 'zod';
 import { ZOD_ENTITY } from './constants';
+import { SyntheticEvent } from 'react';
 
 export type UUID = string;
 
@@ -121,3 +122,9 @@ export const TestSchema = z.object({
 });
 
 export type Test = z.infer<typeof TestSchema>;
+
+export type ChoiceBox = {
+  isChecked: boolean;
+  onClick?: (e: SyntheticEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
+};

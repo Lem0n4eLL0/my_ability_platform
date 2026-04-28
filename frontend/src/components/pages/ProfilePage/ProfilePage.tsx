@@ -54,8 +54,10 @@ export const ProfilePage = () => {
   }, [testResults]);
 
   useEffect(() => {
-    void dispatch(getTestsResultUser());
-  }, []);
+    if (getTestsResultStatus.status === 'READY') {
+      void dispatch(getTestsResultUser());
+    }
+  }, [dispatch]);
 
   const fillProfile = ((): ActionProfileFillMap | undefined => {
     if (!user) return;

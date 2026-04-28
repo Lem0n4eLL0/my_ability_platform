@@ -64,6 +64,7 @@ export const fetchWithRefresh = <T>(info: RequestInfo, options: RequestInit): Pr
   });
 };
 
-export const bulidURL = (postfix: string) => {
-  return `${URL_API}${URL_PREFIX}${postfix}`;
+export const bulidURL = (postfix: string, params?: string) => {
+  const param = params ? `?${params}` : '';
+  return `${URL_API}${URL_PREFIX}${postfix}${param}`;
 };

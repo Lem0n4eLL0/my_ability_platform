@@ -1,10 +1,10 @@
 import clsx from 'clsx';
-import style from './Checkbox.module.scss';
+import style from './Radio.module.scss';
 import { ChoiceBox } from '@/common/commonTypes';
 
-type ICheckbox = ChoiceBox;
+type IRadio = ChoiceBox;
 
-export const Checkbox = (props: ICheckbox) => {
+export const Radio = (props: IRadio) => {
   const { isChecked, onClick, disabled } = props;
 
   return (
@@ -14,9 +14,9 @@ export const Checkbox = (props: ICheckbox) => {
         if (!disabled && onClick) onClick(e);
       }}
       className={clsx(
-        style['checkbox'],
-        !disabled && isChecked && style['checkbox_checked'],
-        disabled && style['checkbox_disabled']
+        style['radio'],
+        !disabled && isChecked && style['radio_checked'],
+        disabled && style['radio_disabled']
       )}
     ></button>
   );
