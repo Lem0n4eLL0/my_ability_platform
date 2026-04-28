@@ -8,14 +8,14 @@ DROP COLUMN is_current;
 
 ALTER TABLE user_project
 DROP COLUMN project_url,
-DROP COLUMN github_url
+DROP COLUMN github_url,
 DROP COLUMN technologies,
 DROP COLUMN is_team_project,
 ADD COLUMN link VARCHAR(100);
 
-DROP TABLE IF EXIST user_courses;
+DROP TABLE IF EXISTS user_courses;
 
-CREATE TABLE IF EXIST certificates(
+CREATE TABLE IF NOT EXISTS certificates(
 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 title VARCHAR(100),
 link VARCHAR(255),
@@ -30,7 +30,7 @@ CREATE INDEX idx_certificates_profile_id ON certificates(profile_id);
 ALTER TABLE test
 ADD COLUMN reconfirmation_time_seconds INTEGER;
 
-DROP TABLE IF EXIST attempt_questions;
+DROP TABLE IF EXISTS attempt_questions;
 
 CREATE TABLE IF NOT EXISTS test_attempts (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -52,10 +52,12 @@ CREATE TABLE IF NOT EXISTS test_attempts (
         ON DELETE CASCADE,
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-        version INTEGER NOT NULL DEFAULT 0,
+        version INTEGER NOT NULL DEFAULT 0
 );
 
-CREATE TABLE IF NOT EXISTS attempt_questions (
+DROP TABLE IF EXISTS attempt_questions CASCADE;
+
+CREATE TABLE attempt_questions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     attempt_id UUID NOT NULL,
     question_id UUID NOT NULL,
@@ -64,7 +66,7 @@ CREATE TABLE IF NOT EXISTS attempt_questions (
     points INTEGER NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-     version INTEGER NOT NULL DEFAULT 0,
+    version INTEGER NOT NULL DEFAULT 0,
     CONSTRAINT fk_answer_attempt
         FOREIGN KEY (attempt_id)
         REFERENCES test_attempt(id)
@@ -73,8 +75,7 @@ CREATE TABLE IF NOT EXISTS attempt_questions (
         FOREIGN KEY (question_id)
         REFERENCES question(id)
         ON DELETE RESTRICT,
-    CONSTRAINT unique_attempt_question UNIQUE (attempt_id, question_id),
-    CONSTRAINT chk_points_earned CHECK (points_earned >= 0)
+    CONSTRAINT chk_points_earned CHECK (points >= 0)
 );
 
 

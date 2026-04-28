@@ -3,6 +3,7 @@ package com.example.GigAnt.model.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
@@ -24,7 +25,7 @@ public record ProfileCreateRequest(
     String surname,
 
     @Schema(description = "Дата рождения в формате ГГГГ-ММ-ДД", example = "1990-01-01")
-    @NotBlank(message = "Дата рождения обязательна для заполнения")
+    @NotNull(message = "Дата рождения обязательна")
     @Past(message = "Дата рождения должна быть в прошлом")
     LocalDate birthday
 ) {

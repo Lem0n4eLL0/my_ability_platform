@@ -22,10 +22,6 @@ import java.util.UUID;
 @Table(name = "user_project")
 public class UserProjects extends BaseEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  @Column(name = "id", updatable = false, nullable = false)
-  private UUID id;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "profile_id", nullable = false, foreignKey = @ForeignKey(name = "fk_user_project_profile"))

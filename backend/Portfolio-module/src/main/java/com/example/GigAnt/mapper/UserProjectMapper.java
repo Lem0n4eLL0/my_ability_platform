@@ -15,7 +15,7 @@ public interface UserProjectMapper {
   UserProjects toEntity(ProjectsRequest request);
   ProjectResponse toModel(UserProjects userProjects);
   List<UserProjects> toEntityList(List<ProjectsRequest> projectsRequests);
-  List<ProjectResponse> toModelList(UserProjects userProjects);
+  List<ProjectResponse> toModelList(List<UserProjects> userProjects);
 
 
 

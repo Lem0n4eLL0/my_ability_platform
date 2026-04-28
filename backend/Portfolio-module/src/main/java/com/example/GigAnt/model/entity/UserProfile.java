@@ -21,7 +21,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "user_profile")
-public class UserProfile extends BaseEntity {
+public class UserProfile  {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,17 +59,29 @@ public class UserProfile extends BaseEntity {
   @Column(name = "github", length = 50)
   private String github;
 
-  @OneToMany(mappedBy = "profile_id", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Certificates> certificates = new ArrayList<>();
 
-  @OneToMany(mappedBy = "profile_id", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Education> educations = new ArrayList<>();
 
-  @OneToMany(mappedBy = "profile_id", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<UserProjects> projects = new ArrayList<>();
 
-  @OneToMany(mappedBy = "profile_id", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<WorkExperience> workExperiences = new ArrayList<>();
+
+  @CreationTimestamp
+  @Column(nullable = false)
+  private LocalDateTime createdAt;
+
+  @UpdateTimestamp
+  @Column(nullable = false)
+  private LocalDateTime updatedAt;
+
+  @Version
+  @Column(nullable = false)
+  private Long version;
 
 
 }

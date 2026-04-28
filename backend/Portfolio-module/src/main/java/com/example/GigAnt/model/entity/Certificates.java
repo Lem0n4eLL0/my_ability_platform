@@ -1,5 +1,6 @@
 package com.example.GigAnt.model.entity;
 
+import com.example.GigAnt.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,12 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "certificates")
-public class Certificates {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  @Column(name = "id", updatable = false, nullable = false)
-  private UUID id;
+public class Certificates extends BaseEntity {
 
   @Column(name = "title", length = 100)
   private String title;

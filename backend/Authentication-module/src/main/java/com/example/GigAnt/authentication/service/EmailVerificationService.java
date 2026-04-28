@@ -53,7 +53,7 @@ public class EmailVerificationService {
     );
 
     String confirmationLink = apiDomain + "/api/" + appVersion +
-        "/confirm-account?token=" + token;
+        "registration/confirm-email?token=" + token;
 
     // Thymeleaf рендеринг
     Context context = new Context();
@@ -80,9 +80,9 @@ public class EmailVerificationService {
     }
   }
 
-  public Account confirmEmail(EmailConfirmRequest request) {
+  public Account confirmEmail(String token) {
     try {
-      var token = request.token();
+
       var claims = jwtUtils.extractAllClaims(token);
       var accountId = jwtUtils.getAccountId(claims);
       var email = jwtUtils.getEmail(claims);

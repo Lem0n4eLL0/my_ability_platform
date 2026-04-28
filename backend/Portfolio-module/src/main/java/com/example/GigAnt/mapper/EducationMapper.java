@@ -12,16 +12,8 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface EducationMapper {
 
-  @Mapping(target = "id", ignore = true)
-  @Mapping(target = "profile", ignore = true)
-  @Mapping(target = "createdAt", ignore = true)
-  @Mapping(target = "updatedAt", ignore = true)
-  @Mapping(target = "version", ignore = true)
-  @Mapping(source = "status", target = "status", qualifiedByName = "educationStatusToString")
   Education toEntity(EducationRequest request);
 
-  @Mapping(source = "status", target = "status", qualifiedByName = "stringToEducationStatus")
-  @Mapping(source = "graduationDate", target = "graduationDate", qualifiedByName = "localDateToString")
   EducationResponse toModel(Education education);
 
   List<EducationResponse> toModelList(List<Education> educations);
