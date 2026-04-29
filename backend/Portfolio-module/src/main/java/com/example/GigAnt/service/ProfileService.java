@@ -42,6 +42,7 @@ public class ProfileService {
     try {
       profile = repository.save(profile);
     } catch (DataIntegrityViolationException e) {
+      System.out.println("Messages ^^ "+e.getMessage());
       throw new PersistenceError("UserProfile");
     }
     return mapper.toModel(profile);
@@ -56,9 +57,9 @@ public class ProfileService {
       UserProfile profile = repository.getByAccountId(accountId);
       if(Objects.isNull(profile)) throw new ProfileNotFounded();
       profile.setFirstName(request.firstName());
-      profile.setSecondName(request.lastName());
-      profile.setSurnameName(request.surname());
-      profile.setBirthDate(request.birthday());
+      profile.setSecondName(request.secondName());
+      profile.setSurnameName(request.surnameName());
+      profile.setBirthDate(request.birthDate());
 
     try {
       repository.save(profile);

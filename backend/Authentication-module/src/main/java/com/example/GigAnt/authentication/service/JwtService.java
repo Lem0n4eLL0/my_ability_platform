@@ -44,6 +44,7 @@ public class JwtService {
 
     return Jwts.builder()
         .subject(account.getId().toString())
+        .claim("Account-Id",account.getId())
         .claim("role", account.getRole())
         .claim("email", account.getEmail())
         .issuedAt(now)

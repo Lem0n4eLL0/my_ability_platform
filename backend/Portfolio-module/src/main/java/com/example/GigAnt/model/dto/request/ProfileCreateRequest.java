@@ -19,15 +19,15 @@ public record ProfileCreateRequest(
     @Schema(description = "Фамилия пользователя", example = "Иванов")
     @NotBlank(message = "Фамилия обязательна для заполнения")
     @Size(min = 2, max = 50, message = "Фамилия должна быть от 2 до 50 символов")
-    String lastName,
+    String secondName,
 
     @Schema(description = "Отчество пользователя (опционально)", example = "Иванович", required = false)
-    String surname,
+    String surnameName,
 
     @Schema(description = "Дата рождения в формате ГГГГ-ММ-ДД", example = "1990-01-01")
     @NotNull(message = "Дата рождения обязательна")
     @Past(message = "Дата рождения должна быть в прошлом")
-    LocalDate birthday
+    LocalDate birthDate
 ) {
 
 }

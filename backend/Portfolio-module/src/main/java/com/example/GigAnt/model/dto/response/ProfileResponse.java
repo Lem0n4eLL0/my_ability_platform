@@ -2,6 +2,7 @@ package com.example.GigAnt.model.dto.response;
 
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,10 +19,12 @@ public class ProfileResponse {
   private String firstName;
   @NotNull
   private String secondName;
-
-  private String surname;
   @NotNull
-  private String birthday;
+  private UUID accountId;
+
+  private String surnameName;
+  @NotNull
+  private String birthDate;
   @NotNull
   private String profileUniqueLink;
   @NotNull

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +29,7 @@ public class ProfileController {
     return "PROFILE";
   }
   @PostMapping("/profile")
-  public ResponseEntity<ProfileResponse> createProfile(@Validated @RequestBody ProfileCreateRequest request,@RequestHeader(ACCOUNT_ID) @NotNull UUID accountId){
+  public ResponseEntity<ProfileResponse> createProfile(@Validated @RequestBody ProfileCreateRequest request,@RequestAttribute(ACCOUNT_ID) @NotNull UUID accountId){
       return ResponseEntity.ok(service.createProfile(request,accountId));
   }
   @GetMapping("/me")
