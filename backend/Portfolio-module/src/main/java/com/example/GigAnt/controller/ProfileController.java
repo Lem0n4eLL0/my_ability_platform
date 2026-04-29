@@ -3,6 +3,7 @@ package com.example.GigAnt.controller;
 import static com.example.GigAnt.headers.AppHeaders.ACCOUNT_ID;
 
 import com.example.GigAnt.model.dto.request.ProfileCreateRequest;
+import com.example.GigAnt.model.dto.request.ProfileUpdateRequest;
 import com.example.GigAnt.model.dto.response.ProfileResponse;
 import com.example.GigAnt.service.ProfileService;
 import jakarta.validation.constraints.NotNull;
@@ -33,18 +34,18 @@ public class ProfileController {
       return ResponseEntity.ok(service.createProfile(request,accountId));
   }
   @GetMapping("/me")
-  public ResponseEntity<ProfileResponse> getProfile(@RequestHeader(ACCOUNT_ID) @NotNull UUID accountId){
+  public ResponseEntity<ProfileResponse> getProfile(@RequestAttribute(ACCOUNT_ID) @NotNull UUID accountId){
     return ResponseEntity.ok(service.getProfile(accountId));
 
   }
 
   @PatchMapping("/me")
-  public ResponseEntity<ProfileResponse> updateProfile(@Validated @RequestBody ProfileCreateRequest request, @RequestHeader(ACCOUNT_ID) @NotNull UUID accountId){
+  public ResponseEntity<ProfileResponse> updateProfile(@Validated @RequestBody ProfileUpdateRequest request,@RequestAttribute(ACCOUNT_ID) @NotNull UUID accountId){
     return ResponseEntity.ok(service.updateProfile(request,accountId));
   }
 
   @DeleteMapping("/me")
-  public ResponseEntity<ProfileResponse> deleteProfile(@RequestHeader(ACCOUNT_ID) @NotNull UUID accountId){
+  public ResponseEntity<ProfileResponse> deleteProfile(@RequestAttribute(ACCOUNT_ID) @NotNull UUID accountId){
     return ResponseEntity.ok(service.deleteProfile(accountId));
 
   }

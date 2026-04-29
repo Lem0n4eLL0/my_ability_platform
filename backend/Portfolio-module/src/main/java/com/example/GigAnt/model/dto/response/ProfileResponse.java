@@ -13,26 +13,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProfileResponse {
-  @NotNull
+
   private Integer id;
-  @NotNull
+
   private String firstName;
-  @NotNull
+
   private String secondName;
-  @NotNull
-  private UUID accountId;
 
   private String surnameName;
-  @NotNull
+
   private String birthDate;
-  @NotNull
+
   private String profileUniqueLink;
-  @NotNull
-  private String aboutMyself;
-  @NotNull
+  private String aboutMe;
+
   private String contactPhone;
   private String github;
-  @NotNull
+
   private String email;
   private String avatarLink;
   private List<ProjectResponse> projects;

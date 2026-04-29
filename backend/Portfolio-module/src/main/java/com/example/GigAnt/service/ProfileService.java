@@ -7,6 +7,7 @@ import com.example.GigAnt.exception.PersistenceError;
 import com.example.GigAnt.exception.ProfileNotFounded;
 import com.example.GigAnt.mapper.ProfileMapper;
 import com.example.GigAnt.model.dto.request.ProfileCreateRequest;
+import com.example.GigAnt.model.dto.request.ProfileUpdateRequest;
 import com.example.GigAnt.model.dto.response.ProfileResponse;
 import com.example.GigAnt.model.entity.Certificates;
 import com.example.GigAnt.model.entity.Education;
@@ -53,19 +54,20 @@ public class ProfileService {
     return mapper.toModel(profile);
 
   }
-  public ProfileResponse updateProfile(ProfileCreateRequest request, UUID accountId){
-      UserProfile profile = repository.getByAccountId(accountId);
-      if(Objects.isNull(profile)) throw new ProfileNotFounded();
-      profile.setFirstName(request.firstName());
-      profile.setSecondName(request.secondName());
-      profile.setSurnameName(request.surnameName());
-      profile.setBirthDate(request.birthDate());
+  public ProfileResponse updateProfile(ProfileUpdateRequest request, UUID accountId){
+    UserProfile profile = repository.getByAccountId(accountId);
+    if(Objects.isNull(profile)) throw new ProfileNotFounded();
+
+    mapper.updateEntityFromRequest(request, profile);
 
     try {
-      repository.save(profile);
-    } catch (OptimisticLockingFailureException | DataIntegrityViolationException e) {
+      profile = repository.save(profile);
+    } catch (OptimisticLockingFailureException e) {
+      throw new PersistenceError("UserProfile");
+    } catch (DataIntegrityViolationException e) {
       throw new PersistenceError("UserProfile");
     }
+
     return mapper.toModel(profile);
 
 
