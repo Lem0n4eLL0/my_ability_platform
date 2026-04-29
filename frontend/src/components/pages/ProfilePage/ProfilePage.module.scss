@@ -6,8 +6,8 @@
   justify-content: center;
   gap: 100px;
   padding: $page-padding;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: $page-header2-top-padding;
+  padding-bottom: $page-header2-top-padding;
 
   &__main {
     display: flex;

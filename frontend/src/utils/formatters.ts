@@ -1,4 +1,4 @@
-import { TEST_LEVELS, TestLevel, User } from '@/common/commonTypes';
+import { TEST_LEVELS_RU, TestLevel, User } from '@/common/commonTypes';
 
 export const totalTaskFormatter = (value: number, lable: string = 'тестов'): string => {
   const strValue = String(value);
@@ -10,7 +10,7 @@ export const totalTaskFormatter = (value: number, lable: string = 'тестов'
 };
 
 export const testLevelFormatter = (level: TestLevel): string => {
-  return TEST_LEVELS[level];
+  return TEST_LEVELS_RU[level];
 };
 
 export const formatZError = (value: { [key: string]: string[] }): { [key: string]: string } => {

@@ -1,5 +1,11 @@
-import { RequestStatus } from '@/api/apiTypes';
+import {
+  PaginationRequestParams,
+  PaginationResponse,
+  RequestStatus,
+  TestsFiltersRequestParams,
+} from '@/api/apiTypes';
 import z from 'zod';
+import { Test } from './commonTypes';
 
 export const LOCAL_STORAGE_ACCESS_TOKEN_ALIAS = 'accessToken';
 
@@ -7,6 +13,20 @@ export const LOCAL_STORAGE_ACCESS_TOKEN_ALIAS = 'accessToken';
 export const READY_REQUEST_STATUS: RequestStatus = {
   status: 'READY',
   error: undefined,
+};
+
+export const PAGINATION_TESTS_LIMIT = 20;
+export const PAGINATION_RESPONSE_PARAMS_BASE: PaginationResponse = {
+  limit: PAGINATION_TESTS_LIMIT,
+  offset: 0,
+  hasMore: true,
+};
+export const PAGINATION_REQUEST_PARAMS_BASE: PaginationRequestParams = {
+  limit: PAGINATION_TESTS_LIMIT,
+  offset: 0,
+};
+export const TESTS_FILTERS_REQUEST_PARAMS_BASE: Omit<TestsFiltersRequestParams, 'value'> = {
+  difficulty: undefined,
 };
 
 // RegExp
@@ -84,11 +104,11 @@ export const ZOD_ENTITY = {
       )
       .transform(val => (val === '' ? null : val))
       .nullable(),
-    BIRTHDAY: z.string({ error: 'Дата рождения обязательна' }).refine(dateString => {
+    BIRTHDAY: z.string({ error: 'Дата рождения обязательна' }).refine(dateStr => {
       const today = new Date();
       const minDate = new Date(today.getFullYear() - 120, today.getMonth(), today.getDate());
       const maxDate = new Date(today.getFullYear() - 5, today.getMonth(), today.getDate());
-      const date = new Date(dateString);
+      const date = new Date(dateStr);
       return date >= minDate && date <= maxDate;
     }, 'Возраст должен быть от 5 до 120 лет'),
     ABOUT_MYSELF: z
@@ -179,5 +199,189 @@ export const ZOD_ENTITY = {
       ESTIMATION_PROCENT: z.number().gte(0, 'Значение не может быть отрицательным'),
       RECONFIRMATION_DATE: z.string(),
     },
+  },
+  TEST: {
+    TITLE: z.string().min(1, VALIDATION_ERROR.MIN_SYMB(1)).max(100, VALIDATION_ERROR.MAX_SYMB(100)),
+    DESCRIPTION: z
+      .string()
+      .min(2, VALIDATION_ERROR.MIN_SYMB(2))
+      .max(256, VALIDATION_ERROR.MAX_SYMB(256)),
+    RATE: z.number().gte(0).lte(5),
+    TOTAL_TASKS: z.number().gt(0).optional(),
+    TIME_LIMIT_SECONDS: z.number().gt(0),
+    RECHARGE_TIME_SECONDS: z.number().gt(0),
+    RECONFIRMATION_TIME_SECONDS: z.number().gt(0),
+  },
+};
+
+// Главная страница
+
+export const CAROUSEL_TASKS: {
+  tasks: Test[];
+} = {
+  tasks: [
+    {
+      id: '1',
+      title: 'React Developer Test',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 15,
+      rate: 4.5,
+      description: '',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
+    },
+    {
+      id: '2',
+      title: 'Node.js Backend Test',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 120,
+      rate: 4.7,
+      description: '',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
+    },
+    {
+      id: '3',
+      title: 'Python Data Science',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 12,
+      rate: 4.3,
+      description: '',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
+    },
+    {
+      id: '4',
+      title: 'DevOps Engineer',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 18,
+      rate: 4.6,
+      description: '',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
+    },
+    {
+      id: '5',
+      title: 'Frontend Architecture',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 40,
+      rate: 4.8,
+      description: '',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
+    },
+    {
+      id: '6',
+      title: 'Engine test',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 10,
+      rate: 3.1,
+      description: '',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
+    },
+    {
+      id: '7',
+      title: 'The balance test',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 56,
+      rate: 4.3,
+      description: '',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
+    },
+    {
+      id: '8',
+      title: 'Frontend Vue',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 10,
+      rate: 4.8,
+      description: '',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
+    },
+  ],
+};
+
+export const COMPARE_PREVIEW_TASKS: { tasks: Test[] } = {
+  tasks: [
+    {
+      id: '1',
+      title: 'Docker',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 15,
+      rate: 4.5,
+      description: '',
+      difficulty: 'ENTRANCE',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
+    },
+    {
+      id: '2',
+      title: 'Docker',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 56,
+      rate: 4.7,
+      description: '',
+      difficulty: 'MEDIUM',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
+    },
+    {
+      id: '3',
+      title: 'Docker',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 156,
+      rate: 4.2,
+      description: '',
+      difficulty: 'HARD',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
+    },
+    {
+      id: '4',
+      title: 'Docker',
+      imgURL: './src/assets/docker.png',
+      totalTasks: 45,
+      rate: 3.4,
+      description: '',
+      difficulty: 'EXPERT',
+      timeLimitSeconds: null,
+      rechargeTimeSecondes: null,
+      reconfirmationTimeSeconds: null,
+    },
+  ],
+};
+
+// SEARCH_PARAMS_ALIAS
+
+export const SEARCH_PARAMS_ALIAS = {
+  PAGINATION: {
+    LIMIT: 'limit',
+    OFFSET: 'offset',
+    HAS_MORE: 'hasMore',
+  },
+  TESTS_FILTERS: {
+    VALUE: 'value',
+    DIFFICULTY: 'difficulty',
   },
 };

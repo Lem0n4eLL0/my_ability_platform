@@ -74,7 +74,7 @@ export const RegistrationStepThree = () => {
           <FormElement label="Дата рождения" error={errors.birthday?.message}>
             <Input
               {...register('birthday', {
-                setValueAs: v => (v ? new Date(v as string) : undefined),
+                setValueAs: v => (v ? (v as string) : undefined),
               })}
               style={{ width: 'min-content' }}
               type="date"

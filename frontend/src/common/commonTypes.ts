@@ -1,5 +1,6 @@
 import z from 'zod';
 import { ZOD_ENTITY } from './constants';
+import { SyntheticEvent } from 'react';
 
 export type UUID = string;
 
@@ -28,22 +29,6 @@ export const TEST_LEVELS_PRIORITY: Record<TestLevel, number> = {
   HARD: 3,
   EXPERT: 4,
 };
-
-export type TaskBase = {
-  id: UUID;
-  title: string;
-  description: string;
-  rate: number;
-  totalTasks: number;
-  imgURL: string;
-};
-
-export type Task = TaskBase & {
-  level: TestLevel;
-};
-
-export type СarouselTask = TaskBase;
-export type ComparePreviewTask = Task;
 
 export const USER_ROLES = ['ADMIN', 'APPLICANT', 'COMPANY'] as const;
 export type UserRole = (typeof USER_ROLES)[number];
@@ -122,3 +107,24 @@ export const TestResultSchema = z.object({
   reconfirmationDate: ZOD_ENTITY.TESTS.TESTS_RESULT.RECONFIRMATION_DATE,
 });
 export type TestResult = z.infer<typeof TestResultSchema>;
+
+export const TestSchema = z.object({
+  id: ZOD_ENTITY.UUID,
+  title: ZOD_ENTITY.TEST.TITLE,
+  description: ZOD_ENTITY.TEST.DESCRIPTION.nullable(),
+  rate: ZOD_ENTITY.TEST.RATE,
+  imgURL: ZOD_ENTITY.LINK.nullable(),
+  difficulty: z.enum(TEST_LEVELS_ARRAY),
+  totalTasks: ZOD_ENTITY.TEST.TOTAL_TASKS,
+  timeLimitSeconds: ZOD_ENTITY.TEST.TIME_LIMIT_SECONDS.nullable(),
+  rechargeTimeSecondes: ZOD_ENTITY.TEST.RECHARGE_TIME_SECONDS.nullable(),
+  reconfirmationTimeSeconds: ZOD_ENTITY.TEST.RECONFIRMATION_TIME_SECONDS.nullable(),
+});
+
+export type Test = z.infer<typeof TestSchema>;
+
+export type ChoiceBox = {
+  isChecked: boolean;
+  onClick?: (e: SyntheticEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
+};

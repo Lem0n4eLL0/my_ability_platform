@@ -1,8 +1,9 @@
 import {
-  Task,
+  Test,
   TestLevel,
   TestResult,
   TestResultSchema,
+  TestSchema,
   User,
   UserCertificate,
   UserCertificateSchema,
@@ -15,13 +16,20 @@ import {
   UserWorkExperience,
   UserWorkExperienceSchema,
 } from '@/common/commonTypes';
-import { CarouselTasksResponseDto, RegistrationStepThreeRequest, RequestError } from '../apiTypes';
+import {
+  CarouselTasksResponseDto,
+  GetTestsResponse,
+  PaginationResponse,
+  RegistrationStepThreeRequest,
+  RequestError,
+} from '../apiTypes';
 import {
   CarouselTaskDto,
   DTORequestError,
+  GetTestsResponseDTO,
+  PaginationResponseDTO,
   RegistrationStepThreeRequestDTO,
-  TaskDto,
-  TasksResponseDto,
+  TestDTO,
   TestResultDTO,
   UserCertificateDTO,
   UserDTO,
@@ -56,29 +64,29 @@ export const mapCarouselTasksResponseToDomain = (
   tasks: dto.tasks.map(mapCarouselTaskDtoToDomain),
 });
 
-export const mapTaskDtoToDomain = (dto: TaskDto): Task => ({
-  id: dto.id,
-  title: dto.title,
-  description: dto.description,
-  rate: dto.rate,
-  totalTasks: dto.totalTasks,
-  imgURL: dto.imgURL,
-  level: dto.level as TestLevel,
-});
+// export const mapTaskDtoToDomain = (dto: TaskDto): Task => ({
+//   id: dto.id,
+//   title: dto.title,
+//   description: dto.description,
+//   rate: dto.rate,
+//   totalTasks: dto.totalTasks,
+//   imgURL: dto.imgURL,
+//   level: dto.level as TestLevel,
+// });
 
-export const mapTaskDomainToDto = (task: Task): TaskDto => ({
-  id: task.id,
-  title: task.title,
-  description: task.description,
-  rate: task.rate,
-  totalTasks: task.totalTasks,
-  imgURL: task.imgURL,
-  level: task.level,
-});
+// export const mapTaskDomainToDto = (task: Task): TaskDto => ({
+//   id: task.id,
+//   title: task.title,
+//   description: task.description,
+//   rate: task.rate,
+//   totalTasks: task.totalTasks,
+//   imgURL: task.imgURL,
+//   level: task.level,
+// });
 
-export const mapTasksResponseToDomain = (dto: TasksResponseDto) => ({
-  tasks: dto.tasks.map(mapTaskDtoToDomain),
-});
+// export const mapTasksResponseToDomain = (dto: TasksResponseDto) => ({
+//   tasks: dto.tasks.map(mapTaskDtoToDomain),
+// });
 
 export const mapStepThreeRequestToDTO = (
   value: RegistrationStepThreeRequest
@@ -179,7 +187,7 @@ export const testResultResponseMapper = (dto: TestResultDTO): TestResult => {
     title: dto.title,
     estimationProcent: dto.estimationProcent,
     isTestPassed: dto.isTestPassed,
-    difficulty: dto.difficulty,
+    difficulty: dto.difficulty as TestLevel,
     reconfirmationDate: dto.reconfirmationDate,
   };
 
@@ -187,3 +195,31 @@ export const testResultResponseMapper = (dto: TestResultDTO): TestResult => {
   // console.log(res);
   return result;
 };
+
+export const paginationMapper = (dto: PaginationResponseDTO): PaginationResponse => ({
+  limit: dto.limit,
+  offset: dto.offset,
+  hasMore: dto.hasMore,
+});
+
+export const testsFromDTOMapper = (dto: TestDTO): Test => {
+  const result: Test = {
+    id: dto.id,
+    title: dto.title,
+    description: dto.description,
+    rate: dto.rate,
+    imgURL: dto.imgURL,
+    difficulty: dto.difficulty as TestLevel,
+    timeLimitSeconds: dto.timeLimitSeconds,
+    rechargeTimeSecondes: dto.rechargeTimeSecondes,
+    reconfirmationTimeSeconds: dto.reconfirmationTimeSeconds,
+  };
+
+  const res = TestSchema.safeParse(result);
+  return result;
+};
+
+export const testsResponseMapper = (dto: GetTestsResponseDTO): GetTestsResponse => ({
+  pagination: paginationMapper(dto.pagination),
+  tests: dto.tests.map(testsFromDTOMapper),
+});

@@ -102,9 +102,12 @@ $test-none-bg: $neutral-100;
 // --- Границы ---
 $color-border-dark: $neutral-900;
 $color-border-green: $green-500;
+$color-border-grey: #e2e8f0;
 
 // Отступы
 $page-padding: 0 clamp(20px, calc(-2.22916667rem + 12.68518519vw), 147px);
+$page-header2-top-padding: 50px;
+
 // === SVG ===
 // --- Colors ---
 $icon-step-color: $neutral-200;
@@ -123,7 +126,7 @@ $test-entrance-shadow-small: 0 0 4px rgba(63 190 78 / 0.5);
 $test-medium-shadow-small: 0 0 4px rgba(191 187 64 / 0.5);
 $test-hard-shadow-small: 0 0 4px rgba(191 64 64 / 0.5);
 $test-expert-shadow-small: 0 0 4px rgba(151 64 191 / 0.5);
-$test-none-shadow-small: 0 0 4px rgba(0, 0, 0, 0.5);
+$test-none-shadow-small: 0 0 4px rgba(0, 0, 0, 0.25);
 
 $test-none-shadow: -1px 2px 10px rgba(0 0 0 / 0.4);
 $green-btn-shadow: 0 2px 16px rgba($green-500, 0.3);
@@ -140,7 +143,19 @@ $transition-duration-extra-small: 0.1s;
 $transition-duration-small: 0.15s;
 $transition-duration-medium: 0.2s;
 
+$green-button-border: #8a9691;
+$green-button-border-hover: rgba($color-bg-green, 0.6);
+$green-button-color: rgba($color-bg-green, 0.8);
+
+$green-button-bg-hover: #f1f1f1;
+
 $green-button-color-hover: rgba($color-bg-green, 0.9);
 $green-button-color-disabled: rgba($color-bg-green, 0.6);
 
-$grey-button-color-hover: #eeeeee;
+$grey-button-color-hover: #eee;
+
+// Forms
+$color-form-base: #8a9691;
+$color-form-base-2: #7c948a;
+$color-form-active: #0f6245;
+$color-form-disabled: #dadada;

@@ -2,6 +2,8 @@ import { VALIDATION_ERROR, ZOD_ENTITY } from '@/common/constants';
 import { CarouselTaskDto, TestResultDTO } from './dto/dto';
 import * as z from 'zod';
 import {
+  Test,
+  TestLevel,
   UserCertificate,
   UserEducation,
   UserProject,
@@ -130,3 +132,29 @@ export const ChangeMainProfileRequestSchema = z.object({
   contactPhone: ZOD_ENTITY.USER.CONTACT_PHONE,
   github: ZOD_ENTITY.USER.GITHUB,
 });
+
+export type PaginationRequestParams = {
+  limit: number;
+  offset: number;
+};
+
+export type PaginationResponse = {
+  limit: number;
+  offset: number;
+  hasMore: boolean;
+};
+
+export type TestsFiltersRequestParams = {
+  value?: string | undefined;
+  difficulty?: Array<TestLevel> | undefined;
+};
+
+export type GetTestsRequest = {
+  filters: TestsFiltersRequestParams;
+  pagination: PaginationRequestParams;
+};
+
+export type GetTestsResponse = {
+  pagination: PaginationResponse;
+  tests: Array<Test>;
+};

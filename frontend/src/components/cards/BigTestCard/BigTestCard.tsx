@@ -1,4 +1,4 @@
-import { Task } from '@/common/commonTypes';
+import { Test } from '@/common/commonTypes';
 import style from './BigTestCard.module.scss';
 import { testLevelFormatter, totalTaskFormatter } from '@/utils/formatters';
 import { Rate } from '@/components/Rate';
@@ -6,38 +6,38 @@ import { useMemo } from 'react';
 import clsx from 'clsx';
 import { testLevelClasses } from '@/utils/className';
 
-type IBigTestCard<T extends Task> = {
-  task: T;
-  onClick?: (task: T) => void;
+type IBigTestCard = {
+  test: Test;
+  onClick?: (test: Test) => void;
   className?: string;
 };
 
-export const BigTestCard = <T extends Task>(props: IBigTestCard<T>) => {
-  const { task, className, onClick } = props;
+export const BigTestCard = (props: IBigTestCard) => {
+  const { test, className, onClick } = props;
 
   const [taskLevelClassName, contentClassName] = useMemo(() => {
-    return testLevelClasses(task.level);
-  }, [task.level]);
+    return testLevelClasses(test.difficulty);
+  }, [test.difficulty]);
 
   return (
     <button
       className={clsx(style['content'], contentClassName, className)}
-      onClick={() => onClick?.(task)}
+      onClick={() => onClick?.(test)}
     >
       <div
         className={style['content__img_block']}
-        style={{ backgroundImage: `url(${task.imgURL})` }}
+        style={{ backgroundImage: `url(${test.imgURL})` }}
       >
         <div className={clsx(style['content__level'], taskLevelClassName)}>
-          {testLevelFormatter(task.level)}
+          {testLevelFormatter(test.difficulty)}
         </div>
       </div>
       <div className={style['content__description']}>
         <div className={style['content__information']}>
-          <Rate rating={task.rate} starsNumber={1} gap={2} ratePosition="right" />
-          <span>{totalTaskFormatter(task.totalTasks, 'заданий')}</span>
+          <Rate rating={test.rate} starsNumber={1} gap={2} ratePosition="right" />
+          {test.totalTasks && <span>{totalTaskFormatter(test.totalTasks, 'заданий')}</span>}
         </div>
-        <h2 className={style['content__title']}>{task.title}</h2>
+        <h2 className={style['content__title']}>{test.title}</h2>
       </div>
     </button>
   );
