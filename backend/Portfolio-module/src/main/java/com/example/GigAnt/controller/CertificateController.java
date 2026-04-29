@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class CertificateController {
   private final CertificateService service;
   @PostMapping
   public ResponseEntity<CertificateResponse> createCertificates(@Validated @RequestBody
-      CertificateRequest certificateRequest, @RequestHeader(ACCOUNT_ID) @NotNull UUID accountId){
+      CertificateRequest certificateRequest, @RequestAttribute(ACCOUNT_ID) @NotNull UUID accountId){
     return ResponseEntity.ok(service.createCertificate(certificateRequest,accountId));
 
   }
