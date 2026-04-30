@@ -1,7 +1,13 @@
 package com.example.GigAnt.authentication.filter;
 
 
+import com.example.GigAnt.authentication.exception.TokenExpiredException;
+import com.example.GigAnt.authentication.exception.TokenNotFound;
 import com.example.GigAnt.authentication.service.JwtUtils;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +22,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.security.SignatureException;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -30,19 +37,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request,
       HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
-    System.out.println("ФИЛЬТР ИСПОЛЬЗУЕТСЯ");
     String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-    System.out.println("📥 AUTHORIZATION = " + authHeader);
 
     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-      System.out.println("⚠️ Токен не найден или формат неверный");
       filterChain.doFilter(request, response);
       return;
     }
 
     String token = authHeader.substring(7);
     try {
+      log.info("Валидация токена");
+      Claims claims = jwtUtils.extractAllClaims(token);
+
       log.info("Извлечение данных");
+
       String accountIdStr = jwtUtils.extractAccountId(token);
 
       if (accountIdStr != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -59,16 +67,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         HttpHeaders headers = new HttpHeaders();
-        log.info("ACCOUNT ID "+accountId);
         headers.add("Account-Id", String.valueOf(accountId));
-        log.info("HEADER ID "+headers.get("Account-Id"));
-
 
       }
+    } catch (ExpiredJwtException e) {
+      log.info("Токен просрочен");
+      throw new TokenExpiredException();
+
+    } catch (MalformedJwtException e) {
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "malformed_token");
+      return;
+
+    } catch (UnsupportedJwtException e) {
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "unsupported_token");
+      return;
+
+    } catch (IllegalArgumentException e) {
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "token_required");
+      return;
     } catch (Exception e) {
-
-      logger.warn("Invalid JWT token: {}");
-
+      throw new RuntimeException(e);
     }
 
     filterChain.doFilter(request, response);

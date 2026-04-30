@@ -33,7 +33,6 @@ public class SecurityConfig {
             .anyRequest().permitAll() // или .authenticated() для полной защиты
         )
         .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        // Вставляем наш фильтр ДО стандартного UsernamePasswordAuthenticationFilter
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
   }

@@ -22,12 +22,15 @@ public class JwtUtils {
   private final SecretKey signingKey;
 
 
-  public JwtUtils(@Value("${jwt.secret}") String secret) {
+  public JwtUtils(@Value("${jwt.secret}") String secret,   @Value("${api.domain}") String issuer) {
     validateSecret(secret);
     this.signingKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     this.jwtParser = Jwts.parser()
         .verifyWith(signingKey)
-        .build();
+            .requireIssuer(issuer)      // Кто выдал токен
+             .requireAudience("gigant-backend")              // Для кого токен
+            .clockSkewSeconds(30)
+            .build();
 
     log.info("JWT parser initialized successfully with HS256 algorithm");
   }
@@ -83,6 +86,8 @@ public class JwtUtils {
   public boolean isTokenExpired(Claims claims) {
     return getExpiration(claims).before(new Date());
   }
+
+
 
   public String extractAccountId(String token) {
     return extractClaim(token, Claims::getSubject);
