@@ -1,0 +1,173 @@
+import { Test, TEST_LEVELS, TestLevel } from '@/common/commonTypes';
+import { SyntheticEvent } from 'react';
+import style from './MainPage.module.scss';
+import { TryTestButton } from '@/components/TryTestButton';
+import { StepIcon } from '@/components/StepIcon/StepIcon';
+import profileIcon from '@assets/user-profile-icon.svg';
+import checkDoubleIcon from '@assets/check-double-icon.svg';
+import linkIcon from '@assets/link-icon.svg';
+import cupIcon from '@assets/cup-icon.svg';
+import arrowStepOneTwo from '@assets/arrow-1.svg';
+import arrowStepTwoThree from '@assets/arrow-2.svg';
+import arrowStepThreeFour from '@assets/arrow-3.svg';
+import growthArrowStepOneIcon from '@assets/growth_arrow_step_1.svg';
+import growthArrowStepTwoIcon from '@assets/growth_arrow_step_2.svg';
+import growthArrowStepThreeIcon from '@assets/growth_arrow_step_3.svg';
+import clsx from 'clsx';
+import { CardAutoCarousel } from '@/components/CardAutoCarousel';
+import { BigTestCard } from '@/components/cards/BigTestCard';
+import { IMGIcon } from '@/components/shells/IMGIcon';
+import { LineTestCard } from '@/components/cards/LineTestCard';
+import React from 'react';
+import { CAROUSEL_TASKS, COMPARE_PREVIEW_TASKS } from '@/common/constants';
+import { SmallTestCard } from '@/components/cards/SmallTestCard';
+
+const renderCardsWithArrows = (
+  cardType: 'small' | 'big',
+  taskPreviewMap: Record<TestLevel, Test>
+) => {
+  const levels = Object.keys(TEST_LEVELS) as TestLevel[];
+  const arrows = [growthArrowStepOneIcon, growthArrowStepTwoIcon, growthArrowStepThreeIcon];
+
+  const CardComponent = cardType === 'small' ? LineTestCard : BigTestCard;
+  const cardClassName =
+    cardType === 'small' ? style['growth__card_small'] : style['growth__card_big'];
+
+  return (
+    <>
+      {levels.map((level, index) => (
+        <React.Fragment key={level}>
+          <CardComponent test={taskPreviewMap[level]} className={cardClassName} />
+          {index < arrows.length && (
+            <IMGIcon
+              src={arrows[index]}
+              alt=""
+              wrapperClassName={clsx(
+                style['growth__arrow_step'],
+                style[`growth__arrow_step_${['one', 'two', 'three'][index]}`]
+              )}
+            />
+          )}
+        </React.Fragment>
+      ))}
+    </>
+  );
+};
+
+export const MainPage = () => {
+  const taskPreviewMap = (() => {
+    return COMPARE_PREVIEW_TASKS.tasks.reduce(
+      (acc, test) => {
+        acc[test.difficulty] = test;
+        return acc;
+      },
+      {} as Record<TestLevel, Test>
+    );
+  })();
+
+  const TryTestButtonHandler = (_: SyntheticEvent<HTMLButtonElement>) => {};
+
+  return (
+    <div className={style['page__wrapper']}>
+      <section className={style['main']}>
+        <div className={style['main__content']}>
+          <h1 className={style['main__title']}>
+            GigAnt — цифровое портфолио, которое говорит за вас
+          </h1>
+          <div className={style['main__information']}>
+            <p className={style['main__description']}>
+              Перестаньте тратить время на бесконечные собеседования, где приходится доказывать
+              очевидное. Ваше портфолио в GigAnt покажет реальный уровень экспертизы с первого
+              взгляда.
+            </p>
+            <TryTestButton onClick={TryTestButtonHandler} />
+          </div>
+        </div>
+      </section>
+      <section className={style['way']}>
+        <div className={style['way__wrapper']}>
+          <h2 className={style['way__title']}>Стань востребованым в профессии всего за 4 шага</h2>
+          <div className={style['way__step']}>
+            <StepIcon src={profileIcon} alt="Профиль" extraClassName={style['step__icon']} />
+            <p className={style['step__description']}>
+              Создайте профиль — заполните информацию о себе и выберите направления для оценки
+            </p>
+            <img
+              src={arrowStepOneTwo}
+              alt=""
+              className={clsx(style['arrow'], style['arrow__step_one-two'])}
+            />
+          </div>
+          <div className={clsx(style['way__step'], style['way__step_reverse'])}>
+            <StepIcon
+              src={checkDoubleIcon}
+              alt="Две галочки"
+              extraClassName={style['step__icon']}
+            />
+            <p className={clsx(style['step__description'], style['step__description_reverse'])}>
+              Пройдите тестирование — решайте задачи по выбранным технологиям и получайте
+              объективную оценку
+            </p>
+            <img
+              src={arrowStepTwoThree}
+              alt=""
+              className={clsx(style['arrow'], style['arrow__step_two-three'])}
+            />
+          </div>
+          <div className={style['way__step']}>
+            <StepIcon src={linkIcon} alt="Ссылка" extraClassName={style['step__icon']} />
+            <p className={style['step__description']}>
+              Поделитесь результатами — отправьте работодателю ссылку на ваш публичный профиль
+            </p>
+            <img
+              src={arrowStepThreeFour}
+              alt=""
+              className={clsx(style['arrow'], style['arrow__step_three-four'])}
+            />
+          </div>
+          <div className={clsx(style['way__step'], style['way__step_reverse'])}>
+            <StepIcon src={cupIcon} alt="Кубок" extraClassName={style['step__icon']} />
+            <p className={clsx(style['step__description'], style['step__description_reverse'])}>
+              Получите предложение — выделяйтесь среди кандидатов и находите работу мечты
+            </p>
+          </div>
+        </div>
+      </section>
+      <section className={style['tests']}>
+        <div className={style['tests__information']}>
+          <span className={style['tests__counter']}>10 000+</span>
+          <h2 className={style['tests__title']}>задач и тестов по 50+ направлениям IT</h2>
+        </div>
+        <CardAutoCarousel
+          items={CAROUSEL_TASKS.tasks.map(el => {
+            return <SmallTestCard key={el.id} test={el} />;
+          })}
+        />
+        <p className={style['tests__description']}>Найдите тесты под ваш стек технологий</p>
+      </section>
+      <section className={style['growth']}>
+        <h2 className={style['growth__title']}>Прокачивайте навыки постепенно</h2>
+        <div className={style['growth__cards']}>
+          <>
+            <div className={style['growth__cards_small_only']}>
+              {renderCardsWithArrows('small', taskPreviewMap)}
+            </div>
+            <div className={style['growth__cards_big_only']}>
+              {renderCardsWithArrows('big', taskPreviewMap)}
+            </div>
+          </>
+        </div>
+        <div className={style['growth__description_wrapper']}>
+          <p className={style['growth__description']}>
+            Начните с базовых задач и постепенно переходите к сложным кейсам. Каждый пройденный
+            уровень открывает новые возможности и повышает ваш рейтинг
+          </p>
+        </div>
+      </section>
+      <section className={style['sample']}>
+        <TryTestButton onClick={TryTestButtonHandler} />
+        <h2 className={style['sample__title']}>Начните строить своё цифровое портфолио сегодня</h2>
+      </section>
+    </div>
+  );
+};

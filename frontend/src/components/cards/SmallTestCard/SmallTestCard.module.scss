@@ -1,0 +1,84 @@
+@use '@styles/variables' as *;
+
+.content {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 200px;
+  height: 220px;
+  background-color: $color-bg-secondary;
+  border: none;
+  padding: 0;
+  border-radius: 10px;
+  box-shadow: $shadow-primary-1;
+  overflow: hidden;
+  font-family: $main-font;
+  transition: $card-hover-transition;
+  transition-property: transform, box-shadow;
+
+  &:hover {
+    cursor: pointer;
+    transform: $card-hover-translateY;
+    backface-visibility: hidden;
+    box-shadow: $shadow-primary-accent-1;
+  }
+
+  &__img_block {
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 3 1 0;
+    min-height: 0;
+    background-position: center center;
+    background-color: inherit;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  &:hover .content__total_test,
+  &:hover .content__rate {
+    transform: translateY(0);
+  }
+
+  &__total_test,
+  &__rate {
+    display: flex;
+    text-align: center;
+    padding: 5px;
+    font-size: 14px;
+    text-wrap: nowrap;
+    background-color: $overlay-color;
+    color: $color-text-accent-2;
+    width: min-content;
+    text-wrap: nowrap;
+    transition: transform 0.3s;
+  }
+
+  &__total_test {
+    transform: translateY(calc(-100% - 1px));
+    border-radius: 0 0 6px 0;
+  }
+
+  &__rate {
+    transform: translateY(calc(100% + 1px));
+    border-radius: 0 6px 0 0;
+  }
+
+  &__title_wrapper {
+    flex: 1 1 0;
+    padding: 5px 22px;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-text-primary;
+  }
+
+  &__title {
+    font-size: 20px;
+    text-align: center;
+    font-weight: 500;
+    color: $color-text-primary;
+  }
+}

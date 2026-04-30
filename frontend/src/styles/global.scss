@@ -1,0 +1,13 @@
+@use './variables' as *;
+
+body {
+  font-family: $main-font;
+  font-size: 18px;
+  min-height: 100dvh;
+  color: $color-text-primary;
+  background-color: $color-bg-accent;
+}
+
+#root {
+  min-height: 100dvh;
+}

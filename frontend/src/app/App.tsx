@@ -1,17 +1,93 @@
-interface User {
-  name: string;
-  age?: number;
-}
+import { Route, Routes } from 'react-router';
+import { MainLayout } from '../components/layouts/MainLayout';
+import { Header } from '@/components/layouts/Header';
+import { Footer } from '@/components/layouts/Footer';
+import { MainPage } from '@/components/pages/MainPage';
+import { AuthProtector } from '@/components/protectors/AuthProtector';
+import { RegistrationProtector } from '@/components/protectors/RegistrationProtector';
+import { AuthLayout } from '@/components/layouts/AuthLayout';
+import { AuthImg } from '@/components/layouts/AuthImg';
+import { RegistrationStepOne } from '@/components/pages/RegistrationStepOne';
+import { RegistrationStepTwo } from '@/components/pages/RegistrationStepTwo';
+import { RegistrationStepThree } from '@/components/pages/RegistrationStepThree';
+import { AuthPage } from '@/components/pages/AuthPage';
+import { ConfirmEmailPage } from '@/components/pages/ConfirmEmailPage';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@/services/store';
+import { getProfileUser } from '@/services/slices/user';
+import { Loader } from '@/components/shells/Loader';
+import commonStyle from '@styles/common.module.scss';
+import style from './App.module.scss';
+import { HeaderApp } from '@/components/layouts/HeaderApp';
+import { selectIsAuthInitializing } from '@/services/slices/auth';
+import { ProfilePage } from '@/components/pages/ProfilePage';
+import { TestsPage } from '@/components/pages/TestsPage';
+import { TakeTestPage } from '@/components/pages/TakeTestPage';
 
 const App = () => {
-  const user: User = {
-    name: 'Vlad',
-    age: 18,
-  };
-  if (user.age) {
-    console.log(user);
+  const dispatch = useAppDispatch();
+  const isAuthInitializing = useAppSelector(selectIsAuthInitializing);
+
+  useEffect(() => {
+    void dispatch(getProfileUser());
+  }, []);
+
+  if (isAuthInitializing) {
+    return (
+      <div className={style['content__loader']}>
+        <Loader loaderClass={commonStyle['loader__main']} />
+      </div>
+    );
   }
-  return <div>Hello, world!</div>;
+
+  return (
+    <Routes>
+      <Route element={<MainLayout header={<Header />} footer={<Footer />} />}>
+        <Route path="employers" element={<div>Employers</div>}></Route>
+        <Route path="about" element={<div>About</div>}></Route>
+      </Route>
+
+      <Route element={<AuthProtector isRedirectAuthorized={true} redirectPath="/profile" />}>
+        <Route element={<MainLayout header={<Header />} footer={<Footer />} />}>
+          <Route index element={<MainPage />}></Route>
+        </Route>
+        <Route element={<MainLayout />}>
+          <Route path="auth/confirm-email/:token" element={<ConfirmEmailPage />} />
+          <Route element={<AuthLayout rightComponent={<AuthImg />} />}>
+            <Route path="registration/step-one" element={<RegistrationStepOne />} />
+            <Route path="registration/step-two" element={<RegistrationStepTwo />} />
+            <Route path="auth/login" element={<AuthPage />} />
+          </Route>
+        </Route>
+      </Route>
+
+      {/* Добавить протектор для успешного получения профиля */}
+      <Route element={<AuthProtector isRedirectAuthorized={false} redirectPath="/" />}>
+        <Route element={<MainLayout />}>
+          <Route element={<AuthLayout rightComponent={<AuthImg />} />}>
+            <Route path="registration/step-three" element={<RegistrationStepThree />} />
+          </Route>
+        </Route>
+        <Route
+          element={
+            <RegistrationProtector
+              isRedirectRegistration={false}
+              redirectPath="registration/step-three"
+            />
+          }
+        >
+          <Route element={<MainLayout header={<HeaderApp />} footer={<Footer />} />}>
+            <Route path="profile" element={<ProfilePage />}></Route>
+            <Route path="tests" element={<TestsPage />}></Route>
+          </Route>
+          <Route element={<MainLayout header={<HeaderApp />} />}>
+            <Route path="tests/:id" element={<TakeTestPage />}></Route>
+          </Route>
+        </Route>
+      </Route>
+      <Route path="*" element={<div>Error 404</div>}></Route>
+    </Routes>
+  );
 };
 
 export default App;

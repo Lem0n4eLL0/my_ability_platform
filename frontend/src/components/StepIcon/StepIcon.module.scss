@@ -1,0 +1,17 @@
+@use '../../styles/variables' as *;
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: clamp(80px, calc(0.35416667rem + 12.31481481vw), 183px);
+  aspect-ratio: 1 / 1;
+  border-radius: 100%;
+  background-color: $color-accent-primary;
+  overflow: hidden;
+}
+
+.icon {
+  max-width: min-content;
+  aspect-ratio: 1 / 1;
+}

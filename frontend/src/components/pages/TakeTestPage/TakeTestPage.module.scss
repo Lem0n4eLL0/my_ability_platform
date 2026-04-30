@@ -1,0 +1,131 @@
+@use '@styles/variables' as *;
+@use '@styles/mixins' as *;
+
+.content {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 80px;
+  padding: $page-padding;
+  padding-top: calc($page-header2-top-padding + 30px);
+  padding-bottom: $page-header2-top-padding;
+  @include typography($font-body-regular);
+  color: $color-text-primary;
+
+  &__back-button-wrapper {
+    position: absolute;
+    top: 26px;
+  }
+}
+
+.information {
+  max-width: 800px;
+  &__title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__title {
+    @include typography($font-h1);
+  }
+
+  &__difficulty {
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  &__rate {
+    display: flex;
+  }
+
+  &__description {
+    margin: 30px 0 24px;
+  }
+
+  &__start-button {
+    max-width: 140px;
+  }
+
+  &__controls {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  &__reconfirmation-date {
+    color: $color-text-primary-2;
+  }
+}
+
+.addition {
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: $color-bg-clear;
+  border-radius: 10px;
+  box-shadow: $block-form-shadow;
+  padding: 20px;
+  width: 260px;
+  min-width: 260px;
+  @include typography($font-body-regular);
+
+  &__time-title,
+  &__tasks-type-title {
+    @include typography($font-h3);
+    margin-bottom: 4px;
+  }
+
+  &__time-value {
+    font-size: 46px;
+    line-height: 1;
+    color: $color-text-secondary;
+  }
+
+  &__tasks-type-list {
+    padding: 0;
+    list-style: none;
+  }
+
+  &__tasks-type-list-item {
+    line-height: 1.2;
+    font-size: 18px;
+  }
+
+  &__tasks-type-item-value {
+    font-size: 20px;
+    color: $color-text-secondary;
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    display: block;
+  }
+
+  .information__description {
+    margin: 18px 0 16px;
+  }
+
+  .information__difficulty {
+    padding: 2px 4px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .addition {
+    display: none;
+  }
+}
+
+@media (max-width: 1240px) {
+  .content {
+    gap: 40px;
+  }
+}

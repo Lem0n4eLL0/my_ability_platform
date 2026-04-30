@@ -1,0 +1,21 @@
+@use '@styles/variables' as *;
+@use '@styles/mixins' as *;
+
+.content {
+  &__agreement_wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  &__agreement {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  &__checkbox {
+    min-width: 20px;
+    aspect-ratio: 1 / 1;
+  }
+}
