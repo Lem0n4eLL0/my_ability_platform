@@ -1,1 +1,1 @@
-export { FieldInfoDouble } from './FieldInfoDouble';
+export { FieldInfoDouble } from './FIeldInfoDouble';
