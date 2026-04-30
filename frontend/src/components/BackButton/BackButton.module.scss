@@ -1,0 +1,28 @@
+@use '@styles/variables' as *;
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba($color-bg-clear, 0.6);
+  transition: background-color $transition-duration-small;
+  cursor: pointer;
+
+  & svg {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    fill: rgba($color-text-primary-2, 0.2);
+    transition: fill $transition-duration-small;
+  }
+
+  &:hover {
+    background-color: rgba($color-bg-clear, 0.8);
+  }
+}

@@ -22,6 +22,7 @@ import { READY_REQUEST_STATUS } from '@/common/constants';
 import { asyncThunkCreator, buildCreateSlice, createSelector } from '@reduxjs/toolkit';
 import { registrationStepOneAuth } from './auth';
 import { RootState } from '../store';
+import { getTestInformationTests } from './tests';
 
 const createSlice = buildCreateSlice({
   // потом переместить в общий файл
@@ -434,9 +435,40 @@ const userSlice = createSlice({
   }),
 
   extraReducers: builder => {
-    builder.addCase(registrationStepOneAuth.pending, (state, action) => {
-      state.data.email = action.meta.arg.email;
-    });
+    builder
+      .addCase(registrationStepOneAuth.pending, (state, action) => {
+        state.data.email = action.meta.arg.email;
+      })
+      .addCase(getTestInformationTests.fulfilled, (state, action) => {
+        if (action.payload.lastUserAttemp) {
+          const testId = action.payload.lastUserAttemp.testId;
+          if (state.data.testResults) {
+            if (state.data.testResults[testId]) {
+              const index = state.data.testResults[testId].results.findIndex(
+                el => el.id === action.payload.lastUserAttemp?.id
+              );
+              if (index !== -1) {
+                state.data.testResults[testId].results[index] = action.payload.lastUserAttemp;
+              } else {
+                state.data.testResults[testId].results.push(action.payload.lastUserAttemp);
+              }
+            } else {
+              state.data.testResults[testId] = {
+                results: [action.payload.lastUserAttemp],
+                getHistoryStatus: READY_REQUEST_STATUS,
+              };
+            }
+          } else {
+            state.data.testResults = {};
+            state.data.testResults[testId] = {
+              results: [action.payload.lastUserAttemp],
+              getHistoryStatus: {
+                status: 'READY',
+              },
+            };
+          }
+        }
+      });
   },
 
   selectors: {

@@ -1,0 +1,18 @@
+import { SyntheticEvent } from 'react';
+import style from './BackButton.module.scss';
+
+type IBackButton = {
+  onClick?: (e: SyntheticEvent<HTMLButtonElement>) => void;
+};
+
+export const BackButton = (props: IBackButton) => {
+  const { onClick } = props;
+
+  return (
+    <button className={style['button']} onClick={onClick}>
+      <svg viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17 8.36401C17.5523 8.36401 18 7.9163 18 7.36401C18 6.81173 17.5523 6.36401 17 6.36401V7.36401V8.36401ZM0.292892 6.65691C-0.0976315 7.04743 -0.0976315 7.6806 0.292892 8.07112L6.65685 14.4351C7.04738 14.8256 7.68054 14.8256 8.07107 14.4351C8.46159 14.0446 8.46159 13.4114 8.07107 13.0209L2.41421 7.36401L8.07107 1.70716C8.46159 1.31664 8.46159 0.68347 8.07107 0.292946C7.68054 -0.0975785 7.04738 -0.0975785 6.65685 0.292946L0.292892 6.65691ZM17 7.36401V6.36401L1 6.36401V7.36401V8.36401L17 8.36401V7.36401Z" />
+      </svg>
+    </button>
+  );
+};

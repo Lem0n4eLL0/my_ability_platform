@@ -105,8 +105,15 @@ export const TestResultSchema = z.object({
   isTestPassed: z.boolean(),
   difficulty: z.enum(TEST_LEVELS_ARRAY),
   reconfirmationDate: ZOD_ENTITY.TESTS.TESTS_RESULT.RECONFIRMATION_DATE,
+  completionDate: ZOD_ENTITY.TESTS.TESTS_RESULT.COMPLETION_DATE,
 });
 export type TestResult = z.infer<typeof TestResultSchema>;
+
+export type QuestionType = 'OPTION' | 'CHOICE' | 'TEXT' | 'CODE';
+export const QUESTION_TYPE_ARRAY = ['OPTION', 'CHOICE', 'TEXT', 'CODE'] as const;
+
+const QuestionsTypeQuantitySchema = z.partialRecord(z.enum(QUESTION_TYPE_ARRAY), z.number().min(0));
+export type TestTypeQuantity = z.infer<typeof QuestionsTypeQuantitySchema>;
 
 export const TestSchema = z.object({
   id: ZOD_ENTITY.UUID,
@@ -119,6 +126,9 @@ export const TestSchema = z.object({
   timeLimitSeconds: ZOD_ENTITY.TEST.TIME_LIMIT_SECONDS.nullable(),
   rechargeTimeSecondes: ZOD_ENTITY.TEST.RECHARGE_TIME_SECONDS.nullable(),
   reconfirmationTimeSeconds: ZOD_ENTITY.TEST.RECONFIRMATION_TIME_SECONDS.nullable(),
+  get questionsTypesQuantity() {
+    return QuestionsTypeQuantitySchema.nullable();
+  },
 });
 
 export type Test = z.infer<typeof TestSchema>;

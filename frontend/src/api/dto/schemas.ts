@@ -2,22 +2,16 @@ import {
   Test,
   TestLevel,
   TestResult,
-  TestResultSchema,
-  TestSchema,
   User,
   UserCertificate,
-  UserCertificateSchema,
   UserEducation,
-  UserEducationSchema,
   UserProject,
-  UserProjectSchema,
   UserRole,
-  UserSchema,
   UserWorkExperience,
-  UserWorkExperienceSchema,
 } from '@/common/commonTypes';
 import {
   CarouselTasksResponseDto,
+  GetTestInformationResponse,
   GetTestsResponse,
   PaginationResponse,
   RegistrationStepThreeRequest,
@@ -26,6 +20,7 @@ import {
 import {
   CarouselTaskDto,
   DTORequestError,
+  GetTestInformationResponseDTO,
   GetTestsResponseDTO,
   PaginationResponseDTO,
   RegistrationStepThreeRequestDTO,
@@ -99,102 +94,67 @@ export const mapStepThreeRequestToDTO = (
 
 // Profile
 
-export const projectResponseMapper = (dto: UserProjectDTO): UserProject => {
-  const result: UserProject = {
-    id: dto.id,
-    title: dto.title,
-    description: dto.description,
-    link: dto.link,
-  };
+export const projectResponseMapper = (dto: UserProjectDTO): UserProject => ({
+  id: dto.id,
+  title: dto.title,
+  description: dto.description,
+  link: dto.link,
+});
 
-  const res = UserProjectSchema.safeParse(result);
-  // console.log(res);
-  return result;
-};
+export const educationResponseMapper = (dto: UserEducationDTO): UserEducation => ({
+  id: dto.id,
+  city: dto.city,
+  university: dto.university,
+  faculty: dto.faculty,
+  specialization: dto.specialization,
+  status: dto.status,
+  yearGradudatuion: dto.yearGradudatuion,
+});
 
-export const educationResponseMapper = (dto: UserEducationDTO): UserEducation => {
-  const result: UserEducation = {
-    id: dto.id,
-    city: dto.city,
-    university: dto.university,
-    faculty: dto.faculty,
-    specialization: dto.specialization,
-    status: dto.status,
-    yearGradudatuion: dto.yearGradudatuion,
-  };
+export const workExperienceResponseMapper = (dto: UserWorkExperienceDTO): UserWorkExperience => ({
+  id: dto.id,
+  city: dto.city,
+  company: dto.company,
+  dateStart: dto.dateStart,
+  dateEnd: dto.dateEnd,
+  post: dto.post,
+});
 
-  const res = UserEducationSchema.safeParse(result);
-  // console.log(res);
-  return result;
-};
+export const certificateResponseMapper = (dto: UserCertificateDTO): UserCertificate => ({
+  id: dto.id,
+  title: dto.title,
+  link: dto.link,
+});
 
-export const workExperienceResponseMapper = (dto: UserWorkExperienceDTO): UserWorkExperience => {
-  const result: UserWorkExperience = {
-    id: dto.id,
-    city: dto.city,
-    company: dto.company,
-    dateStart: dto.dateStart,
-    dateEnd: dto.dateEnd,
-    post: dto.post,
-  };
+export const userResponseMapper = (dto: UserDTO): User => ({
+  id: dto.id,
+  firstName: dto.firstName,
+  secondName: dto.secondName,
+  birthday: dto.birthday,
+  profileUniqeLink: dto.profileUniqeLink,
+  email: dto.email,
+  avatarLink: dto.avatarLink,
+  role: dto.role as UserRole,
+  surname: dto.surname,
+  aboutMyself: dto.aboutMyself,
+  contactPhone: dto.contactPhone,
+  github: dto.github,
+  projects: dto.projects.map(projectResponseMapper),
+  educations: dto.educations.map(educationResponseMapper),
+  workExperience: dto.workExperience.map(workExperienceResponseMapper),
+  certificates: dto.certificates.map(certificateResponseMapper),
+});
 
-  const res = UserWorkExperienceSchema.safeParse(result);
-  // console.log(res);
-  return result;
-};
-
-export const certificateResponseMapper = (dto: UserCertificateDTO): UserCertificate => {
-  const result: UserCertificate = {
-    id: dto.id,
-    title: dto.title,
-    link: dto.link,
-  };
-
-  const res = UserCertificateSchema.safeParse(result);
-  // console.log(res);
-  return result;
-};
-
-export const userResponseMapper = (dto: UserDTO): User => {
-  const result: User = {
-    id: dto.id,
-    firstName: dto.firstName,
-    secondName: dto.secondName,
-    birthday: dto.birthday,
-    profileUniqeLink: dto.profileUniqeLink,
-    email: dto.email,
-    avatarLink: dto.avatarLink,
-    role: dto.role as UserRole,
-    surname: dto.surname,
-    aboutMyself: dto.aboutMyself,
-    contactPhone: dto.contactPhone,
-    github: dto.github,
-    projects: dto.projects.map(projectResponseMapper),
-    educations: dto.educations.map(educationResponseMapper),
-    workExperience: dto.workExperience.map(workExperienceResponseMapper),
-    certificates: dto.certificates.map(certificateResponseMapper),
-  };
-
-  const res = UserSchema.safeParse(result);
-  // console.log(res);
-  return result;
-};
-
-export const testResultResponseMapper = (dto: TestResultDTO): TestResult => {
-  const result: TestResult = {
-    id: dto.id,
-    testId: dto.testId,
-    title: dto.title,
-    estimationProcent: dto.estimationProcent,
-    isTestPassed: dto.isTestPassed,
-    difficulty: dto.difficulty as TestLevel,
-    reconfirmationDate: dto.reconfirmationDate,
-  };
-
-  const res = TestResultSchema.safeParse(result);
-  // console.log(res);
-  return result;
-};
+export const testResultResponseMapper = (dto: TestResultDTO): TestResult => ({
+  id: dto.id,
+  testId: dto.testId,
+  title: dto.title,
+  estimationProcent: dto.estimationProcent,
+  isTestPassed: dto.isTestPassed,
+  difficulty: dto.difficulty as TestLevel,
+  reconfirmationDate: dto.reconfirmationDate,
+  completionDate: dto.completionDate,
+});
 
 export const paginationMapper = (dto: PaginationResponseDTO): PaginationResponse => ({
   limit: dto.limit,
@@ -202,24 +162,29 @@ export const paginationMapper = (dto: PaginationResponseDTO): PaginationResponse
   hasMore: dto.hasMore,
 });
 
-export const testsFromDTOMapper = (dto: TestDTO): Test => {
-  const result: Test = {
-    id: dto.id,
-    title: dto.title,
-    description: dto.description,
-    rate: dto.rate,
-    imgURL: dto.imgURL,
-    difficulty: dto.difficulty as TestLevel,
-    timeLimitSeconds: dto.timeLimitSeconds,
-    rechargeTimeSecondes: dto.rechargeTimeSecondes,
-    reconfirmationTimeSeconds: dto.reconfirmationTimeSeconds,
-  };
-
-  const res = TestSchema.safeParse(result);
-  return result;
-};
+export const testsFromDTOMapper = (dto: TestDTO): Test => ({
+  id: dto.id,
+  title: dto.title,
+  description: dto.description,
+  rate: dto.rate,
+  imgURL: dto.imgURL,
+  difficulty: dto.difficulty as TestLevel,
+  timeLimitSeconds: dto.timeLimitSeconds,
+  rechargeTimeSecondes: dto.rechargeTimeSecondes,
+  reconfirmationTimeSeconds: dto.reconfirmationTimeSeconds,
+  questionsTypesQuantity: dto.questionsTypesQuantity,
+});
 
 export const testsResponseMapper = (dto: GetTestsResponseDTO): GetTestsResponse => ({
   pagination: paginationMapper(dto.pagination),
   tests: dto.tests.map(testsFromDTOMapper),
+});
+
+export const testInformationResponseMapper = (
+  dto: GetTestInformationResponseDTO
+): GetTestInformationResponse => ({
+  test: testsFromDTOMapper(dto.test),
+  lastUserAttemp: dto.lastUserAttemp
+    ? testResultResponseMapper(dto.lastUserAttemp)
+    : dto.lastUserAttemp,
 });

@@ -22,13 +22,17 @@ import {
   educationResponseMapper,
   mapStepThreeRequestToDTO,
   projectResponseMapper,
+  testInformationResponseMapper,
   testResultResponseMapper,
+  testsFromDTOMapper,
   testsResponseMapper,
   userResponseMapper,
   workExperienceResponseMapper,
 } from './dto/schemas';
 import {
+  GetTestInformationResponseDTO,
   GetTestsResponseDTO,
+  TestDTO,
   UserCertificateDTO,
   UserDTO,
   UserEducationDTO,
@@ -272,4 +276,18 @@ export const getTests = (params: GetTestsRequest) => {
     method: HTTP_METHODS.GET,
     headers: baseHeaders,
   }).then(testsResponseMapper);
+};
+
+export const getTest = (id: string) => {
+  return fetchWithRefresh<TestDTO>(bulidURL(`tests/${id}`), {
+    method: HTTP_METHODS.GET,
+    headers: baseHeaders,
+  }).then(testsFromDTOMapper);
+};
+
+export const getTestInformation = (id: string) => {
+  return fetchWithRefresh<GetTestInformationResponseDTO>(bulidURL(`tests/${id}/information`), {
+    method: HTTP_METHODS.GET,
+    headers: baseHeaders,
+  }).then(testInformationResponseMapper);
 };

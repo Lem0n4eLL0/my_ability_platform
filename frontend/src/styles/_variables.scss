@@ -3,8 +3,14 @@ $main-font: 'Alegreya Sans', sans-serif;
 $additional-font: 'Alegreya SC', serif;
 $base-font-size: 16px;
 
-$font-h1: (
+$font-main-title: (
   size: clamp(2.25rem, calc(1.33333333rem + 4.07407407vw), 5rem),
+  line-height: 1.2,
+  weight: 700,
+);
+
+$font-h1: (
+  size: clamp(2rem, calc(1.57142857rem + 2.14285714vw), 3.5rem),
   line-height: 1.2,
   weight: 700,
 );
@@ -17,7 +23,7 @@ $font-h2: (
 
 $font-h3: (
   size: clamp(1.25rem, calc(1.17857143rem + 0.35714286vw), 1.5rem),
-  line-height: inherit,
+  line-height: 1.2,
   weight: 500,
 );
 
@@ -46,7 +52,7 @@ $font-body-medium: (
 );
 
 $font-body-regular: (
-  size: 1.625rem,
+  size: clamp(1.25rem, calc(1.14285714rem + 0.53571429vw), 1.625rem),
   line-height: 1.5,
   weight: 400,
 );

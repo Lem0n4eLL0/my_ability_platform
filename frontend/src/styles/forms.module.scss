@@ -100,8 +100,7 @@
   transition-property: background-color;
   transition-duration: $transition-duration-small;
 
-  &:hover,
-  &:focus {
+  &:hover {
     background-color: $green-button-color-hover;
     outline: none;
   }

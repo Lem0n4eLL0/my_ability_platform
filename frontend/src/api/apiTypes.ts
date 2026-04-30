@@ -4,6 +4,7 @@ import * as z from 'zod';
 import {
   Test,
   TestLevel,
+  TestResult,
   UserCertificate,
   UserEducation,
   UserProject,
@@ -157,4 +158,9 @@ export type GetTestsRequest = {
 export type GetTestsResponse = {
   pagination: PaginationResponse;
   tests: Array<Test>;
+};
+
+export type GetTestInformationResponse = {
+  test: Test;
+  lastUserAttemp: TestResult | null;
 };
