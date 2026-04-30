@@ -198,6 +198,7 @@ export const ZOD_ENTITY = {
         .max(100, VALIDATION_ERROR.MAX_SYMB(100)),
       ESTIMATION_PROCENT: z.number().gte(0, 'Значение не может быть отрицательным'),
       RECONFIRMATION_DATE: z.string(),
+      COMPLETION_DATE: z.string(),
     },
   },
   TEST: {

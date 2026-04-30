@@ -12,15 +12,17 @@ import {
 import { LineTestCard } from '@/components/cards/LineTestCard';
 import { Checkbox } from '@/components/forms/Checkbox';
 import { useMultipleChoice } from '@/hooks/useMultipleChoice';
-import { TEST_LEVELS_ARRAY, TEST_LEVELS_RU, TestLevel } from '@/common/commonTypes';
+import { Test, TEST_LEVELS_ARRAY, TEST_LEVELS_RU, TestLevel } from '@/common/commonTypes';
 import clsx from 'clsx';
 import { Loader } from '@/components/shells/Loader';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { TESTS_FILTERS_REQUEST_PARAMS_BASE } from '@/common/constants';
+import { useNavigate } from 'react-router';
 
 const SEARCH_DELAY_REQUEST = 500;
 export const TestsPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const tests = useAppSelector(selectTests);
   const { getTestsStatus } = useAppSelector(selectStatusesTests);
   const isGetTestsPending = getTestsStatus.status === 'PENDING';
@@ -28,32 +30,18 @@ export const TestsPage = () => {
   const checkboxDifficulty = useMultipleChoice({
     type: 'checkbox',
     variants: TEST_LEVELS_ARRAY,
-    disabled: isGetTestsPending,
   });
 
   const [searchValue, setSearchValue] = useState('');
   const [testFilters, setTestFilters] = useState(TESTS_FILTERS_REQUEST_PARAMS_BASE);
 
   useEffect(() => {
-    if (getTestsStatus.status === 'READY') {
-      void dispatch(
-        getTestsTests({
-          filters: { ...testFilters, value: searchValue },
-          pagination: tests.pagination,
-        })
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    if (getTestsStatus.status !== 'READY') {
-      void dispatch(
-        getTestsTests({
-          filters: { ...testFilters, value: searchValue },
-          pagination: tests.pagination,
-        })
-      );
-    }
+    void dispatch(
+      getTestsTests({
+        filters: { ...testFilters, value: searchValue },
+        pagination: tests.pagination,
+      })
+    );
   }, [testFilters]);
 
   const getTestsFormHandler = (e: SyntheticEvent<HTMLFormElement>) => {
@@ -99,6 +87,10 @@ export const TestsPage = () => {
   const onClearFiltersHandler = () => {
     checkboxDifficulty.clear();
     setTestFilters(TESTS_FILTERS_REQUEST_PARAMS_BASE);
+  };
+
+  const onTestClickHandler = (test: Test) => {
+    void navigate(`/tests/${test.id}`);
   };
 
   useEffect(() => {
@@ -173,7 +165,7 @@ export const TestsPage = () => {
             <ul className={style['tests__list']} ref={containerRef}>
               {tests.data.map(el => (
                 <li key={el.id} className={style['tests__list-item']}>
-                  <LineTestCard test={el} />
+                  <LineTestCard test={el} onClick={onTestClickHandler} />
                 </li>
               ))}
               <li>

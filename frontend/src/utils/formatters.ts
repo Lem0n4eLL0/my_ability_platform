@@ -1,4 +1,5 @@
-import { TEST_LEVELS_RU, TestLevel, User } from '@/common/commonTypes';
+import { QuestionType, TEST_LEVELS_RU, TestLevel, User } from '@/common/commonTypes';
+import { assertNever } from './utils';
 
 export const totalTaskFormatter = (value: number, lable: string = 'тестов'): string => {
   const strValue = String(value);
@@ -25,4 +26,20 @@ export const fullNameFormatter = (user: User): string => {
 
 export const dateForInputFormatter = (date: Date): string => {
   return date.toISOString().split('T')[0];
+};
+
+export const testTypeFormatter = (type: QuestionType): string => {
+  switch (type) {
+    case 'CHOICE':
+      return 'множественный выбор';
+    case 'OPTION':
+      return 'одиночный выбор';
+    case 'TEXT':
+      return 'ввод ответа';
+    case 'CODE':
+      return 'написание кода';
+    default:
+      assertNever(type);
+      return '';
+  }
 };

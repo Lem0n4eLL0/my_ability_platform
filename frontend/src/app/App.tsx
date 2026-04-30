@@ -22,6 +22,7 @@ import { HeaderApp } from '@/components/layouts/HeaderApp';
 import { selectIsAuthInitializing } from '@/services/slices/auth';
 import { ProfilePage } from '@/components/pages/ProfilePage';
 import { TestsPage } from '@/components/pages/TestsPage';
+import { TakeTestPage } from '@/components/pages/TakeTestPage';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -78,6 +79,9 @@ const App = () => {
           <Route element={<MainLayout header={<HeaderApp />} footer={<Footer />} />}>
             <Route path="profile" element={<ProfilePage />}></Route>
             <Route path="tests" element={<TestsPage />}></Route>
+          </Route>
+          <Route element={<MainLayout header={<HeaderApp />} />}>
+            <Route path="tests/:id" element={<TakeTestPage />}></Route>
           </Route>
         </Route>
       </Route>

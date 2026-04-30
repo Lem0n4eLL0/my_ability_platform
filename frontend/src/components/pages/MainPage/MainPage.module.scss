@@ -22,7 +22,7 @@ $block-max-width: clamp(576px, calc(31.33333333rem + 20.74074074vw), 800px);
 
   &__title {
     font-family: $main-font;
-    @include typography($font-h1);
+    @include typography($font-main-title);
     color: $color-text-primary;
     margin-bottom: 30px;
   }

@@ -28,3 +28,14 @@ export const findBestTestResult = (results: Array<TestResult>) => {
   }
   return null;
 };
+
+export const findLastTestResult = (results: Array<TestResult>) => {
+  if (results.length === 0) return null;
+  let reslut = results[0];
+  for (let i = 1; i < results.length; i++) {
+    if (new Date(reslut.completionDate) < new Date(results[i].completionDate)) {
+      reslut = results[i];
+    }
+  }
+  return reslut;
+};

@@ -1,3 +1,5 @@
+import { TestTypeQuantity } from '@/common/commonTypes';
+
 export type DTORequestError = {
   timestamp: string;
   path: string;
@@ -96,6 +98,7 @@ export type TestResultDTO = {
   isTestPassed: boolean;
   difficulty: string;
   reconfirmationDate: string;
+  completionDate: string;
 };
 
 export type PaginationResponseDTO = {
@@ -119,4 +122,10 @@ export type TestDTO = {
   timeLimitSeconds: number | null;
   rechargeTimeSecondes: number | null;
   reconfirmationTimeSeconds: number | null;
+  questionsTypesQuantity: TestTypeQuantity;
+};
+
+export type GetTestInformationResponseDTO = {
+  test: TestDTO;
+  lastUserAttemp: TestResultDTO | null;
 };
