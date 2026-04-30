@@ -1,6 +1,6 @@
 import { SyntheticEvent } from 'react';
 import { InformationField } from '../FieldInformation';
-import style from './FIeldInfoDouble.module.scss';
+import style from './FieldInfoDouble.module.scss';
 
 export type IFieldInfoDouble = {
   children: React.ReactNode;
