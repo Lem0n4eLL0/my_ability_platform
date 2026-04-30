@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.security.SignatureException;
+import io.jsonwebtoken.security.SignatureException;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -72,18 +72,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       }
     } catch (ExpiredJwtException e) {
       log.info("Токен просрочен");
-      throw new TokenExpiredException();
+      response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Токен просрочен");
 
     } catch (MalformedJwtException e) {
-      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "malformed_token");
+      response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Неверный токен");
       return;
 
-    } catch (UnsupportedJwtException e) {
-      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "unsupported_token");
+    } catch(SignatureException e){
+      response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Неверный токен");
+
+    } catch(UnsupportedJwtException e) {
+      response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Неверный токен");
       return;
 
     } catch (IllegalArgumentException e) {
-      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "token_required");
+      response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Токен отсутствует");
       return;
     } catch (Exception e) {
       throw new RuntimeException(e);
