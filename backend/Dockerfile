@@ -23,7 +23,7 @@ RUN --mount=type=cache,target=/root/.m2 mvn dependency:go-offline -B
 # 3. Копируем исходный код модулей
 COPY Core-module ./Core-module
 COPY Authentication-module ./Authentication-module
-COPY Notification-module ./Notification-module
+COPY Notification-module ./Notification-moduleф
 COPY Test-module ./Test-module
 COPY Verification-module ./Verification-module
 COPY Objects-module ./Objects-module

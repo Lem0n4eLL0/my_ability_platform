@@ -35,7 +35,7 @@ public class AuthController {
   private final JwtProperties jwtProperties;
 
 
-  @PostMapping("/login")
+  @PostMapping()
   public ResponseEntity login(@RequestBody AccountRequest request) {
 
     Account account = authenticationService.authenticate(request);

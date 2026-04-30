@@ -1,7 +1,9 @@
 jwt:
   secret: "my-super-secret-key-32-chars-long!"
+#  access:
+#    expiration: 3600000
   access:
-    expiration: 3600000
+    expiration: 360
   refresh:
     expiration: 86400000
   email:
