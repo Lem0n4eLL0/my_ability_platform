@@ -6,8 +6,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  OWNER: ${{github.repository_owner}}
-  REPO: ${{ github.repository }}
+  OWNER: ${{ github.repository_owner }}
+  REPO_NAME: ${{ github.event.repository.name }}
 
 jobs:
   build-backend:
@@ -19,8 +19,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set lowercase owner
-        run: echo "OWNER_LC=${OWNER,,}" >> $GITHUB_ENV
+      - name: Set lowercase variables
+        run: |
+            echo "OWNER_LC=${OWNER,,}" >> $GITHUB_ENV
+            echo "REPO_NAME_LC=${REPO_NAME,,}" >> $GITHUB_ENV
+
+      - name: Build & Push Backend
+        with:
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/${{ env.REPO_NAME_LC }}/backend:latest
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -53,8 +60,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set lowercase owner
-        run: echo "OWNER_LC=${OWNER,,}" >> $GITHUB_ENV
+      - name: Set lowercase variables
+        run: |
+          echo "OWNER_LC=${OWNER,,}" >> $GITHUB_ENV
+          echo "REPO_NAME_LC=${REPO_NAME,,}" >> $GITHUB_ENV
+
+      - name: Build & Push Frontend
+        with:
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/${{ env.REPO_NAME_LC }}/frontend:latest
 
 
 
