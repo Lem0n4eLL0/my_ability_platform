@@ -1,0 +1,12 @@
+package com.example.GigAnt.repository;
+
+import java.util.List;
+import java.util.UUID;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.NoRepositoryBean;
+
+@NoRepositoryBean
+public interface BaseRepository<T> extends JpaRepository<T, UUID> {
+
+  List<T> findAllByProfileId(Integer profileId);
+}
