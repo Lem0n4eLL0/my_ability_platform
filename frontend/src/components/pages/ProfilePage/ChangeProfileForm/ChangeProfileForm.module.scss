@@ -1,0 +1,50 @@
+@use '@styles/variables' as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: $color-text-primary;
+  max-width: 190px;
+  font-size: 16px;
+
+  &__fieldset {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 6px;
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  &__legend {
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  &__error-field {
+    font-size: 14px;
+  }
+
+  &__footer {
+    width: 100%;
+  }
+
+  &__controls {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+
+  &__сancel-button {
+    box-shadow: $shadow-small;
+  }
+}

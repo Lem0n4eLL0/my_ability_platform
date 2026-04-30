@@ -1,0 +1,1 @@
+export { FieldInfoDouble } from './FieldInfoDouble';

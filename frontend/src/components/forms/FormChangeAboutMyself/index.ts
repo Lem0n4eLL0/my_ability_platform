@@ -1,0 +1,1 @@
+export { FormChangeAboutMyself } from './FormChangeAboutMyself';

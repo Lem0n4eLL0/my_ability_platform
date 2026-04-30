@@ -1,0 +1,1 @@
+export { RegistrationStepThree } from './RegistrationStepThree';

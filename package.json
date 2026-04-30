@@ -2,12 +2,12 @@
   "name": "my_ability_platform",
   "private": true,
   "scripts": {
-    "format": "prettier --write \"**/*.{ts,tsx,json,css,scss,md}\"",
-    "format:check": "prettier --check \"**/*.{ts,tsx,json,css,scss,md}\""
+    "prepare": "husky"
   },
   "devDependencies": {
+    "@testing-library/dom": "^9.3.4",
+    "@testing-library/react": "^14.3.1",
     "husky": "^9.1.7",
-    "prettier": "^3.8.1",
-    "eslint-config-prettier": "^10.1.8"
+    "sass": "^1.97.3"
   }
 }
