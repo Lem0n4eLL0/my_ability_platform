@@ -8,6 +8,7 @@ env:
   REGISTRY: ghcr.io
   OWNER: ${{ github.repository_owner }}
   REPO_NAME: ${{ github.event.repository.name }}
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # ← убираем предупреждения про Node.js 20
 
 jobs:
   build-backend:
@@ -21,13 +22,8 @@ jobs:
 
       - name: Set lowercase variables
         run: |
-            echo "OWNER_LC=${OWNER,,}" >> $GITHUB_ENV
-            echo "REPO_NAME_LC=${REPO_NAME,,}" >> $GITHUB_ENV
-
-      - name: Build & Push Backend
-        with:
-          tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/${{ env.REPO_NAME_LC }}/backend:latest
+          echo "OWNER_LC=${OWNER,,}" >> $GITHUB_ENV
+          echo "REPO_NAME_LC=${REPO_NAME,,}" >> $GITHUB_ENV
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -46,8 +42,8 @@ jobs:
           file: ./backend/Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.REPO }}/backend:latest
-            ${{ env.REGISTRY }}/${{ env.REPO }}/backend:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/${{ env.REPO_NAME_LC }}/backend:latest
+            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/${{ env.REPO_NAME_LC }}/backend:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -64,13 +60,6 @@ jobs:
         run: |
           echo "OWNER_LC=${OWNER,,}" >> $GITHUB_ENV
           echo "REPO_NAME_LC=${REPO_NAME,,}" >> $GITHUB_ENV
-
-      - name: Build & Push Frontend
-        with:
-          tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/${{ env.REPO_NAME_LC }}/frontend:latest
-
-
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -91,8 +80,8 @@ jobs:
           build-args: |
             VITE_APP_API_URL=${{ vars.VITE_APP_API_URL }}
           tags: |
-            ${{ env.REGISTRY }}/${{ env.REPO }}/frontend:latest
-            ${{ env.REGISTRY }}/${{ env.REPO }}/frontend:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/${{ env.REPO_NAME_LC }}/frontend:latest
+            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/${{ env.REPO_NAME_LC }}/frontend:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -104,9 +93,9 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@master
         with:
-          host: ${{secrets.SSH_HOST}}
-          username: ${{secrets.SERVER_USERNAME}}
-          key: ${{ secrets.SSH_PRIVATE_KEY}}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             
@@ -118,5 +107,3 @@ jobs:
             docker compose -f docker-compose.yml -f docker-compose.prod.yml pull
             docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --remove-orphans
             docker image prune -f --filter "until=24h"
-
-
