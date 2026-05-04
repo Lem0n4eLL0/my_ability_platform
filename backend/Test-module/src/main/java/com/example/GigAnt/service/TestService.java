@@ -20,7 +20,7 @@ public class TestService {
     private final TestMapper mapper;
 
     public List<TestsResponse> getTests(int limit, int offset, String title, List<Difficulty> difficulty){
-        int page = offset / limit;  // номер страницы (если offset=20, limit=10 → page=2)
+        int page = offset / limit;
         Pageable pageable = PageRequest.of(page, limit);
 
         Page<Test> testPage = repository.findByFilters(difficulty, title, pageable);

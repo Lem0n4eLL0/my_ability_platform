@@ -1,10 +1,11 @@
 package com.example.GigAnt.model.entity;
 
 import com.example.GigAnt.entity.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.example.GigAnt.model.enums.Difficulty;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.io.DataInput;
 
 @ToString(onlyExplicitlyIncluded = true)
 @Getter
@@ -27,10 +28,18 @@ public class Test extends BaseEntity {
     @Column(name = "passing_score", nullable = false)
     private Integer passingScore;
 
-    @Column(name = "recharge_time")
+    @Column(name = "recharge_time_secondes")
     private Integer rechargeTime;
 
     @Column(name = "reconfirmation_time_seconds")
     private Integer reconfirmationTimeSeconds;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "difficulty")
+    private Difficulty difficulty;
+
+    @Column(name = "passing_estimation_procent")
+    private Integer passing_estimation_procent;
+
 
 }

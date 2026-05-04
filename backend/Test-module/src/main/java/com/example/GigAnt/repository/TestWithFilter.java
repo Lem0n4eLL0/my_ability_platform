@@ -23,13 +23,13 @@ public class TestWithFilter implements TestFilterRepository {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Test> findByFilters(List<Difficulty> types, String title, Pageable pageable) {
+    public Page<Test> findByFilters(List<Difficulty> difficulties, String title, Pageable pageable) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
 
         CriteriaQuery<Test> cq = cb.createQuery(Test.class);
         Root<Test> root = cq.from(Test.class);
 
-        List<Predicate> predicates = buildPredicates(cb, root, types, title);
+        List<Predicate> predicates = buildPredicates(cb, root, difficulties, title);
         cq.where(cb.and(predicates.toArray(new Predicate[0])));
         applySorting(cb, root, cq, pageable.getSort());
 
@@ -41,7 +41,7 @@ public class TestWithFilter implements TestFilterRepository {
         CriteriaQuery<Long> countCq = cb.createQuery(Long.class);
         Root<Test> countRoot = countCq.from(Test.class);
         countCq.select(cb.count(countRoot));
-        countCq.where(cb.and(buildPredicates(cb, countRoot, types, title)));
+        countCq.where(cb.and(buildPredicates(cb, countRoot, difficulties, title)));
         Long total = em.createQuery(countCq).getSingleResult();
 
         return new PageImpl<>(content, pageable, total);
@@ -49,14 +49,14 @@ public class TestWithFilter implements TestFilterRepository {
 
 
     private List<Predicate> buildPredicates(CriteriaBuilder cb, Root<Test> root,
-                                            List<Difficulty> types, String name) {
+                                            List<Difficulty> difficulties, String title) {
         List<Predicate> predicates = new ArrayList<>();
 
-        if (types != null && !types.isEmpty()) {
-            predicates.add(root.get("type").in(types));
+        if (difficulties != null && !difficulties.isEmpty()) {
+            predicates.add(root.get("difficulty").in(difficulties));
         }
-        if (name != null && !name.isBlank()) {
-            predicates.add(cb.like(cb.lower(root.get("name")), "%" + name.toLowerCase() + "%"));
+        if (title != null && !title.isBlank()) {
+            predicates.add(cb.like(cb.lower(root.get("title")), "%" + title.toLowerCase() + "%"));
         }
         return predicates;
     }

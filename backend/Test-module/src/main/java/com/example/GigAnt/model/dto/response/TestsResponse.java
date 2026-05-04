@@ -15,7 +15,7 @@ public record TestsResponse(
         Difficulty difficulty,
         Integer timeLimitSeconds,
         Integer rechargeTimeSeconds,
-        Integer reconfirmationTimeSeconds,
-        QuestionTypeQuantity questionsTypesQuantity
+        Integer reconfirmationTimeSeconds
+//        QuestionTypeQuantity questionsTypesQuantity
 ) {
 }

@@ -12,7 +12,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./init-db:/docker-entrypoint-initdb.d
+#      - ./init-db:/docker-entrypoint-initdb.d
     networks:
       - internal
     healthcheck:
@@ -30,9 +30,9 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'  # ← Для локальной разработки
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
     ports:
-      - "5050:80"  # ← Открываем доступ: http://localhost:5050
+      - "5050:80"
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     networks:
@@ -42,6 +42,22 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  init-db:
+    image: postgres:15
+    depends_on:
+      postgres:
+        condition: service_started
+    volumes:
+      - ./init.sql:/init.sql
+    entrypoint: >
+      bash -c "
+      psql -h postgres -U gigant_admin -d skills_verification -f /init.sql
+      "
+    environment:
+      PGPASSWORD: SecureP@ssw0rd_2024!
+    restart: "no"
+    networks:
+      - internal
   # === Application ===
   application-service:
     image: gigant:latest
