@@ -1,0 +1,3 @@
+
+ALTER TABLE criteria_question_type_count
+DROP COLUMN required_count;
