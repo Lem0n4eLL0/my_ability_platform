@@ -1,0 +1,19 @@
+package com.example.GigAnt.model.dto.external;
+
+import com.example.GigAnt.model.enums.TestAttemptStatus;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+public record TestAttemptsDto(
+        Integer profile,
+        TestAttemptStatus status,
+        int score,
+        int maxScore,
+        int estimationProcent,
+        LocalDateTime startedAt
+
+
+
+) {
+}
