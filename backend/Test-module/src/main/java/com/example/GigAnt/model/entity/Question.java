@@ -6,7 +6,10 @@ import com.example.GigAnt.model.dto.external.Option;
 import com.example.GigAnt.model.enums.QuestionType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
+import java.util.List;
 import java.util.UUID;
 
 @ToString(onlyExplicitlyIncluded = true)
@@ -28,11 +31,13 @@ public class Question extends BaseEntity {
     @Column(name = "difficulty", nullable = false)
     int difficulty;
 
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "options", nullable = false)
-    Option options;
+    List<Option> options;
 
-    @Column(name = "correct_answer", nullable = false)
-    CorrectAnswer correctAnswer;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "correct_answer")
+    List<CorrectAnswer> correctAnswer;
 
     @Column(name = "explanation", length = 255, nullable = false)
     String explanation;

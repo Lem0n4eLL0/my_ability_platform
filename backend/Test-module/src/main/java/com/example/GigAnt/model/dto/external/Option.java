@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record Option(
-        UUID id,
+        String id,
         String text,
         String codeBase,
         Map<String,Object> additionalData

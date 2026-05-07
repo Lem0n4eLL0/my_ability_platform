@@ -9,7 +9,7 @@ import java.util.UUID;
 public record TestQuestionResponse(
         UUID id,
         int questionNumber,
-        String descriptionMD,
+        String text,
         QuestionType type,
         List<Option> options
 ) {

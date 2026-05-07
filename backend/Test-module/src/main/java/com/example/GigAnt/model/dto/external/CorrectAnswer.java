@@ -1,6 +1,8 @@
 package com.example.GigAnt.model.dto.external;
 
-public record CorrectAnswer(
+import java.util.List;
 
+public record CorrectAnswer(
+    String id
 ) {
 }

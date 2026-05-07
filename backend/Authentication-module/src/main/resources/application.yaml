@@ -3,7 +3,7 @@ jwt:
 #  access:
 #    expiration: 3600000
   access:
-    expiration: 360
+    expiration: 36000000
   refresh:
     expiration: 86400000
   email:
