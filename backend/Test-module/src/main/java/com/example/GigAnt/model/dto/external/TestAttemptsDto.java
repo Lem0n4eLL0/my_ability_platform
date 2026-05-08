@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record TestAttemptsDto(
+        UUID testId,
         Integer profileId,
         TestAttemptStatus status,
         int score,
