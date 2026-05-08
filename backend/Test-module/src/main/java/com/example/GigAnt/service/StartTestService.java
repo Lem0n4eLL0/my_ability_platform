@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.module.FindException;
@@ -47,10 +48,55 @@ public class StartTestService {
         log.info("Получение профиля по контракту из другого модуля Portfolio-Module");
         Integer profileId = profileApiService.getProfileIdByAccountId(accountId);
         Test test = testRepository.getReferenceById(testId);
+        List<Question> questionList = findQuestions(testId);
 
-        canStartTest(test,profileId);
-        List<Question> questionList = questionRepository.findAllQuestionsByTestIdAndByCriteries(testId);
-        if(questionList.isEmpty()) throw new NotFoundedQuestions();
+        if(canStartTest(test,profileId)){
+            saveNewAttempt(test,profileId,questionList);
+        }
+        return questionMapper.toModelList(questionList);
+
+    }
+
+    public boolean canStartTest(Test test, Integer profileId){
+        TestAttempts testAttempt = repository.findLastAttemptByProfileAndTest(profileId,test.getId());
+        if(Objects.isNull(testAttempt)) return true;
+
+        TestAttemptStatus currentStatus = testAttempt.getStatus();
+         return switch(currentStatus){
+            case PENDING ->isNotExpiredTest(testAttempt,test);
+            case COMPLETED, EXPIRED -> isCanStartAgain(testAttempt, test);
+             default -> throw new StatusNotExist();
+
+        };
+    }
+    @Transactional(noRollbackFor = ExpiredTestAttempt.class)
+    public boolean isNotExpiredTest(TestAttempts testAttempt, Test test){
+        LocalDateTime timeExpiredTest = testAttempt.getStartedAt().plusSeconds(test.getTimeLimitSeconds());
+        if(LocalDateTime.now().isAfter(timeExpiredTest)){
+            saveStatusExpired(testAttempt);
+            throw new ExpiredTestAttempt();
+        }
+        return false;
+
+    }
+
+
+    public boolean isCanStartAgain(TestAttempts testAttempt, Test test){
+        LocalDateTime finishedAt = (testAttempt.getFinishedAt()!=null) ? testAttempt.getFinishedAt():testAttempt.getStartedAt();
+        LocalDateTime timeRepassing = finishedAt.plusSeconds(test.getReconfirmationTimeSeconds());
+        if(LocalDateTime.now().isBefore(timeRepassing)){
+            throw new NotEnoughPassTimeTest(timeRepassing);
+        }
+        return true;
+
+
+    }
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveStatusExpired(TestAttempts testAttempt){
+        testAttempt.setStatus(TestAttemptStatus.EXPIRED);
+        repository.save(testAttempt);
+    }
+    public void saveNewAttempt(Test test,Integer profileId, List<Question> questionList){
         TestAttempts testAttempts = factory.createPending(test,profileId,questionList);
         try {
             repository.save(testAttempts);
@@ -59,43 +105,11 @@ public class StartTestService {
             throw new PersistenceError("TestAttempts");
 
         }
-        return questionMapper.toModelList(questionList);
-
-
-
     }
-    public void canStartTest(Test test, Integer profileId){
-        TestAttempts testAttempt = repository.findLastAttemptByProfileAndTest(profileId,test.getId());
-        if(Objects.isNull(testAttempt)) return;
-
-        TestAttemptStatus currentStatus = testAttempt.getStatus();
-         switch(currentStatus){
-            case PENDING ->isNotExpiredTest(testAttempt,test);
-            case COMPLETED, EXPIRED -> isCanStartAgain(testAttempt, test);
-             default -> throw new StatusNotExist();
-
-        };
-    }
-    public void isNotExpiredTest(TestAttempts testAttempt, Test test){
-        LocalDateTime timeExpiredTest = testAttempt.getStartedAt().plusSeconds(test.getTimeLimitSeconds());
-        if(LocalDateTime.now().isAfter(timeExpiredTest)){
-            saveStatusExpired(testAttempt);
-            throw new ExpiredTestAttempt();
-        }
-
-    }
-    public void saveStatusExpired(TestAttempts testAttempt){
-        testAttempt.setStatus(TestAttemptStatus.EXPIRED);
-        repository.save(testAttempt);
-    }
-    public void isCanStartAgain(TestAttempts testAttempt, Test test){
-        LocalDateTime finishedAt = (testAttempt.getFinishedAt()!=null) ? testAttempt.getFinishedAt():testAttempt.getStartedAt();
-        LocalDateTime timeRepassing = finishedAt.plusSeconds(test.getReconfirmationTimeSeconds());
-        if(LocalDateTime.now().isBefore(timeRepassing)){
-            throw new NotEnoughPassTimeTest(timeRepassing);
-        }
-
-
+    public List<Question> findQuestions(UUID testId){
+        List<Question> questionList = questionRepository.findAllQuestionsByTestIdAndByCriteries(testId);
+        if(questionList.isEmpty()) throw new NotFoundedQuestions();
+        return questionList;
     }
 
 

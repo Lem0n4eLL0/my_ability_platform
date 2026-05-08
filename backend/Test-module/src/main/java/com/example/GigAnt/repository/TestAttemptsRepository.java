@@ -20,7 +20,8 @@ public interface TestAttemptsRepository extends JpaRepository<TestAttempts, UUID
     SELECT ta FROM TestAttempts ta
     WHERE ta.profileId = :profileId 
       AND ta.test.id = :testId
-    ORDER BY ta.startedAt DESC, ta.id DESC
+    ORDER BY ta.startedAt DESC, ta.id DESC 
+    LIMIT 1
     """)
     TestAttempts findLastAttemptByProfileAndTest(
             @Param("profileId") Integer profileId,
