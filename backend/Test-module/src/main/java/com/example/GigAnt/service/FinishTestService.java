@@ -8,6 +8,7 @@ import com.example.GigAnt.model.dto.response.TestResultResponse;
 import com.example.GigAnt.model.entity.Question;
 import com.example.GigAnt.model.entity.Test;
 import com.example.GigAnt.model.entity.TestAttempts;
+import com.example.GigAnt.model.enums.TestAttemptStatus;
 import com.example.GigAnt.repository.QuestionRepository;
 import com.example.GigAnt.repository.TestAttemptsRepository;
 import com.example.GigAnt.repository.TestRepository;
@@ -34,12 +35,21 @@ public class FinishTestService {
         Integer profileId = profileApi.getProfileIdByAccountId(accountId);
         Test test = testRepository.getReferenceById(testId);
         int score = calculateScore(answers);
+        log.info("У пользователя за весь тест  "+score);
         TestAttempts testAttempts = attemptRepository.findLastAttemptByProfileAndTest(profileId,testId);
-        int estimationProcent = score/testAttempts.getMaxScore();
-        boolean isTestPassed = estimationProcent>test.getPassing_estimation_procent() ? true:false;
+        int estimationProcent = (int) (score * 100.0 / testAttempts.getMaxScore());
+        log.info("Максимальный балл "+testAttempts.getMaxScore());
+        log.info("Процент прохождения "+estimationProcent);
+        boolean isTestPassed = estimationProcent>test.getPassing_estimation_procent();
         LocalDateTime reconfirmationDate = LocalDateTime.now().plusSeconds(test.getReconfirmationTimeSeconds());
         LocalDateTime completionDate = LocalDateTime.now();
         TestResultResponse testResult = new TestResultResponse(estimationProcent,isTestPassed,reconfirmationDate,completionDate);
+
+        testAttempts.setEstimationProcent(estimationProcent);
+        testAttempts.setStatus(TestAttemptStatus.COMPLETED);
+        testAttempts.setScore(score);
+        testAttempts.setFinishedAt(completionDate);
+        attemptRepository.save(testAttempts);
         return finishTestMapper.toResponse(test,testResult);
 
 
@@ -48,7 +58,10 @@ public class FinishTestService {
         return answers.stream()
                 .mapToInt(answer -> {
                     Question currentQuestion = questionRepository.getReferenceById(answer.getQuestionId());
-                    return answer.calculatePoints(currentQuestion);
+                    log.info("считаем каждый вопрос ");
+                    int score = answer.calculatePoints(currentQuestion);
+                    log.info("сколько итого за вопрос "+ score);
+                    return score;
                 })
                 .sum();
     }
