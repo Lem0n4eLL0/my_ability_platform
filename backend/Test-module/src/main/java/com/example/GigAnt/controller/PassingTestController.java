@@ -1,5 +1,7 @@
 package com.example.GigAnt.controller;
 
+import com.example.GigAnt.checkingAnswer.answer.Answer;
+import com.example.GigAnt.model.dto.response.FinishTestResponse;
 import com.example.GigAnt.model.dto.response.TestQuestionResponse;
 import com.example.GigAnt.service.StartTestService;
 import jakarta.validation.constraints.NotNull;
@@ -21,5 +23,11 @@ public class PassingTestController {
     public List<TestQuestionResponse> startTest(@PathVariable @NotNull UUID testId, @RequestAttribute(ACCOUNT_ID) @NotNull UUID accountId){
         return startTestService.startTest(testId, accountId);
 
+    }
+    @PostMapping("finish/{testId")
+    public List<FinishTestResponse> finishTest(@PathVariable @NotNull UUID testId,
+                                               @RequestAttribute(ACCOUNT_ID) @NotNull UUID accountId,
+                                               @RequestBody List<Answer> answers){
+        return
     }
 }

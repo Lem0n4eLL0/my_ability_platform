@@ -42,7 +42,7 @@ public class StartTestService {
     private final QuestionMapper questionMapper;
     private final TestAttemptFactory factory;
 
-    @Transactional()
+
     public List<TestQuestionResponse> startTest(UUID testId, UUID accountId){
 
         log.info("Получение профиля по контракту из другого модуля Portfolio-Module");
@@ -63,18 +63,21 @@ public class StartTestService {
 
         TestAttemptStatus currentStatus = testAttempt.getStatus();
          return switch(currentStatus){
-            case PENDING ->isNotExpiredTest(testAttempt,test);
+            case PENDING ->{
+                if(isExpiredTest(testAttempt,test)) throw new ExpiredTestAttempt();
+                yield false;
+            }
             case COMPLETED, EXPIRED -> isCanStartAgain(testAttempt, test);
-             default -> throw new StatusNotExist();
+            default -> throw new StatusNotExist();
 
         };
     }
     @Transactional(noRollbackFor = ExpiredTestAttempt.class)
-    public boolean isNotExpiredTest(TestAttempts testAttempt, Test test){
+    public boolean isExpiredTest(TestAttempts testAttempt, Test test){
         LocalDateTime timeExpiredTest = testAttempt.getStartedAt().plusSeconds(test.getTimeLimitSeconds());
         if(LocalDateTime.now().isAfter(timeExpiredTest)){
             saveStatusExpired(testAttempt);
-            throw new ExpiredTestAttempt();
+            return true;
         }
         return false;
 
@@ -91,10 +94,10 @@ public class StartTestService {
 
 
     }
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+//    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveStatusExpired(TestAttempts testAttempt){
         testAttempt.setStatus(TestAttemptStatus.EXPIRED);
-        repository.save(testAttempt);
+        repository.saveAndFlush(testAttempt);
     }
     public void saveNewAttempt(Test test,Integer profileId, List<Question> questionList){
         TestAttempts testAttempts = factory.createPending(test,profileId,questionList);
