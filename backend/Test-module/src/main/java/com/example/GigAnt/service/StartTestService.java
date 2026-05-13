@@ -41,6 +41,7 @@ public class StartTestService {
     private final QuestionRepository questionRepository;
     private final QuestionMapper questionMapper;
     private final TestAttemptFactory factory;
+    private final TestAttemptValidator validator;
 
 
     public List<TestQuestionResponse> startTest(UUID testId, UUID accountId){
@@ -64,36 +65,15 @@ public class StartTestService {
         TestAttemptStatus currentStatus = testAttempt.getStatus();
          return switch(currentStatus){
             case PENDING ->{
-                if(isExpiredTest(testAttempt,test)) throw new ExpiredTestAttempt();
+                if(validator.isExpiredTest(testAttempt,test)) throw new ExpiredTestAttempt();
                 yield false;
             }
-            case COMPLETED, EXPIRED -> isCanStartAgain(testAttempt, test);
+            case COMPLETED, EXPIRED -> validator.isCanStartAgain(testAttempt, test);
             default -> throw new StatusNotExist();
 
         };
     }
-    @Transactional(noRollbackFor = ExpiredTestAttempt.class)
-    public boolean isExpiredTest(TestAttempts testAttempt, Test test){
-        LocalDateTime timeExpiredTest = testAttempt.getStartedAt().plusSeconds(test.getTimeLimitSeconds());
-        if(LocalDateTime.now().isAfter(timeExpiredTest)){
-            saveStatusExpired(testAttempt);
-            return true;
-        }
-        return false;
 
-    }
-
-
-    public boolean isCanStartAgain(TestAttempts testAttempt, Test test){
-        LocalDateTime finishedAt = (testAttempt.getFinishedAt()!=null) ? testAttempt.getFinishedAt():testAttempt.getStartedAt();
-        LocalDateTime timeRepassing = finishedAt.plusSeconds(test.getReconfirmationTimeSeconds());
-        if(LocalDateTime.now().isBefore(timeRepassing)){
-            throw new NotEnoughPassTimeTest(timeRepassing);
-        }
-        return true;
-
-
-    }
 //    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveStatusExpired(TestAttempts testAttempt){
         testAttempt.setStatus(TestAttemptStatus.EXPIRED);
