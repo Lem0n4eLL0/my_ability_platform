@@ -67,7 +67,9 @@ public class FinishTestService {
     public void updateTestAttempt(TestAttempts testAttempts,TestResultResponse testResult){
         testAttempts.setEstimationProcent(testResult.estimationProcent());
         testAttempts.setStatus(TestAttemptStatus.COMPLETED);
+        testAttempts.setPassingTest(testAttempts.isPassingTest());
         testAttempts.setScore(testResult.score());
         testAttempts.setFinishedAt(testResult.completionDate());
+        testAttempts.setReconfirmationDate(testResult.reconfirmationDate());
     }
 }

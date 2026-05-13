@@ -40,8 +40,14 @@ public class TestAttempts extends BaseEntity {
     @Column(name = "maxScore")
     int maxScore;
 
+    @Column(name = "is_passing_test")
+    boolean isPassingTest;
+
     @Column(name = "estimationProcent")
     int estimationProcent;
+
+    @Column(name = "reconfirmation_date")
+    LocalDateTime reconfirmationDate;
 
     @Column(name = "startedAt")
     LocalDateTime startedAt = LocalDateTime.now();
