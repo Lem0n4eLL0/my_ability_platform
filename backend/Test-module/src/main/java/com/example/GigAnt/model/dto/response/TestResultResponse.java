@@ -12,7 +12,7 @@ public record TestResultResponse(
         UUID id,
         int score,
         Integer estimationProcent,
-        boolean isTestPassed,
+        boolean isPassingTest,
         LocalDateTime reconfirmationDate,
         LocalDateTime completionDate
 

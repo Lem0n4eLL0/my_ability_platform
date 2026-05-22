@@ -29,8 +29,8 @@ public class JwtUtils {
         this.signingKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         this.jwtParser = Jwts.parser()
                 .verifyWith(signingKey)
-                .requireIssuer(issuer)      // Кто выдал токен
-                .requireAudience("gigant-backend")              // Для кого токен
+                .requireIssuer(issuer)
+                .requireAudience("gigant-backend")
                 .clockSkewSeconds(30)
                 .build();
 

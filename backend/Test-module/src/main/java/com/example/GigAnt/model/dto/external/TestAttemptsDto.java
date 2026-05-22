@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public record TestAttemptsDto(
         UUID testId,
-        Integer profileId,
+        UUID profileId,
         TestAttemptStatus status,
         int score,
         int maxScore,

@@ -25,7 +25,7 @@ public interface TestAttemptsRepository extends JpaRepository<TestAttempts, UUID
     LIMIT 1
     """)
     TestAttempts findLastAttemptByProfileAndTest(
-            @Param("profileId") Integer profileId,
+            @Param("profileId") UUID profileId,
             @Param("testId") UUID testId
     );
 
@@ -46,7 +46,7 @@ public interface TestAttemptsRepository extends JpaRepository<TestAttempts, UUID
     ORDER BY started_at DESC
     """, nativeQuery = true)
     List<TestAttempts> findBestPassedAttemptsByProfile(
-            @Param("profileId") Integer profileId,
+            @Param("profileId") UUID profileId,
             @Param("currentTime") LocalDateTime currentTime
     );
 }

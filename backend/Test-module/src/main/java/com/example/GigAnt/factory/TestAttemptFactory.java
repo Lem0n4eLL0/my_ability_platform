@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -16,7 +17,7 @@ public class TestAttemptFactory {
 
 
 
-    public TestAttempts createPending(Test test, Integer profileId, List<Question> questions) {
+    public TestAttempts createPending(Test test, UUID profileId, List<Question> questions) {
         return TestAttempts.builder()
                 .test(test)
                 .profileId(profileId)
@@ -28,7 +29,7 @@ public class TestAttemptFactory {
                 .build();
     }
 
-    public TestAttempts createCompleted(Test test, Integer profileId, int score, int maxScore) {
+    public TestAttempts createCompleted(Test test, UUID profileId, int score, int maxScore) {
         return TestAttempts.builder()
                 .test(test)
                 .profileId(profileId)

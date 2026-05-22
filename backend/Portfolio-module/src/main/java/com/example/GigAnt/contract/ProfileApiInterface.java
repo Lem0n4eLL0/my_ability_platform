@@ -5,6 +5,6 @@ import com.example.GigAnt.model.dto.response.ProfileDtoResponse;
 import java.util.UUID;
 
 public interface ProfileApiInterface {
-    Integer getProfileIdByAccountId(UUID accountId);
+    UUID getProfileIdByAccountId(UUID accountId);
 //    ProfileDtoResponse getProfileByAccountId(Long accountId);
 }

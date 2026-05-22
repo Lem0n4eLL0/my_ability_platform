@@ -21,13 +21,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "user_profile")
-public class UserProfile  {
+public class UserProfile extends BaseEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @ToString.Include
-  @Column(name = "id", updatable = false, nullable = false)
-  private Integer id;
+
 
   @OneToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(
@@ -59,6 +55,9 @@ public class UserProfile  {
   @Column(name = "github", length = 50)
   private String github;
 
+  @Column(name = "public_id", unique = true, nullable = true, updatable = false)
+  private UUID publicId;
+
   @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Certificates> certificates = new ArrayList<>();
 
@@ -71,17 +70,7 @@ public class UserProfile  {
   @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<WorkExperience> workExperiences = new ArrayList<>();
 
-  @CreationTimestamp
-  @Column(nullable = false)
-  private LocalDateTime createdAt;
 
-  @UpdateTimestamp
-  @Column(nullable = false)
-  private LocalDateTime updatedAt;
-
-  @Version
-  @Column(nullable = false)
-  private Long version;
 
 
 }

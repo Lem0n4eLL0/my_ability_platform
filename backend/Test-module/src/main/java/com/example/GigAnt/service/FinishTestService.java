@@ -38,7 +38,7 @@ public class FinishTestService {
 
     public FinishTestResponse finishTest(UUID testId, UUID accountId, List<Answer> answers){
 
-        Integer profileId = profileApi.getProfileIdByAccountId(accountId);
+        UUID profileId = profileApi.getProfileIdByAccountId(accountId);
         Test test = testRepository.getReferenceById(testId);
 
         TestAttempts testAttempts = attemptRepository.findLastAttemptByProfileAndTest(profileId,testId);
@@ -67,7 +67,7 @@ public class FinishTestService {
     public void updateTestAttempt(TestAttempts testAttempts,TestResultResponse testResult){
         testAttempts.setEstimationProcent(testResult.estimationProcent());
         testAttempts.setStatus(TestAttemptStatus.COMPLETED);
-        testAttempts.setPassingTest(testAttempts.isPassingTest());
+        testAttempts.setPassingTest(testResult.isPassingTest());
         testAttempts.setScore(testResult.score());
         testAttempts.setFinishedAt(testResult.completionDate());
         testAttempts.setReconfirmationDate(testResult.reconfirmationDate());

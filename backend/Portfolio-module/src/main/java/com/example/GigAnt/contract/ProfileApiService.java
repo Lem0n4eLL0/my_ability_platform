@@ -16,7 +16,7 @@ public class ProfileApiService implements ProfileApiInterface {
     private final ProfileRepository profileRepository;
 
     @Override
-    public Integer getProfileIdByAccountId(UUID accountId) {
+    public UUID getProfileIdByAccountId(UUID accountId) {
         UserProfile  userProfile= profileRepository.getByAccountId(accountId);
         if(Objects.isNull(userProfile)) throw new ProfileNotFounded();
         return userProfile.getId();

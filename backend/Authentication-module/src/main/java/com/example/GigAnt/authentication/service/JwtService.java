@@ -37,6 +37,8 @@ public class JwtService {
                 .subject(account.getId().toString())
                 .claim("type", "EMAIL_VERIFICATION")
                 .claim("email", account.getEmail())
+                .issuer(issuer)
+                .audience().add("gigant-backend").and()
                 .issuedAt(now)
                 .expiration(expiry)
                 .signWith(secretKey)

@@ -25,11 +25,15 @@ public class TestCalculation {
                                                Test test, QuestionRepository questionRepository) {
         int score = calculateScore(answers, questionRepository);
         int percent = calculatePercent(score, attempt.getMaxScore());
+        log.info("Процент прохождения теста пользователем "+percent);
+        log.info("сколько надо пройти "+test.getPassing_estimation_procent());
+        boolean flag = percent >= test.getPassing_estimation_procent();
+        log.info("пройден тест? "+flag);
 
         return TestResultResponse.builder()
                 .score(score)
                 .estimationProcent(percent)
-                .isTestPassed(percent > test.getPassing_estimation_procent())
+                .isPassingTest(percent >= test.getPassing_estimation_procent())
                 .completionDate(LocalDateTime.now())
                 .reconfirmationDate(LocalDateTime.now().plusSeconds(test.getReconfirmationTimeSeconds()))
                 .build();

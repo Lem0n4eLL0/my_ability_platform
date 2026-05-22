@@ -7,6 +7,7 @@ import lombok.*;
 import org.springframework.context.annotation.Profile;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @ToString(onlyExplicitlyIncluded = true)
 @Getter
@@ -28,7 +29,7 @@ public class TestAttempts extends BaseEntity {
     Test test;
 
     @Column(name = "profile_id", nullable = false)
-    private Integer profileId;
+    private UUID profileId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

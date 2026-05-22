@@ -46,6 +46,7 @@ public class EmailVerificationService {
   private String mailPassword;
 
 
+
   public void sendEmail(Account userDetails) {
     String token = jwtService.generateEmailToken(
         userDetails,
@@ -53,7 +54,7 @@ public class EmailVerificationService {
     );
 
     String confirmationLink = apiDomain + "/api/" + appVersion +
-        "registration/confirm-email?token=" + token;
+        "/registration/confirm-email?token=" + token;
 
     // Thymeleaf рендеринг
     Context context = new Context();
@@ -82,7 +83,7 @@ public class EmailVerificationService {
 
   public Account confirmEmail(String token) {
     try {
-
+      log.info("запрос на подтверждение почты");
       var claims = jwtUtils.extractAllClaims(token);
       var accountId = jwtUtils.getAccountId(claims);
       var email = jwtUtils.getEmail(claims);
@@ -94,11 +95,13 @@ public class EmailVerificationService {
         log.info("Пользователь уже верифицирован");
         throw new EmailAlreadyConfirm();
       }
-      if (!accountId.equals(account.getId())) {
+      log.info("акаунт в токене: "+accountId+" аккаунт по почте "+account.getId());
+      if (!accountId.equals(account.getId().toString())) {
         throw new UnsuccessfulConfirmEmail();
       }
       log.info("Пользователь подтвердил почту");
       account.setIsVerified(true);
+      accountRepository.save(account);
       return account;
     } catch (ExpiredJwtException e) {
       throw new TokenExpiredException();

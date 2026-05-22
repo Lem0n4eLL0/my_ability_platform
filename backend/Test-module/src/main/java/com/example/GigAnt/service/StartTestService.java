@@ -47,7 +47,7 @@ public class StartTestService {
     public List<TestQuestionResponse> startTest(UUID testId, UUID accountId){
 
         log.info("Получение профиля по контракту из другого модуля Portfolio-Module");
-        Integer profileId = profileApiService.getProfileIdByAccountId(accountId);
+        UUID profileId = profileApiService.getProfileIdByAccountId(accountId);
         Test test = testRepository.getReferenceById(testId);
         List<Question> questionList = findQuestions(testId);
 
@@ -58,7 +58,7 @@ public class StartTestService {
 
     }
 
-    public boolean canStartTest(Test test, Integer profileId){
+    public boolean canStartTest(Test test, UUID profileId){
         TestAttempts testAttempt = repository.findLastAttemptByProfileAndTest(profileId,test.getId());
         if(Objects.isNull(testAttempt)) return true;
 
@@ -79,7 +79,7 @@ public class StartTestService {
         testAttempt.setStatus(TestAttemptStatus.EXPIRED);
         repository.saveAndFlush(testAttempt);
     }
-    public void saveNewAttempt(Test test,Integer profileId, List<Question> questionList){
+    public void saveNewAttempt(Test test,UUID profileId, List<Question> questionList){
         TestAttempts testAttempts = factory.createPending(test,profileId,questionList);
         try {
             repository.save(testAttempts);

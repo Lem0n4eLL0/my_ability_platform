@@ -37,7 +37,7 @@ public class RegistrationController {
     return ResponseEntity.ok(accountService.registerAccount(request));
   }
 
-  @GetMapping("/confirm-email")  // ← GET, путь совпадает с ссылкой
+  @GetMapping("/confirm-email")
   public ResponseEntity<Auth> confirmEmail(@RequestParam("token") String token) {
     Account account = emailVerificationService.confirmEmail(token);
     var tokens = tokenService.getTokens(account);
