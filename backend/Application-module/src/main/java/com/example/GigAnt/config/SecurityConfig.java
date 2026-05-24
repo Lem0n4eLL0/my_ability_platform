@@ -1,6 +1,7 @@
-package com.example.GigAnt.authentication.config;
+package com.example.GigAnt.config;
 
 import com.example.GigAnt.authentication.filter.JwtAuthenticationFilter;
+import com.example.GigAnt.filter.RateLimitFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,11 +19,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
+  private final RateLimitFilter rateLimitFilter;
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http
         .csrf(AbstractHttpConfigurer::disable)
+            .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
         .authorizeHttpRequests(auth -> auth
             // Публичные эндпоинты
             .requestMatchers("/api/v1/registration/**", "/api/v1/login/**", "/actuator/**")
@@ -30,7 +33,7 @@ public class SecurityConfig {
             // Требуют аутентификации
             .requestMatchers("/api/v1/profile/**").authenticated()
             .requestMatchers("/api/v1/tests/**", "/api/v1/verification/**").authenticated()
-            .anyRequest().permitAll() // или .authenticated() для полной защиты
+            .anyRequest().permitAll()
         )
         .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

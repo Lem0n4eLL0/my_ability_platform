@@ -30,13 +30,14 @@ public class TestCalculation {
         boolean flag = percent >= test.getPassing_estimation_procent();
         log.info("пройден тест? "+flag);
 
-        return TestResultResponse.builder()
-                .score(score)
-                .estimationProcent(percent)
-                .isPassingTest(percent >= test.getPassing_estimation_procent())
-                .completionDate(LocalDateTime.now())
-                .reconfirmationDate(LocalDateTime.now().plusSeconds(test.getReconfirmationTimeSeconds()))
-                .build();
+        return new TestResultResponse(
+                attempt.getId(),
+                score,
+                percent,
+                percent >= test.getPassing_estimation_procent(),
+                LocalDateTime.now().plusSeconds(test.getReconfirmationTimeSeconds()),
+                LocalDateTime.now()
+        );
     }
 
     private static int calculateScore(List<Answer> answers, QuestionRepository questionRepository) {

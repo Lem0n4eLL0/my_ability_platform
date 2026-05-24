@@ -11,6 +11,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface TestAttemptsMapper {
     TestAttempts toEntity(TestAttemptsDto dto);
-    @Mapping(target = "isPassingTest", source = "isPassingTest")
+    @Mapping(target = "passingTest", source = "isPassingTest")
     List<TestResultResponse> toModelList(List<TestAttempts> testAttemptsList);
 }

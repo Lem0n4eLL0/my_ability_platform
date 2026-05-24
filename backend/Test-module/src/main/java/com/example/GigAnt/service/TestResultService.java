@@ -24,7 +24,10 @@ public class TestResultService {
     public List<TestResultResponse> getResultTests(UUID accountId){
         UUID profileId = profileApi.getProfileIdByAccountId(accountId);
         List<TestAttempts> testAttempts = attemptsRepository.findBestPassedAttemptsByProfile(profileId, LocalDateTime.now());
-        log.info("Для логов пройден ли тест"+testAttempts.get(0).isPassingTest());
+
+        List<TestResultResponse> testResultResponses = mapper.toModelList(testAttempts);
+        log.info("из бд: "+testAttempts.get(0).isPassingTest());
+        log.info("Для логов пройден ли тест"+testResultResponses.get(0).passingTest());
         return mapper.toModelList(testAttempts);
     }
 }

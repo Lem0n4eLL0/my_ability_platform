@@ -7,12 +7,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Builder
 public record TestResultResponse(
         UUID id,
         int score,
         Integer estimationProcent,
-        boolean isPassingTest,
+        boolean passingTest,
         LocalDateTime reconfirmationDate,
         LocalDateTime completionDate
 
