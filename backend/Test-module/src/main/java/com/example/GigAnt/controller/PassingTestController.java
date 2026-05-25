@@ -23,7 +23,8 @@ public class PassingTestController {
     private final FinishTestService finishTestService;
 
     @PostMapping("start/{testId}")
-    public List<TestQuestionResponse> startTest(@PathVariable @NotNull UUID testId, @RequestAttribute(ACCOUNT_ID) @NotNull UUID accountId){
+    public List<TestQuestionResponse> startTest(@PathVariable @NotNull UUID testId,
+                                                @RequestAttribute(ACCOUNT_ID) @NotNull UUID accountId){
         return startTestService.startTest(testId, accountId);
 
     }

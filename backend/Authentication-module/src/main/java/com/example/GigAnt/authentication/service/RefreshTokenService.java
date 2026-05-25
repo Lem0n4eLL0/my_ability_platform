@@ -43,14 +43,6 @@ public class RefreshTokenService {
     return savedToken.getToken();
   }
 
-  /**
-   * Verifies the validity of a refresh token
-   *
-   * @param token refresh token string to verify
-   * @return RefreshToken object if token is valid
-   * @throws TokenExpiredException if token is expired or revoked
-   * @throws TokenNotFound         if token is not found
-   */
   public RefreshToken verifyRefreshToken(String token) {
     log.debug("Verifying refresh token");
 
@@ -65,12 +57,6 @@ public class RefreshTokenService {
         });
   }
 
-  /**
-   * Rotates refresh token by deleting the old one and creating a new one
-   *
-   * @param token old refresh token object
-   * @return new refresh token string
-   */
   public String rotateRefreshToken(RefreshToken token, Account user) {
     log.debug("Rotating refresh token for account with ID: {}", token.getAccountId());
 
@@ -83,11 +69,7 @@ public class RefreshTokenService {
     return newToken;
   }
 
-  /**
-   * Revokes a refresh token, making it invalid
-   *
-   * @param token refresh token string to revoke
-   */
+
   public void revokeRefreshToken(String token) {
     log.debug("Request to revoke refresh token");
 
@@ -98,11 +80,7 @@ public class RefreshTokenService {
         });
   }
 
-  /**
-   * Revokes all refresh tokens for a user
-   *
-   * @param token user token
-   */
+
   public void revokeAllUserTokens(String token) {
     revokeAllUserTokens(UUID.fromString(jwtUtils.extractAccountId(token)));
   }

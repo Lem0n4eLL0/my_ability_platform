@@ -1,4 +1,4 @@
--- src/main/resources/sql/queries/find-questions-by-test.sql
+
 WITH test_info AS (
     SELECT
         tc.id as criteria_id,

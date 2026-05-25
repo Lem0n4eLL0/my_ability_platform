@@ -25,10 +25,7 @@ public class TestCalculation {
                                                Test test, QuestionRepository questionRepository) {
         int score = calculateScore(answers, questionRepository);
         int percent = calculatePercent(score, attempt.getMaxScore());
-        log.info("Процент прохождения теста пользователем "+percent);
-        log.info("сколько надо пройти "+test.getPassing_estimation_procent());
         boolean flag = percent >= test.getPassing_estimation_procent();
-        log.info("пройден тест? "+flag);
 
         return new TestResultResponse(
                 attempt.getId(),
@@ -44,9 +41,8 @@ public class TestCalculation {
         return answers.stream()
                 .mapToInt(answer -> {
                     Question currentQuestion = questionRepository.getReferenceById(answer.getQuestionId());
-                    log.info("считаем каждый вопрос ");
+
                     int score = answer.calculatePoints(currentQuestion);
-                    log.info("сколько итого за вопрос " + score);
                     return score;
                 })
                 .sum();

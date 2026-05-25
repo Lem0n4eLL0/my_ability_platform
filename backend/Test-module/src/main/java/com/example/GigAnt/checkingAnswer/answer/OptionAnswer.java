@@ -13,14 +13,11 @@ public class OptionAnswer extends Answer {
 
     @Override
     public int calculatePoints(Question question) {
-        log.info("Вопрос с одним ответом: \n" +
-                "Ответ пользователя "+answerId+"\n"+
-        "Правильный ответ "+question.getCorrectAnswer().get(0));
+        log.info("Вопрос с одним ответом");
         if(!answerId.equals(question.getCorrectAnswer().get(0).id())) {
             log.info("Не верный одиночный ответ ");
             return 0;
         }
-        log.info("Пользователь правильно ответил на одиночный вопрос и получает "+question.getPoints());
         return question.getPoints();
     }
 }

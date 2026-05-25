@@ -31,7 +31,7 @@ public class EmailVerificationService {
   private final JwtService jwtService;
   private final JwtProperties jwtProperties;
   private final JwtUtils jwtUtils;
-  private final SpringTemplateEngine templateEngine;  // Thymeleaf
+  private final SpringTemplateEngine templateEngine;
   private final JavaMailSender mailSender;
   private final AccountRepository accountRepository;
   @Value("${spring.mail.username}")
@@ -42,7 +42,7 @@ public class EmailVerificationService {
 
   @Value("${api.version}")
   private String appVersion;
-  @Value("${spring.mail.password:NOT_SET}") // :NOT_SET покажет, если переменная не найдена
+  @Value("${spring.mail.password:NOT_SET}")
   private String mailPassword;
 
 
@@ -55,16 +55,12 @@ public class EmailVerificationService {
 
     String confirmationLink = apiDomain + "/api/" + appVersion +
         "/registration/confirm-email?token=" + token;
-
-    // Thymeleaf рендеринг
     Context context = new Context();
     context.setVariable("confirmationLink", confirmationLink);
     context.setVariable("expirationMinutes",
         jwtProperties.getEmail().getExpiration());
 
     String htmlContent = templateEngine.process("email/verification", context);
-
-    // Отправка
     try {
       MimeMessage message = mailSender.createMimeMessage();
       MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");

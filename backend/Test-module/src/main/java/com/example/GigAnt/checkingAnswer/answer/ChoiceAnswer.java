@@ -25,13 +25,11 @@ public class ChoiceAnswer extends Answer {
         Set<String> correctAnswerIds = question.getCorrectAnswer().stream()
                 .map(ca -> ca.id())
                 .collect(Collectors.toSet());
-        log.info("Правильные ответы: "+correctAnswerIds.toString());
+
 
         Set<String> commonIds = new HashSet<>(userAnswerIds);
 
         commonIds.retainAll(correctAnswerIds);
-        log.info("общие правильные ответы "+commonIds.toString());
-
         int correctCount = commonIds.size();
         int wrongCount = userAnswerIds.size() - correctCount;
         int totalCorrect = correctAnswerIds.size();
@@ -39,8 +37,7 @@ public class ChoiceAnswer extends Answer {
         if (correctCount == 0)  return 0;
 
         float coefficient = (float) question.getPoints() / totalCorrect;
-        log.info("Максимально можно получить за множественный вопрос "+question.getPoints());
-        log.info("Оценка за один правильный ответ : "+coefficient);
+
         float score = (correctCount * coefficient) - (wrongCount * coefficient);
         log.info("Итого за вопрос : "+score);
 

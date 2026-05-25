@@ -6,5 +6,5 @@ import java.util.UUID;
 
 public interface ProfileApiInterface {
     UUID getProfileIdByAccountId(UUID accountId);
-//    ProfileDtoResponse getProfileByAccountId(Long accountId);
+
 }
