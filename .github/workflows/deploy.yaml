@@ -89,7 +89,7 @@ jobs:
   deploy:
     needs: [build-backend, build-frontend]
     runs-on: ubuntu-latest
-    environment: Gigant_Enveronment
+    environment: Test_GigAnt
 
     steps:
       - name: Deploy via SSH
