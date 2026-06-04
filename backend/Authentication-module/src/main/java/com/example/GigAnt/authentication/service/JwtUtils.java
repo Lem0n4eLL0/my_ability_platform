@@ -29,22 +29,22 @@ public class JwtUtils {
         this.signingKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         this.jwtParser = Jwts.parser()
                 .verifyWith(signingKey)
-                .requireIssuer(issuer)      // Кто выдал токен
-                .requireAudience("gigant-backend")              // Для кого токен
+                .requireIssuer(issuer)
+                .requireAudience("gigant-backend")
                 .clockSkewSeconds(30)
                 .build();
 
-        log.info("JWT parser initialized successfully with HS256 algorithm");
+        log.info("Парсер JWT успешно инициализирован с использованием алгоритма HS256");
     }
 
     private void validateSecret(String secret) {
         if (secret == null || secret.isBlank()) {
             throw new IllegalStateException(
-                    "JWT secret is not configured. Set jwt.secret property or JWT_SECRET env variable.");
+                    "Секретный ключ JWT не задан. Укажите свойство jwt.secret или переменную окружения JWT_SECRET");
         }
         if (secret.length() < 32) {
             throw new IllegalStateException(
-                    "JWT secret must be at least 32 characters for HS256. Current length: " + secret.length()
+                    "Секретный ключ JWT должен содержать не менее 32 символов для алгоритма HS256. Текущая длина: " + secret.length()
             );
         }
     }
@@ -59,7 +59,7 @@ public class JwtUtils {
         } catch (JwtException e) {
             throw e;
         } catch (Exception e) {
-            throw new RuntimeException("Failed to parse token: " + e.getMessage(), e);
+            throw new RuntimeException("Не удалось выполнить парсинг токена:" + e.getMessage(), e);
         }
     }
 

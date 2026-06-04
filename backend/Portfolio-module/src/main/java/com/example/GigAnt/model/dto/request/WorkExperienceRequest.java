@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record WorkEducationRequest(
+public record WorkExperienceRequest(
     @NotBlank(message = "Город обязателен для заполнения")
     @Size(max = 100, message = "Город не должен превышать 100 символов")
     String city,

@@ -13,12 +13,7 @@ import com.example.GigAnt.authentication.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,12 +32,13 @@ public class RegistrationController {
     return ResponseEntity.ok(accountService.registerAccount(request));
   }
 
-  @GetMapping("/confirm-email")  // ← GET, путь совпадает с ссылкой
+  @GetMapping("/confirm-email")
   public ResponseEntity<Auth> confirmEmail(@RequestParam("token") String token) {
     Account account = emailVerificationService.confirmEmail(token);
     var tokens = tokenService.getTokens(account);
     return ResponseEntity.ok(new Auth(tokens.get("accessToken")));
   }
+
 }
 
 

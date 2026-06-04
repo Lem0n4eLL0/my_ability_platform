@@ -91,8 +91,18 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(HttpMessageNotReadableException.class)
-  public ResponseEntity<Map<String, Object>> handleHttpMessageNotReadable(HttpServletRequest request) {
-    return buildErrorResponse(HttpStatus.BAD_REQUEST, "Incorrect request body format", request.getRequestURI(), request.getRequestId());
+  public ResponseEntity<Map<String, Object>> handleHttpMessageNotReadable(
+          HttpServletRequest request,
+          HttpMessageNotReadableException ex) {
+
+    log.error("HttpMessageNotReadableException at URI: {}", request.getRequestURI(), ex);
+
+    return buildErrorResponse(
+            HttpStatus.BAD_REQUEST,
+            "Incorrect request body format",
+            request.getRequestURI(),
+            request.getRequestId()
+    );
   }
 
   @ExceptionHandler(MissingServletRequestParameterException.class)

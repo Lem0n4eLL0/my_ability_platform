@@ -41,6 +41,7 @@ public class ProfileService {
     Account accountRef = entityManager.getReference(Account.class, accountId);
     profile.setAccount(accountRef);
     try {
+      profile.setPublicId(UUID.randomUUID());
       profile = repository.save(profile);
     } catch (DataIntegrityViolationException e) {
       System.out.println("Messages ^^ "+e.getMessage());

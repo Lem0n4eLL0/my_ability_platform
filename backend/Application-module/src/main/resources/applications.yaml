@@ -23,6 +23,13 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
     validate-on-migrate: true
+  sql:
+    init:
+      mode: always
+      platform: postgres
+      data-locations: classpath:db/testdata/init.sql
+      continue-on-error: false
+      encoding: UTF-8
 
   # DataSource
   datasource:
@@ -39,4 +46,13 @@ spring:
 server:
   servlet:
     context-path: /api/v1
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: when_authorized
 

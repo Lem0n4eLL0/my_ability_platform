@@ -12,7 +12,6 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./init-db:/docker-entrypoint-initdb.d
     networks:
       - internal
     healthcheck:
@@ -30,9 +29,9 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'  # ← Для локальной разработки
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
     ports:
-      - "5050:80"  # ← Открываем доступ: http://localhost:5050
+      - "5050:80"
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     networks:
@@ -42,6 +41,22 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  init-db:
+    image: postgres:15
+    depends_on:
+      postgres:
+        condition: service_started
+    volumes:
+      - ./init.sql:/init.sql
+    entrypoint: >
+      bash -c "
+      psql -h postgres -U gigant_admin -d skills_verification -f /init.sql
+      "
+    environment:
+      PGPASSWORD: SecureP@ssw0rd_2024!
+    restart: "no"
+    networks:
+      - internal
   # === Application ===
   application-service:
     image: gigant:latest
@@ -56,7 +71,7 @@ services:
       ACTIVE_PROFILE: ${ACTIVE_PROFILE}
       API_DOMAIN: ${API_DOMAIN}
       COMPANY_NAME: ${COMPANY_NAME}
-      # Spring Boot properties (прямой маппинг)
+
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
@@ -65,7 +80,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
     depends_on:
       postgres:
-        condition: service_healthy  # ← Ждём готовности БД
+        condition: service_healthy
       redis:
         condition: service_started
     volumes:
@@ -75,17 +90,17 @@ services:
     ports:
       - "8080:8080"
 
-  # === Redis (исправлено) ===
+  # === Redis  ===
   redis:
     image: redis:7-alpine
     container_name: verification_redis
     ports:
       - "6379:6379"
     volumes:
-      - redis_data:/data  # ← Исправлено
+      - redis_data:/data
     restart: unless-stopped
-    networks: # ← Добавлено
-      - internal          # ← Добавлено
+    networks:
+      - internal
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
@@ -99,4 +114,4 @@ volumes:
   pgdata:
   keys:
   redis_data:
-  pgadmin_data:  # ← Добавлено
+  pgadmin_data:

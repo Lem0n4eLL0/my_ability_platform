@@ -1,0 +1,2 @@
+ALTER TABLE test
+  ALTER COLUMN difficulty TYPE VARCHAR(50) USING difficulty::VARCHAR;
