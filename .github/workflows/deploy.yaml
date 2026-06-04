@@ -1,8 +1,9 @@
 name: Deploy GigAntApplication
 
 on:
-  push:
-    branches: ["main"]
+ workflow_dispatch 
+  #push:
+    #branches: ["main"]
 
 env:
   REGISTRY: ghcr.io
@@ -88,6 +89,7 @@ jobs:
   deploy:
     needs: [build-backend, build-frontend]
     runs-on: ubuntu-latest
+    environment: Gigant_Enveronment
 
     steps:
       - name: Deploy via SSH
