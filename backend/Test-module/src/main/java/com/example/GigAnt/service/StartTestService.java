@@ -74,7 +74,7 @@ public class StartTestService {
         };
     }
 
-//    @Transactional(propagation = Propagation.REQUIRES_NEW)
+
     public void saveStatusExpired(TestAttempts testAttempt){
         testAttempt.setStatus(TestAttemptStatus.EXPIRED);
         repository.saveAndFlush(testAttempt);

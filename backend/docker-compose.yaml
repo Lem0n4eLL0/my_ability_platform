@@ -12,7 +12,6 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - pgdata:/var/lib/postgresql/data
-#      - ./init-db:/docker-entrypoint-initdb.d
     networks:
       - internal
     healthcheck:
@@ -72,7 +71,7 @@ services:
       ACTIVE_PROFILE: ${ACTIVE_PROFILE}
       API_DOMAIN: ${API_DOMAIN}
       COMPANY_NAME: ${COMPANY_NAME}
-      # Spring Boot properties (прямой маппинг)
+
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
@@ -81,7 +80,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
     depends_on:
       postgres:
-        condition: service_healthy  # ← Ждём готовности БД
+        condition: service_healthy
       redis:
         condition: service_started
     volumes:
@@ -91,17 +90,17 @@ services:
     ports:
       - "8080:8080"
 
-  # === Redis (исправлено) ===
+  # === Redis  ===
   redis:
     image: redis:7-alpine
     container_name: verification_redis
     ports:
       - "6379:6379"
     volumes:
-      - redis_data:/data  # ← Исправлено
+      - redis_data:/data
     restart: unless-stopped
-    networks: # ← Добавлено
-      - internal          # ← Добавлено
+    networks:
+      - internal
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
@@ -115,4 +114,4 @@ volumes:
   pgdata:
   keys:
   redis_data:
-  pgadmin_data:  # ← Добавлено
+  pgadmin_data:

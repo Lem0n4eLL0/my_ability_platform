@@ -9,10 +9,7 @@ import com.example.GigAnt.service.UserProjectsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -23,7 +20,7 @@ import static com.example.GigAnt.headers.AppHeaders.ACCOUNT_ID;
 @RequestMapping("/me/userProjects/")
 public class UserProjectsController {
     private final UserProjectsService userProjectsService;
-
+@PostMapping
     public ResponseEntity<ProjectResponse> createEducation(@Validated @RequestBody
                                                            ProjectsRequest request, @RequestAttribute(ACCOUNT_ID) UUID accountId){
         return ResponseEntity.ok(userProjectsService.createProject(request, accountId));
