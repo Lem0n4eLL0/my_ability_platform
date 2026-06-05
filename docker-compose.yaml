@@ -44,8 +44,8 @@ services:
       dockerfile: Dockerfile
     restart: always
     env_file:
-      - path: .env
-        required: true
+      path: .env
+      required: true
     environment:
       ACTIVE_PROFILE: ${ACTIVE_PROFILE}
       API_DOMAIN: ${API_DOMAIN}
