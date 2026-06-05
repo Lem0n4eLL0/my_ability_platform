@@ -94,9 +94,10 @@ services:
       args: # ← Передаём аргументы сборки
         VITE_APP_API_URL: ${VITE_APP_API_URL}
     restart: always
-    env_file:
-        path: .env
-        required: true
+    # env_file:
+    #     path: .env
+    #     required: true
+    env_file: .env
     ports:
     - "3000:80"
     networks:
