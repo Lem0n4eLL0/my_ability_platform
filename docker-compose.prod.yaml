@@ -22,7 +22,7 @@ services:
 
   # === Frontend ===
   frontend:
-    image: ghcr.io/${GHCR_OWNER:-lem0n4ell0}/frontend:${TAG:-latest}
+    image: ghcr.io/${GHCR_OWNER:-lem0n4ell0}/my_ability_platform/frontend:${TAG:-latest}
     ports:
       - "3000:80"
     networks:
