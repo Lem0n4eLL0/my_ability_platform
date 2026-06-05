@@ -43,7 +43,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     restart: always
-     env_file: .env
+    env_file: .env
     environment:
       ACTIVE_PROFILE: ${ACTIVE_PROFILE}
       API_DOMAIN: ${API_DOMAIN}
@@ -92,7 +92,7 @@ services:
       args: # ← Передаём аргументы сборки
         VITE_APP_API_URL: ${VITE_APP_API_URL}
     restart: always
-     env_file: .env
+    env_file: .env
     ports:
     - "3000:80"
     networks:
