@@ -2,34 +2,33 @@ services:
   # === Backend ===
   backend:
     image: ghcr.io/${GHCR_OWNER:-lem0n4ell0}/application-service:${TAG:-latest}
-    build: null
     restart: unless-stopped
     networks:
       - internal
 
-    # === pgAdmin (без проброса порта — доступ через Nginx)
+  # === pgAdmin (без проброса порта — доступ через Nginx)
   pgadmin:
-    ports: [ ]
+    image: dpage/pgadmin4:latest
     restart: unless-stopped
     networks:
       - internal
 
-    # === Portainer (без проброса порта — доступ через Nginx) ===
-    portainer:
-      restart: always
-      ports: [ ]
-      networks:
-        - internal
+  # === Portainer (без проброса порта — доступ через Nginx) ===
+  portainer:
+    image: portainer/portainer-ce:latest
+    restart: always
+    networks:
+      - internal
 
+  # === Frontend ===
+  frontend:
+    image: ghcr.io/${GHCR_OWNER:-lem0n4ell0}/frontend:${TAG:-latest}
+    ports:
+      - "3000:80"
+    networks:
+      - internal
+    restart: always
 
-    frontend:
-      image: ghcr.io/${GHCR_OWNER:-lem0n4ell0}/frontend:${TAG:-latest}
-      ports:
-        - "3000:80"
-      networks:
-        - internal
-      restart: always
-
-
-
-
+networks:
+  internal:
+    driver: bridge
