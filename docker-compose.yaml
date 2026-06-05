@@ -95,7 +95,7 @@ services:
         VITE_APP_API_URL: ${VITE_APP_API_URL}
     restart: always
     env_file:
-      - path: .env
+        path: .env
         required: true
     ports:
     - "3000:80"
