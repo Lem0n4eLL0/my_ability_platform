@@ -1,7 +1,7 @@
 services:
   # === Backend ===
   backend:
-    image: ghcr.io/${GHCR_OWNER:-lem0n4ell0}/application-service:${TAG:-latest}
+    image:  ghcr.io/lem0n4ell0/my_ability_platform/backend:latest
     restart: unless-stopped
     networks:
       - internal
