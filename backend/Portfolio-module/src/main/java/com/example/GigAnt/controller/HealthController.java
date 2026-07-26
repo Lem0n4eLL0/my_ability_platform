@@ -1,0 +1,13 @@
+package com.example.GigAnt.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HealthController {
+    @GetMapping("/use")
+    public String getInfo(){
+        return "прорвемся";
+    }
+
+}

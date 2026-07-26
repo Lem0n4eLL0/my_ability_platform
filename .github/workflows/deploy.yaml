@@ -106,5 +106,5 @@ jobs:
             git pull origin main
             
             docker compose -f docker-compose.yaml -f docker-compose.prod.yaml pull
-           docker compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d --remove-orphans
+            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d --remove-orphans
             docker image prune -f --filter "until=24h"

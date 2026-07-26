@@ -35,7 +35,7 @@ public class AuthController {
   private final JwtProperties jwtProperties;
 
 
-  @PostMapping()
+  @PostMapping("/login")
   public ResponseEntity login(@RequestBody AccountRequest request) {
 
     Account account = authenticationService.authenticate(request);
@@ -54,4 +54,5 @@ public class AuthController {
     response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     return ResponseEntity.ok(new Auth(tokens.getToken()));
   }
+
 }

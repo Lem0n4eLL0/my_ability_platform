@@ -64,8 +64,8 @@ services:
       - keys:/app/keys:ro
     networks:
       - internal
-    ports:
-      - "8080:8080"
+#    ports:
+#      - "8080:8080"
 
   # === Redis (исправлено) ===
   redis:

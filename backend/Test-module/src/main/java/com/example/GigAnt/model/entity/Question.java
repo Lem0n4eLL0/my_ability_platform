@@ -32,10 +32,6 @@ public class Question extends BaseEntity {
     int difficulty;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "options", nullable = false)
-    List<Option> options;
-
-    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "correct_answer")
     List<CorrectAnswer> correctAnswer;
 
